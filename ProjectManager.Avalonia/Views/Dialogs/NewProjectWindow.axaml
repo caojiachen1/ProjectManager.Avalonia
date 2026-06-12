@@ -1,0 +1,120 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ProjectManager.Avalonia.ViewModels.Dialogs"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="550" d:DesignHeight="500"
+        x:Class="ProjectManager.Avalonia.Views.Dialogs.NewProjectWindow"
+        x:CompileBindings="False"
+        Title="{DynamicResource NewProject_Title}"
+        Width="550" Height="700"
+        MinWidth="450" MinHeight="500"
+        Background="#202020"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        CanResize="True">
+
+    <Design.DataContext>
+        <vm:NewProjectDialogViewModel/>
+    </Design.DataContext>
+
+    <Border Background="#202020"
+            Padding="24">
+        <Grid RowDefinitions="Auto,*,Auto">
+
+            <!-- Header -->
+            <StackPanel Grid.Row="0" Spacing="4" Margin="0,0,0,20">
+                <TextBlock Text="{DynamicResource AddProject_CreateNew}" FontSize="22" FontWeight="SemiBold"/>
+                <TextBlock Text="{DynamicResource NewProject_FillInfo}" FontSize="13" Opacity="0.6"/>
+            </StackPanel>
+
+            <!-- Form -->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <StackPanel Spacing="16">
+
+                    <!-- Project Name -->
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="{DynamicResource NewProject_ProjectName}" FontWeight="SemiBold" FontSize="13"/>
+                        <TextBox Text="{Binding ProjectName, Mode=TwoWay}"
+                                 PlaceholderText="{DynamicResource NewProject_ProjectNamePlaceholder}" />
+                    </StackPanel>
+
+                    <!-- Project Path -->
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="{DynamicResource NewProject_ProjectPath}" FontWeight="SemiBold" FontSize="13"/>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBox Grid.Column="0"
+                                     Text="{Binding ProjectPath, Mode=TwoWay}"
+                                     PlaceholderText="{DynamicResource NewProject_ProjectPathPlaceholder}"
+                                     Margin="0,0,8,0"/>
+                            <Button Grid.Column="1"
+                                    Content="{DynamicResource Button_Browse}"
+                                    Command="{Binding BrowseProjectPathCommand}"/>
+                        </Grid>
+                    </StackPanel>
+
+                    <!-- Description -->
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="{DynamicResource AddProject_Description}" FontWeight="SemiBold" FontSize="13"/>
+                        <TextBox Text="{Binding ProjectDescription, Mode=TwoWay}"
+                                 PlaceholderText="{DynamicResource NewProject_ProjectDescPlaceholder}"
+                                 AcceptsReturn="True"
+                                 TextWrapping="Wrap"
+                                 MinHeight="60"/>
+                    </StackPanel>
+
+                    <!-- Framework Selection -->
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="{DynamicResource AddProject_Framework}" FontWeight="SemiBold" FontSize="13"/>
+                        <ComboBox ItemsSource="{Binding AvailableFrameworks}"
+                                  SelectedItem="{Binding SelectedFramework, Mode=TwoWay}"
+                                  PlaceholderText="{DynamicResource NewProject_FrameworkPlaceholder}"
+                                  HorizontalAlignment="Stretch"/>
+                        <TextBlock Text="{Binding FrameworkDescription}"
+                                   FontSize="12" Opacity="0.6"
+                                   IsVisible="{Binding FrameworkDescription, Converter={StaticResource StringToVisibilityConverter}}"/>
+                    </StackPanel>
+
+                    <!-- Git Scan Option -->
+                    <Border Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                            BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="1" CornerRadius="8"
+                            Padding="12">
+                        <StackPanel Spacing="8">
+                            <CheckBox Content="{DynamicResource NewProject_ScanGitRepos}"
+                                      IsChecked="{Binding ScanForGitRepositories, Mode=TwoWay}"/>
+                            <TextBlock Text="{DynamicResource NewProject_GitScanDesc}"
+                                       FontSize="12" Opacity="0.6"/>
+
+                            <!-- Git Scan Progress -->
+                            <StackPanel Spacing="4"
+                                        IsVisible="{Binding IsScanningGitRepositories}">
+                                <ProgressBar Value="{Binding GitScanProgress}"
+                                             Minimum="0" Maximum="100"
+                                             Height="4"/>
+                                <TextBlock Text="{Binding GitScanStatusMessage}"
+                                           FontSize="12" Opacity="0.7"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Action Buttons -->
+            <StackPanel Grid.Row="2" Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Spacing="8" Margin="0,20,0,0">
+                <Button Content="{DynamicResource Button_Cancel}"
+                        Command="{Binding CancelCommand}"
+                        MinWidth="80"/>
+                <Button Content="{DynamicResource NewProject_Create}"
+                        Command="{Binding NextCommand}"
+                        IsEnabled="{Binding CanProceed}"
+                        MinWidth="80"
+                        Classes="accent"/>
+            </StackPanel>
+
+        </Grid>
+    </Border>
+</Window>

@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="ProjectManager.Avalonia.Android/ProjectManager.Avalonia.Android.csproj" />
+  <Project Path="ProjectManager.Avalonia.Browser/ProjectManager.Avalonia.Browser.csproj" />
+  <Project Path="ProjectManager.Avalonia.Desktop/ProjectManager.Avalonia.Desktop.csproj" />
+  <Project Path="ProjectManager.Avalonia.iOS/ProjectManager.Avalonia.iOS.csproj" />
+  <Project Path="ProjectManager.Avalonia/ProjectManager.Avalonia.csproj" />
+</Solution>

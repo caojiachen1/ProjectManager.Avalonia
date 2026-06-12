@@ -1,0 +1,90 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ProjectManager.Avalonia.ViewModels.Dialogs"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="300"
+        x:Class="ProjectManager.Avalonia.Views.Dialogs.EditEnvironmentVariableWindow"
+        x:CompileBindings="False"
+        Title="{DynamicResource EnvVar_EditTitle}"
+        Width="500" Height="380"
+        MinWidth="400" MinHeight="300"
+        Background="#202020"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        CanResize="True">
+
+    <Design.DataContext>
+        <vm:EditEnvironmentVariableViewModel/>
+    </Design.DataContext>
+
+    <Border Background="#202020"
+            Padding="24">
+        <Grid RowDefinitions="Auto,*,Auto">
+
+            <!-- Header -->
+            <StackPanel Grid.Row="0" Spacing="4" Margin="0,0,0,16">
+                <TextBlock Text="{DynamicResource EnvVar_EditTitle}" FontSize="20" FontWeight="SemiBold"/>
+                <StackPanel Orientation="Horizontal" Spacing="8"
+                            IsVisible="{Binding IsSystemVariable}">
+                    <Border Background="#30FF9800" CornerRadius="4" Padding="6,2">
+                        <TextBlock Text="{DynamicResource EnvVar_SystemVar}" FontSize="11" Foreground="#FF9800"/>
+                    </Border>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Form -->
+            <StackPanel Grid.Row="1" Spacing="12">
+
+                <!-- Variable Name -->
+                <StackPanel Spacing="4">
+                    <TextBlock Text="{DynamicResource EnvVarDialog_Name}" FontWeight="SemiBold" FontSize="13"/>
+                    <TextBox Text="{Binding VariableName, Mode=TwoWay}"
+                             PlaceholderText="{DynamicResource EnvVar_NamePlaceholder}"
+                             IsReadOnly="{Binding CanEditName, Converter={StaticResource InverseBooleanConverter}}"/>
+                </StackPanel>
+
+                <!-- Variable Value -->
+                <StackPanel Spacing="4">
+                    <TextBlock Text="{DynamicResource EnvVarDialog_Value}" FontWeight="SemiBold" FontSize="13"/>
+                    <Grid ColumnDefinitions="*,Auto,Auto" Margin="0,0,0,0">
+                        <TextBox Grid.Column="0"
+                                 Text="{Binding VariableValue, Mode=TwoWay}"
+                                 PlaceholderText="{DynamicResource EnvVar_ValuePlaceholder}"
+                                 Margin="0,0,8,0"/>
+                        <Button Grid.Column="1"
+                                Content="{DynamicResource EnvVar_BrowseFolder}"
+                                Command="{Binding BrowseFolderCommand}"
+                                Margin="0,0,4,0"
+                                FontSize="12"/>
+                        <Button Grid.Column="2"
+                                Content="{DynamicResource EnvVar_BrowseFile}"
+                                Command="{Binding BrowseFileCommand}"
+                                FontSize="12"/>
+                    </Grid>
+                </StackPanel>
+
+                <!-- PATH Edit Button (shown only for PATH variable) -->
+                <Button Content="{DynamicResource EnvVar_EditPath}"
+                        Command="{Binding EditPathCommand}"
+                        IsVisible="{Binding IsPathVariable}"
+                        HorizontalAlignment="Left"/>
+
+            </StackPanel>
+
+            <!-- Action Buttons -->
+            <StackPanel Grid.Row="2" Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Spacing="8" Margin="0,20,0,0">
+                <Button Content="{DynamicResource Button_Cancel}"
+                        Click="OnCancelClick"
+                        MinWidth="80"/>
+                <Button Content="{DynamicResource Button_Save}"
+                        Command="{Binding SaveCommand}"
+                        MinWidth="80"
+                        Classes="accent"/>
+            </StackPanel>
+
+        </Grid>
+    </Border>
+</Window>

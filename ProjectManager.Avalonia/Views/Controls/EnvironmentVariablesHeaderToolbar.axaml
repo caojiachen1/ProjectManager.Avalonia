@@ -1,0 +1,64 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="ProjectManager.Avalonia.Views.Controls.EnvironmentVariablesHeaderToolbar"
+             x:CompileBindings="False">
+
+    <Border Padding="12,8"
+            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+            BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+            BorderThickness="0,0,0,1">
+        <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+
+            <!-- Search TextBox -->
+            <Grid Width="260" VerticalAlignment="Center">
+                <TextBlock Text="&#xE721;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                           Opacity="0.5" VerticalAlignment="Center" Margin="10,0,0,0"
+                           IsHitTestVisible="False"/>
+                <TextBox Text="{Binding $parent[UserControl].DataContext.SearchText, Mode=TwoWay}"
+                         PlaceholderText="{DynamicResource EnvVars_SearchPlaceholder}"
+                         Padding="32,6,8,6"/>
+            </Grid>
+
+            <!-- Filter ComboBox -->
+            <ComboBox SelectedIndex="{Binding $parent[UserControl].DataContext.SelectedFilterIndex, Mode=TwoWay}"
+                      Width="140" VerticalAlignment="Center">
+                <ComboBoxItem Content="{DynamicResource EnvVars_FilterAll}"/>
+                <ComboBoxItem Content="{DynamicResource EnvVars_FilterUser}"/>
+                <ComboBoxItem Content="{DynamicResource EnvVars_FilterSystem}"/>
+            </ComboBox>
+
+            <!-- Separator -->
+            <Border Width="1" Height="24"
+                    Background="{DynamicResource CardStrokeColorDefaultBrush}"
+                    Margin="4,0"/>
+
+            <!-- Add User Variable button -->
+            <Button Command="{Binding $parent[UserControl].DataContext.AddUserVariableCommand}"
+                    ToolTip.Tip="{DynamicResource EnvVars_AddUserTooltip}">
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Text="{DynamicResource EnvVars_AddUser}" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <!-- Add System Variable button -->
+            <Button Command="{Binding $parent[UserControl].DataContext.AddSystemVariableCommand}"
+                    ToolTip.Tip="{DynamicResource EnvVars_AddSystemTooltip}">
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Text="{DynamicResource EnvVars_AddSystem}" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <!-- Refresh button -->
+            <Button Command="{Binding $parent[UserControl].DataContext.RefreshCommand}"
+                    ToolTip.Tip="{DynamicResource EnvVars_RefreshTooltip}">
+                <TextBlock Text="&#xE72C;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                           VerticalAlignment="Center"/>
+            </Button>
+
+        </StackPanel>
+    </Border>
+</UserControl>

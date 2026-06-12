@@ -1,0 +1,302 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:ProjectManager.Avalonia.ViewModels.Pages"
+             xmlns:models="using:ProjectManager.Avalonia.Models"
+             xmlns:behaviors="using:ProjectManager.Avalonia.Behaviors"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ProjectManager.Avalonia.Views.Pages.TerminalPage"
+             x:CompileBindings="False">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <!-- Page Title -->
+            <RowDefinition Height="Auto"/>
+            <!-- Top toolbar -->
+            <RowDefinition Height="Auto"/>
+            <!-- Terminal area -->
+            <RowDefinition Height="*"/>
+            <!-- Bottom status bar -->
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Page Title -->
+        <StackPanel Grid.Row="0" Margin="24,28,24,8">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBlock Text="&#xE756;" FontSize="24" FontFamily="Segoe Fluent Icons" VerticalAlignment="Center"/>
+                <TextBlock Text="{DynamicResource Nav_Terminal}" FontSize="24" FontWeight="Bold" VerticalAlignment="Center"/>
+            </StackPanel>
+            <TextBlock Text="{DynamicResource Terminal_Subtitle}" FontSize="13" Opacity="0.6" Margin="0,4,0,0"/>
+        </StackPanel>
+
+        <!-- ===================== Top Toolbar ===================== -->
+        <Border Grid.Row="1" Background="#2D2D30"
+                BorderBrush="#3F3F46" BorderThickness="0,0,0,1"
+                Padding="12,8" Margin="0,0,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Action Buttons -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8">
+                    <Button Command="{Binding StartTerminalCommand}"
+                            ToolTip.Tip="{DynamicResource Terminal_StartTooltip}">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <TextBlock Text="&#xE768;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                                       VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource Terminal_Start}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Command="{Binding StopTerminalCommand}"
+                            ToolTip.Tip="{DynamicResource Terminal_StopTooltip}">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <TextBlock Text="&#xE71A;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                                       VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource Terminal_Stop}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Command="{Binding ClearOutputCommand}"
+                            ToolTip.Tip="{DynamicResource Terminal_ClearTooltip}">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <TextBlock Text="&#xE74D;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                                       VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource Terminal_Clear}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Command="{Binding RefreshSessionsCommand}"
+                            ToolTip.Tip="{DynamicResource Terminal_RefreshTooltip}">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <TextBlock Text="&#xE72C;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                                       VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource Terminal_Refresh}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Command="{Binding OpenCmdCommand}"
+                            ToolTip.Tip="{DynamicResource Terminal_OpenCmdTooltip}">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <TextBlock Text="&#xE756;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                                       VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource Terminal_OpenCmd}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <!-- Status Display -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal"
+                            HorizontalAlignment="Right" VerticalAlignment="Center" Spacing="4"
+                            IsVisible="{Binding SelectedSession, Converter={x:Static ObjectConverters.IsNotNull}}">
+                    <TextBlock Text="{DynamicResource Terminal_Status}" Foreground="#CCCCCC" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding SelectedSession.StatusDisplay, FallbackValue='--'}"
+                               Foreground="{Binding SelectedSession.IsRunning, Converter={StaticResource BooleanToColorConverter}, FallbackValue=Gray}"
+                               FontWeight="Bold" VerticalAlignment="Center"/>
+                    <TextBlock Text="{DynamicResource Terminal_Project}" Foreground="#CCCCCC" Margin="16,0,0,0" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding SelectedSession.ProjectName, FallbackValue='--'}"
+                               Foreground="#FFFFFF" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- ===================== Center: Terminal Area ===================== -->
+        <Grid Grid.Row="2">
+
+            <!-- TabControl for terminal sessions -->
+            <TabControl ItemsSource="{Binding TerminalSessions}"
+                        SelectedItem="{Binding SelectedSession}"
+                        Background="#1E1E1E"
+                        BorderThickness="0"
+                        IsVisible="{Binding TerminalSessions.Count, Converter={StaticResource CountToVisibilityConverter}}">
+
+                <!-- TabItem styling: dark theme with selected/hover states -->
+                <TabControl.Styles>
+                    <Style Selector="TabItem">
+                        <Setter Property="Background" Value="#2D2D30"/>
+                        <Setter Property="Foreground" Value="#FFFFFF"/>
+                        <Setter Property="BorderBrush" Value="#3F3F46"/>
+                        <Setter Property="BorderThickness" Value="1,1,1,0"/>
+                        <Setter Property="Padding" Value="12,8"/>
+                        <Setter Property="FontSize" Value="12"/>
+                    </Style>
+                    <Style Selector="TabItem:selected">
+                        <Setter Property="Background" Value="#1E1E1E"/>
+                        <Setter Property="BorderBrush" Value="#007ACC"/>
+                    </Style>
+                    <Style Selector="TabItem:pointerover">
+                        <Setter Property="Background" Value="#3E3E42"/>
+                    </Style>
+                </TabControl.Styles>
+
+                <!-- Tab Header Template -->
+                <TabControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Session icon + project name -->
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="6">
+                                <TextBlock Text="&#xE756;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                                           Foreground="{Binding IsRunning, Converter={StaticResource BooleanToColorConverter}}"
+                                           VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding ProjectName}" FontSize="12"
+                                           VerticalAlignment="Center"/>
+                            </StackPanel>
+
+                            <!-- Close button -->
+                            <Button Grid.Column="1"
+                                    Content="&#xE711;"
+                                    FontFamily="Segoe Fluent Icons" FontSize="10"
+                                    Width="16" Height="16"
+                                    Padding="0" Margin="8,0,0,0"
+                                    Background="Transparent" BorderThickness="0"
+                                    Foreground="#999999"
+                                    VerticalAlignment="Center"
+                                    Command="{Binding $parent[TabControl].DataContext.CloseSessionCommand}"
+                                    CommandParameter="{Binding}"
+                                    ToolTip.Tip="{DynamicResource Terminal_CloseSession}"/>
+                        </Grid>
+                    </DataTemplate>
+                </TabControl.ItemTemplate>
+
+                <!-- Tab Content Template: terminal output using AnsiTextBehavior with cross-line selection -->
+                <TabControl.ContentTemplate>
+                    <DataTemplate>
+                        <ScrollViewer x:Name="TerminalScrollViewer"
+                                      Background="#0C0C0C"
+                                      HorizontalScrollBarVisibility="Auto"
+                                      VerticalScrollBarVisibility="Auto">
+                            <SelectableTextBlock x:Name="TerminalOutput"
+                                                 Margin="20,4,8,4"
+                                                 FontFamily="Consolas,Courier New,monospace"
+                                                 FontSize="18"
+                                                 TextWrapping="Wrap"
+                                                 Foreground="#CCCCCC"
+                                                 behaviors:AnsiTextBehavior.ItemsSource="{Binding OutputLines}"
+                                                 behaviors:AnsiTextBehavior.EnableAnsiParsing="True"
+                                                 behaviors:AnsiTextBehavior.AutoScroll="True"
+                                                 behaviors:AnsiTextBehavior.MaxItems="5000">
+                                <SelectableTextBlock.ContextFlyout>
+                                    <MenuFlyout>
+                                        <MenuItem Header="{DynamicResource Terminal_CopyAll}" Click="CopyAll_Click">
+                                            <MenuItem.Icon>
+                                                <TextBlock Text="&#xE8C8;" FontFamily="Segoe Fluent Icons" FontSize="14"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="{DynamicResource Terminal_Clear}" Click="ClearOutput_Click">
+                                            <MenuItem.Icon>
+                                                <TextBlock Text="&#xE74D;" FontFamily="Segoe Fluent Icons" FontSize="14"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                    </MenuFlyout>
+                                </SelectableTextBlock.ContextFlyout>
+                            </SelectableTextBlock>
+                        </ScrollViewer>
+                    </DataTemplate>
+                </TabControl.ContentTemplate>
+            </TabControl>
+
+            <!-- Empty state: shown when no terminal sessions exist -->
+            <Panel HorizontalAlignment="Center" VerticalAlignment="Center"
+                   IsVisible="{Binding TerminalSessions.Count, Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=Invert}">
+                <StackPanel Opacity="0.6">
+                    <TextBlock Text="&#xE756;"
+                               FontFamily="Segoe Fluent Icons" FontSize="48"
+                               Foreground="#666666" HorizontalAlignment="Center"
+                               Margin="0,0,0,16"/>
+                    <TextBlock Text="{DynamicResource Terminal_NoSession}"
+                               FontSize="16" Foreground="#666666"
+                               HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                    <TextBlock Text="{DynamicResource Terminal_NoSessionHint}"
+                               FontSize="12" Foreground="#999999"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Panel>
+
+            <!-- Loading overlay -->
+            <Border Background="#80000000"
+                    IsVisible="{Binding IsLoading}"
+                    IsHitTestVisible="False">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="8">
+                    <ProgressBar IsIndeterminate="True" Width="200"/>
+                    <TextBlock Text="{DynamicResource Common_Loading}" Foreground="#FFFFFF" FontSize="14"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Floating scroll + action buttons -->
+            <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                        Margin="0,0,24,24" Spacing="4">
+                <Button Click="ScrollToTop_Click"
+                        Padding="8" Opacity="0.8"
+                        ToolTip.Tip="{DynamicResource Terminal_ScrollTop}"
+                        Background="#40000000" BorderThickness="0">
+                    <TextBlock Text="&#xE74A;" FontFamily="Segoe Fluent Icons" FontSize="14" Foreground="#CCCCCC"/>
+                </Button>
+                <Button Click="ScrollToBottom_Click"
+                        Padding="8" Opacity="0.8"
+                        ToolTip.Tip="{DynamicResource Terminal_ScrollBottom}"
+                        Background="#40000000" BorderThickness="0">
+                    <TextBlock Text="&#xE74B;" FontFamily="Segoe Fluent Icons" FontSize="14" Foreground="#CCCCCC"/>
+                </Button>
+                <Button Click="CopyAll_Click"
+                        Padding="8" Opacity="0.8"
+                        ToolTip.Tip="{DynamicResource Terminal_CopyAllOutput}"
+                        Background="#40000000" BorderThickness="0">
+                    <TextBlock Text="&#xE8C8;" FontFamily="Segoe Fluent Icons" FontSize="14" Foreground="#CCCCCC"/>
+                </Button>
+                <ToggleButton x:Name="AutoWrapToggleButton"
+                              IsChecked="True"
+                              Click="AutoWrapToggle_Click"
+                              Padding="8" Opacity="0.85"
+                              ToolTip.Tip="{DynamicResource Terminal_AutoWrap}"
+                              Background="#40000000" BorderThickness="0">
+                    <TextBlock Text="&#xE8A5;" FontFamily="Segoe Fluent Icons" FontSize="14" Foreground="#CCCCCC"/>
+                </ToggleButton>
+            </StackPanel>
+        </Grid>
+
+        <!-- ===================== Bottom Status Bar ===================== -->
+        <Border Grid.Row="3" Background="#2D2D30"
+                BorderBrush="#3F3F46" BorderThickness="0,1,0,0"
+                Padding="12,6">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Working directory -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="4">
+                    <TextBlock Text="{DynamicResource Terminal_WorkingDir}" Foreground="#CCCCCC"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding SelectedSession.ProjectPath, FallbackValue='--'}"
+                               Foreground="#FFFFFF" FontFamily="Consolas,Courier New,monospace"
+                               FontSize="12" VerticalAlignment="Center"
+                               TextTrimming="CharacterEllipsis" MaxWidth="400"/>
+                </StackPanel>
+
+                <!-- Start time + Session count -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="4">
+                    <TextBlock Text="{DynamicResource Terminal_StartTime}" Foreground="#CCCCCC"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding SelectedSession.StartTime, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}', FallbackValue='--'}"
+                               Foreground="#FFFFFF" FontSize="12"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Text="{DynamicResource Terminal_SessionCount}" Foreground="#CCCCCC"
+                               Margin="16,0,0,0" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding TerminalSessions.Count}"
+                               Foreground="#FFFFFF" FontSize="12"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

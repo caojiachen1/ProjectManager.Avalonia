@@ -1,0 +1,343 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="ProjectManager.Avalonia.Views.Pages.SettingsPage"
+             xmlns:vm="using:ProjectManager.Avalonia.ViewModels.Pages"
+             xmlns:services="using:ProjectManager.Avalonia.Services"
+             x:CompileBindings="False">
+
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="24" Spacing="8">
+
+            <!-- 页面标题 -->
+            <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,16,0,16">
+                <TextBlock Text="&#xE713;" FontSize="24" FontFamily="Segoe Fluent Icons" VerticalAlignment="Center"/>
+                <TextBlock Text="{DynamicResource Settings_Title}" FontSize="24" FontWeight="Bold" VerticalAlignment="Center"/>
+            </StackPanel>
+
+            <!-- 常规设置 -->
+            <TextBlock Text="{DynamicResource Settings_General}" FontSize="14" FontWeight="Medium" Margin="0,0,0,4" Opacity="0.8"/>
+
+            <!-- Git可执行文件路径 -->
+            <Border Padding="16" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="{DynamicResource Settings_GitPath}" FontWeight="Medium" Margin="0,0,0,4"/>
+                        <TextBlock Text="{DynamicResource Settings_GitPathDesc}" FontSize="12" Opacity="0.7"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Spacing="8">
+                        <TextBox Text="{Binding GitExecutablePath}" PlaceholderText="{DynamicResource Settings_GitPathPlaceholder}" Width="300"/>
+                        <Button Content="{DynamicResource Button_Browse}" Command="{Binding BrowseGitExecutablePathCommand}"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Git用户名 -->
+            <Border Padding="16" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="{DynamicResource Settings_GitUsername}" FontWeight="Medium" Margin="0,0,0,4"/>
+                        <TextBlock Text="{DynamicResource Settings_GitUsernameDesc}" FontSize="12" Opacity="0.7"/>
+                    </StackPanel>
+                    <TextBox Grid.Column="1" Text="{Binding GitUserName}" PlaceholderText="{DynamicResource Settings_GitUsernamePlaceholder}" Width="300" VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+
+            <!-- Git邮箱 -->
+            <Border Padding="16" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="{DynamicResource Settings_GitEmail}" FontWeight="Medium" Margin="0,0,0,4"/>
+                        <TextBlock Text="{DynamicResource Settings_GitEmailDesc}" FontSize="12" Opacity="0.7"/>
+                    </StackPanel>
+                    <TextBox Grid.Column="1" Text="{Binding GitUserEmail}" PlaceholderText="{DynamicResource Settings_GitEmailPlaceholder}" Width="300" VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+
+            <!-- 默认Git分支 -->
+            <Border Padding="16" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="{DynamicResource Settings_DefaultBranch}" FontWeight="Medium" Margin="0,0,0,4"/>
+                        <TextBlock Text="{DynamicResource Settings_DefaultBranchDesc}" FontSize="12" Opacity="0.7"/>
+                    </StackPanel>
+                    <TextBox Grid.Column="1" Text="{Binding DefaultGitBranch}" PlaceholderText="main" Width="200" VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+
+            <!-- 自动获取Git更新 -->
+            <Border Padding="16" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="{DynamicResource Settings_AutoFetchGit}" FontWeight="Medium" Margin="0,0,0,4"/>
+                        <TextBlock Text="{DynamicResource Settings_AutoFetchGitDesc}" FontSize="12" Opacity="0.7"/>
+                    </StackPanel>
+                    <CheckBox Grid.Column="1" IsChecked="{Binding AutoFetchGitUpdates}" VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+
+            <!-- 项目设置 -->
+            <TextBlock Text="{DynamicResource Settings_Project}" FontSize="14" FontWeight="Medium" Margin="0,12,0,4" Opacity="0.8"/>
+
+            <!-- 默认项目路径 -->
+            <Border Padding="16" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="{DynamicResource Settings_DefaultProjectPath}" FontWeight="Medium" Margin="0,0,0,4"/>
+                        <TextBlock Text="{DynamicResource Settings_DefaultProjectPathDesc}" FontSize="12" Opacity="0.7"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Spacing="8">
+                        <TextBox Text="{Binding DefaultProjectPath}" PlaceholderText="{DynamicResource Settings_DefaultProjectPathPlaceholder}" Width="300"/>
+                        <Button Content="{DynamicResource Button_Browse}" Command="{Binding BrowseDefaultProjectPathCommand}"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- 自动启动项目 -->
+            <Border Padding="16" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="{DynamicResource Settings_AutoStart}" FontWeight="Medium" Margin="0,0,0,4"/>
+                        <TextBlock Text="{DynamicResource Settings_AutoStartDesc}" FontSize="12" Opacity="0.7"/>
+                    </StackPanel>
+                    <CheckBox Grid.Column="1" IsChecked="{Binding AutoStartProjects}" VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+
+            <!-- 自动保存项目 -->
+            <Border Padding="16" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="{DynamicResource Settings_AutoSave}" FontWeight="Medium" Margin="0,0,0,4"/>
+                        <TextBlock Text="{DynamicResource Settings_AutoSaveDesc}" FontSize="12" Opacity="0.7"/>
+                    </StackPanel>
+                    <CheckBox Grid.Column="1" IsChecked="{Binding AutoSaveProjects}" VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+
+            <!-- 最大最近项目数 -->
+            <Border Padding="16" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="{DynamicResource Settings_MaxRecentProjects}" FontWeight="Medium" Margin="0,0,0,4"/>
+                        <TextBlock Text="{DynamicResource Settings_MaxRecentProjectsDesc}" FontSize="12" Opacity="0.7"/>
+                    </StackPanel>
+                    <NumericUpDown Grid.Column="1" Value="{Binding MaxRecentProjects}"
+                                   Minimum="5" Maximum="50" Width="150" VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+
+            <!-- 应用程序设置 -->
+            <TextBlock Text="{DynamicResource Settings_Application}" FontSize="14" FontWeight="Medium" Margin="0,12,0,4" Opacity="0.8"/>
+
+            <!-- 首选终端 -->
+            <Border Padding="16" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="{DynamicResource Settings_PreferredTerminal}" FontWeight="Medium" Margin="0,0,0,4"/>
+                        <TextBlock Text="{DynamicResource Settings_PreferredTerminalDesc}" FontSize="12" Opacity="0.7"/>
+                    </StackPanel>
+                    <TextBox Grid.Column="1" Text="{Binding PreferredTerminal}" Width="200" VerticalAlignment="Center"
+                             PlaceholderText="PowerShell"/>
+                </Grid>
+            </Border>
+
+            <!-- 显示通知 -->
+            <Border Padding="16" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="{DynamicResource Settings_ShowNotifications}" FontWeight="Medium" Margin="0,0,0,4"/>
+                        <TextBlock Text="{DynamicResource Settings_ShowNotificationsDesc}" FontSize="12" Opacity="0.7"/>
+                    </StackPanel>
+                    <CheckBox Grid.Column="1" IsChecked="{Binding ShowNotifications}" VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+
+            <!-- 终端时间戳 -->
+            <Border Padding="16" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="{DynamicResource Settings_TerminalTimestamps}" FontWeight="Medium" Margin="0,0,0,4"/>
+                        <TextBlock Text="{DynamicResource Settings_TerminalTimestampsDesc}" FontSize="12" Opacity="0.7"/>
+                    </StackPanel>
+                    <CheckBox Grid.Column="1" IsChecked="{Binding ShowTerminalTimestamps}" VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+
+            <!-- UTF8编码 -->
+            <Border Padding="16" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="{DynamicResource Settings_CmdUtf8}" FontWeight="Medium" Margin="0,0,0,4"/>
+                        <TextBlock Text="{DynamicResource Settings_CmdUtf8Desc}" FontSize="12" Opacity="0.7"/>
+                    </StackPanel>
+                    <CheckBox Grid.Column="1" IsChecked="{Binding UseCmdChcp65001}" VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+
+            <!-- 外观设置 -->
+            <TextBlock Text="{DynamicResource Settings_Appearance}" FontSize="14" FontWeight="Medium" Margin="0,12,0,4" Opacity="0.8"/>
+
+            <!-- 语言设置 -->
+            <Border Padding="16" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="{DynamicResource Settings_Language}" FontWeight="Medium" Margin="0,0,0,4"/>
+                        <TextBlock Text="{DynamicResource Settings_LanguageDesc}" FontSize="12" Opacity="0.7"/>
+                    </StackPanel>
+                    <ComboBox Grid.Column="1"
+                              ItemsSource="{Binding AvailableLanguages}"
+                              SelectedItem="{Binding SelectedLanguageInfo, Mode=OneWay}"
+                              SelectionChanged="LanguageComboBox_SelectionChanged"
+                              Width="260" VerticalAlignment="Center">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="services:LanguageInfo">
+                                <StackPanel Orientation="Horizontal" Spacing="4">
+                                    <TextBlock Text="{Binding NativeName}"/>
+                                    <TextBlock Text=" ("/>
+                                    <TextBlock Text="{Binding DisplayName}"/>
+                                    <TextBlock Text=")"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </Grid>
+            </Border>
+
+            <!-- 主题 -->
+            <Border Padding="16" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="{DynamicResource Settings_Theme}" FontWeight="Medium" Margin="0,0,0,4"/>
+                        <TextBlock Text="{DynamicResource Settings_ThemeDesc}" FontSize="12" Opacity="0.7"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Spacing="20">
+                        <RadioButton Content="{DynamicResource Settings_ThemeSystem}" GroupName="themeSelect"
+                                     IsChecked="{Binding Theme, Converter={StaticResource AppThemeModeToBooleanConverter}, ConverterParameter=System}"/>
+                        <RadioButton Content="{DynamicResource Settings_ThemeLight}" GroupName="themeSelect"
+                                     IsChecked="{Binding Theme, Converter={StaticResource AppThemeModeToBooleanConverter}, ConverterParameter=Light}"/>
+                        <RadioButton Content="{DynamicResource Settings_ThemeDark}" GroupName="themeSelect"
+                                     IsChecked="{Binding Theme, Converter={StaticResource AppThemeModeToBooleanConverter}, ConverterParameter=Dark}"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- 操作 -->
+            <TextBlock Text="{DynamicResource Settings_Actions}" FontSize="14" FontWeight="Medium" Margin="0,12,0,4" Opacity="0.8"/>
+
+            <!-- 设置管理 -->
+            <Border Padding="16" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="{DynamicResource Settings_Management}" FontWeight="Medium" Margin="0,0,0,4"/>
+                        <TextBlock Text="{DynamicResource Settings_ManagementDesc}" FontSize="12" Opacity="0.7"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Spacing="10">
+                        <Button Content="{DynamicResource Settings_Save}" Command="{Binding SaveSettingsCommand}" Classes="accent"/>
+                        <Button Content="{DynamicResource Settings_Reset}" Command="{Binding ResetSettingsCommand}" Classes="caution"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- 关于 -->
+            <TextBlock Text="{DynamicResource Settings_About}" FontSize="14" FontWeight="Medium" Margin="0,12,0,4" Opacity="0.8"/>
+
+            <!-- 应用程序版本 -->
+            <Border Padding="16" Margin="0,0,0,24"
+                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="{DynamicResource Settings_AppVersion}" FontWeight="Medium" Margin="0,0,0,4"/>
+                        <TextBlock Text="{DynamicResource AppTitle}" FontSize="12" Opacity="0.7"/>
+                    </StackPanel>
+                    <TextBlock Grid.Column="1" Text="{Binding AppVersion}" VerticalAlignment="Center"
+                              FontFamily="Consolas" Opacity="0.7"/>
+                </Grid>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

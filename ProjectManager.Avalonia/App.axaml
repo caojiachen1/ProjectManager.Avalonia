@@ -1,0 +1,130 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="ProjectManager.Avalonia.App"
+             xmlns:local="using:ProjectManager.Avalonia"
+             xmlns:fa="using:FluentAvalonia.Styling"
+             xmlns:h="using:ProjectManager.Avalonia.Helpers"
+             xmlns:c="using:ProjectManager.Avalonia.Converters"
+             RequestedThemeVariant="Default">
+
+    <Application.DataTemplates>
+        <local:ViewLocator/>
+    </Application.DataTemplates>
+
+    <Application.Resources>
+        <ResourceDictionary>
+        <ResourceDictionary.MergedDictionaries>
+            <ResourceInclude Source="avares://ProjectManager.Avalonia/Resources/Languages/Strings.zh-CN.axaml"/>
+        </ResourceDictionary.MergedDictionaries>
+
+        <!-- Helpers namespace converters -->
+        <h:StatusToBadgeConverter x:Key="StatusToBadgeConverter"/>
+        <h:StatusToStartEnabledConverter x:Key="StatusToStartEnabledConverter"/>
+        <h:StatusToStopEnabledConverter x:Key="StatusToStopEnabledConverter"/>
+        <h:StatusToToggleButtonTextConverter x:Key="StatusToToggleButtonTextConverter"/>
+        <h:StatusToToggleButtonIconConverter x:Key="StatusToToggleButtonIconConverter"/>
+        <h:StatusToToggleButtonEnabledConverter x:Key="StatusToToggleButtonEnabledConverter"/>
+        <h:StatusToToggleButtonAppearanceConverter x:Key="StatusToToggleButtonAppearanceConverter"/>
+        <h:FrameworkToVisibilityConverter x:Key="FrameworkToVisibilityConverter"/>
+        <h:ComfyUIFrameworkToVisibilityConverter x:Key="ComfyUIFrameworkToVisibilityConverter"/>
+        <h:ProjectCommandParameterConverter x:Key="ProjectCommandParameterConverter"/>
+        <h:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter"/>
+        <h:CountToVisibilityConverter x:Key="CountToVisibilityConverter"/>
+        <h:FrameworkToDescriptionConverter x:Key="FrameworkToDescriptionConverter"/>
+        <h:FrameworkToLocalizedNameConverter x:Key="FrameworkToLocalizedNameConverter"/>
+        <h:ResourceStringFormatConverter x:Key="ResourceStringFormatConverter"/>
+        <h:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+        <h:BooleanToInverseBooleanConverter x:Key="BooleanToInverseBooleanConverter"/>
+        <h:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+        <h:AppThemeModeToBooleanConverter x:Key="AppThemeModeToBooleanConverter"/>
+
+        <!-- Converters namespace converters -->
+        <c:GitStatusToBadgeConverter x:Key="GitStatusToBadgeConverter"/>
+        <c:HasGitRepositoryToVisibilityConverter x:Key="HasGitRepositoryToVisibilityConverter"/>
+        <c:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <c:BooleanToColorConverter x:Key="BooleanToColorConverter"/>
+        <c:TimeSpanToStringConverter x:Key="TimeSpanToStringConverter"/>
+        <c:NullableToDoubleConverter x:Key="NullableToDoubleConverter"/>
+        <c:OptionalNumberConverter x:Key="OptionalNumberConverter"/>
+        <c:RangeValidationConverter x:Key="RangeValidationConverter"/>
+        <c:ProportionalDimensionConverter x:Key="ProportionalDimensionConverter"/>
+        <c:MemoryManagementModeConverter x:Key="MemoryManagementModeConverter"/>
+        <c:UNetPrecisionModeConverter x:Key="UNetPrecisionModeConverter"/>
+        <c:VAEPrecisionModeConverter x:Key="VAEPrecisionModeConverter"/>
+        <c:AttentionAlgorithmModeConverter x:Key="AttentionAlgorithmModeConverter"/>
+        <c:CacheModeConverter x:Key="CacheModeConverter"/>
+
+        <!-- Custom DataGrid theme resource overrides -->
+        <SolidColorBrush x:Key="DataGridGridLinesBrush" Color="Transparent" />
+        </ResourceDictionary>
+    </Application.Resources>
+
+    <Application.Styles>
+        <!-- Avalonia Fluent Theme (base) -->
+        <FluentTheme />
+
+        <!-- DataGrid styles -->
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+
+        <!-- FluentAvalonia theme -->
+        <fa:FluentAvaloniaTheme />
+
+        <!-- Clean DataGrid style -->
+        <Style Selector="DataGrid.clean">
+            <Setter Property="Background" Value="{DynamicResource CardBackgroundFillColorDefaultBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="CanUserReorderColumns" Value="False"/>
+            <Setter Property="CanUserResizeColumns" Value="True"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="RowHeaderWidth" Value="0"/>
+        </Style>
+
+        <!-- Row styles -->
+        <Style Selector="DataGrid.clean DataGridRow">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
+        <Style Selector="DataGrid.clean DataGridRow:pointerover">
+            <Setter Property="Background" Value="#2A2A2A"/>
+        </Style>
+
+        <Style Selector="DataGrid.clean DataGridRow:selected">
+            <Setter Property="Background" Value="#3A3A3A"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+
+        <Style Selector="DataGrid.clean DataGridRow:selected:pointerover">
+            <Setter Property="Background" Value="#454545"/>
+        </Style>
+
+        <!-- Cell styles: no border, no focus adorner -->
+        <Style Selector="DataGrid.clean DataGridCell">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="FocusAdorner" Value="{x:Null}"/>
+        </Style>
+
+        <Style Selector="DataGrid.clean DataGridCell:selected">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+
+        <!-- Hide row header column completely -->
+        <Style Selector="DataGrid.clean DataGridRowHeader">
+            <Setter Property="IsVisible" Value="False"/>
+            <Setter Property="Width" Value="0"/>
+        </Style>
+
+        <Style Selector="DataGrid.clean DataGridColumnHeader">
+            <Setter Property="Background" Value="{DynamicResource CardBackgroundFillColorSecondaryBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+    </Application.Styles>
+</Application>

@@ -1,0 +1,121 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ProjectManager.Avalonia.ViewModels.Dialogs"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="550"
+        x:Class="ProjectManager.Avalonia.Views.Dialogs.PathEditorWindow"
+        x:DataType="vm:PathEditorViewModel"
+        Title="{DynamicResource PathEditor_Title}"
+        Width="700" Height="550"
+        MinWidth="550" MinHeight="400"
+        Background="#202020"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        CanResize="True">
+
+    <Design.DataContext>
+        <vm:PathEditorViewModel/>
+    </Design.DataContext>
+
+    <Border Padding="24">
+        <Grid RowDefinitions="Auto,*,Auto">
+
+            <!-- Header -->
+            <StackPanel Grid.Row="0" Spacing="4" Margin="0,0,0,16">
+                <TextBlock Text="{DynamicResource PathEditor_HeaderTitle}" FontSize="20" FontWeight="SemiBold"/>
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <TextBlock FontSize="13" Opacity="0.6" Text="{DynamicResource PathEditor_VariableLabel}"/>
+                    <TextBlock FontSize="13" Opacity="0.8" Text="{Binding VariableName}" FontWeight="SemiBold"/>
+                    <Border Background="#30FF9800" CornerRadius="4" Padding="6,2"
+                            IsVisible="{Binding IsSystemVariable}">
+                        <TextBlock Text="{DynamicResource EnvVar_SystemVar}" FontSize="11" Foreground="#FF9800"/>
+                    </Border>
+                    <Border Background="#304CAF50" CornerRadius="4" Padding="6,2"
+                            IsVisible="{Binding !IsSystemVariable}">
+                        <TextBlock Text="{DynamicResource EnvVar_UserVar}" FontSize="11" Foreground="#4CAF50"/>
+                    </Border>
+                </StackPanel>
+                <TextBlock Text="{DynamicResource PathEditor_Description}"
+                           FontSize="12" Opacity="0.5" Margin="0,4,0,0" TextWrapping="Wrap"/>
+            </StackPanel>
+
+            <!-- Path List and Buttons -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Path ListBox with editable TextBoxes -->
+                <Border Grid.Column="0"
+                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1" CornerRadius="8">
+                    <ListBox ItemsSource="{Binding Paths}"
+                             SelectedItem="{Binding SelectedPath, Mode=TwoWay}"
+                             SelectionMode="Single"
+                             Background="Transparent">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate DataType="x:String">
+                                <TextBox Text="{Binding}" 
+                                         Background="Transparent" 
+                                         BorderThickness="0"
+                                         Padding="8,6"
+                                         FontFamily="Consolas,Courier New,monospace"
+                                         FontSize="13"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Border>
+
+                <!-- Action Buttons (vertical) -->
+                <StackPanel Grid.Column="2" Spacing="6" VerticalAlignment="Top">
+                    <Button Content="&#xE8E5; 浏览添加" FontFamily="Segoe Fluent Icons" FontSize="12"
+                            Command="{Binding BrowseAddFolderCommand}"
+                            HorizontalAlignment="Stretch" MinWidth="110"/>
+                    <Button Content="&#xE710; 新增空行" FontFamily="Segoe Fluent Icons" FontSize="12"
+                            Command="{Binding AddEmptyPathCommand}"
+                            HorizontalAlignment="Stretch"/>
+                    <Button Content="&#xE74D; 删除" FontFamily="Segoe Fluent Icons" FontSize="12"
+                            Command="{Binding RemovePathCommand}"
+                            Classes="caution"
+                            IsEnabled="{Binding HasSelection}"
+                            HorizontalAlignment="Stretch"/>
+
+                    <Border Height="1" Background="{DynamicResource CardStrokeColorDefaultBrush}"
+                            Margin="0,6"/>
+
+                    <Button Content="&#xE74A; 上移" FontFamily="Segoe Fluent Icons" FontSize="12"
+                            Command="{Binding MoveUpCommand}"
+                            IsEnabled="{Binding CanMoveUp}"
+                            HorizontalAlignment="Stretch"/>
+                    <Button Content="&#xE74B; 下移" FontFamily="Segoe Fluent Icons" FontSize="12"
+                            Command="{Binding MoveDownCommand}"
+                            IsEnabled="{Binding CanMoveDown}"
+                            HorizontalAlignment="Stretch"/>
+                </StackPanel>
+            </Grid>
+
+            <!-- Action Buttons -->
+            <StackPanel Grid.Row="2" Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Spacing="8" Margin="0,20,0,0">
+                <TextBlock VerticalAlignment="Center" Opacity="0.5" FontSize="12" Margin="0,0,12,0">
+                    <TextBlock.Text>
+                        <Binding Path="Paths.Count" StringFormat="共 {0} 个路径"/>
+                    </TextBlock.Text>
+                </TextBlock>
+                <Button Content="{DynamicResource Button_Cancel}"
+                        Click="OnCancelClick"
+                        MinWidth="80"/>
+                <Button Content="{DynamicResource Button_Save}"
+                        Click="OnSaveClick"
+                        MinWidth="80"
+                        Classes="accent"/>
+            </StackPanel>
+
+        </Grid>
+    </Border>
+</Window>

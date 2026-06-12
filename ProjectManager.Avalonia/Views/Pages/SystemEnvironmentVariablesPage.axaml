@@ -1,0 +1,287 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:ProjectManager.Avalonia.ViewModels.Pages"
+             xmlns:models="using:ProjectManager.Avalonia.Models"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="700"
+             x:Class="ProjectManager.Avalonia.Views.Pages.SystemEnvironmentVariablesPage"
+             x:CompileBindings="False">
+
+    <Grid>
+        <!-- Main Content -->
+        <Grid Margin="24,12" IsVisible="{Binding IsLoading, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- 页面标题 -->
+            <StackPanel Grid.Row="0" Margin="0,16,0,16">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <TextBlock Text="&#xE8A5;" FontSize="24" FontFamily="Segoe Fluent Icons" VerticalAlignment="Center"/>
+                    <TextBlock Text="{DynamicResource EnvVar_Title}" FontSize="24" FontWeight="Bold" VerticalAlignment="Center"/>
+                </StackPanel>
+                <TextBlock Text="{DynamicResource EnvVar_Subtitle}" FontSize="13" Opacity="0.6" Margin="0,4,0,0"/>
+            </StackPanel>
+
+            <!-- Top Toolbar: Search + Filter + Refresh -->
+            <Border Grid.Row="1" Padding="12" Margin="0,0,0,16"
+                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1" CornerRadius="8">
+                <StackPanel Orientation="Horizontal" Spacing="12">
+                    <!-- Search -->
+                    <Grid Width="300">
+                        <TextBlock Text="&#xE721;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                                   Opacity="0.5" VerticalAlignment="Center" Margin="10,0,0,0"
+                                   IsHitTestVisible="False"/>
+                        <TextBox Text="{Binding SearchText}" PlaceholderText="{DynamicResource EnvVars_SearchPlaceholder}"
+                                 Padding="30,6,8,6"/>
+                    </Grid>
+
+                    <!-- Filter ComboBox -->
+                    <ComboBox SelectedIndex="{Binding SelectedFilterIndex}" Width="140">
+                        <ComboBoxItem Content="{DynamicResource EnvVars_FilterAll}"/>
+                        <ComboBoxItem Content="{DynamicResource EnvVars_FilterUser}"/>
+                        <ComboBoxItem Content="{DynamicResource EnvVars_FilterSystem}"/>
+                    </ComboBox>
+
+                    <!-- Refresh -->
+                    <Button Command="{Binding RefreshCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <TextBlock Text="&#xE72C;" FontFamily="Segoe Fluent Icons" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource EnvVar_Refresh}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Border>
+
+            <!-- Two side-by-side sections -->
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- ======================== -->
+                <!-- User Variables Section  -->
+                <!-- ======================== -->
+                <Border Grid.Column="0"
+                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1" CornerRadius="8">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Section Header -->
+                        <Border Grid.Row="0" Padding="16,12"
+                                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="0,0,0,1">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <TextBlock Text="&#xE77B;" FontSize="18" Foreground="#4CAF50"
+                                           FontFamily="Segoe Fluent Icons" VerticalAlignment="Center"/>
+                                <TextBlock Text="{DynamicResource EnvVar_UserVariables}" FontSize="16" FontWeight="SemiBold"
+                                           VerticalAlignment="Center"/>
+                                <Border Background="#304CAF50" CornerRadius="10" Padding="8,2"
+                                        VerticalAlignment="Center">
+                                    <TextBlock FontSize="12" Foreground="#4CAF50">
+                                        <TextBlock.Text>
+                                            <Binding Path="UserVariablesCount" StringFormat="{}{0} 项"/>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- DataGrid -->
+                        <DataGrid Grid.Row="1"
+                                  Name="UserDataGrid"
+                                  Classes="clean"
+                                  ItemsSource="{Binding FilteredUserVariables}"
+                                  SelectedItem="{Binding SelectedUserVariable}"
+                                  AutoGenerateColumns="False"
+                                  CanUserResizeColumns="True"
+                                  GridLinesVisibility="None"
+                                  HeadersVisibility="Column"
+                                  IsReadOnly="True"
+                                  SelectionMode="Single"
+                                  PointerPressed="OnDataGridPointerPressed"
+                                  DoubleTapped="OnDataGridDoubleTapped"
+                                  Margin="0">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="{DynamicResource EnvVar_Name}" Width="200">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}"
+                                                       Padding="8,6" VerticalAlignment="Center"
+                                                       FontWeight="SemiBold"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="{DynamicResource EnvVar_Value}" Width="*">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Value}"
+                                                       Padding="8,6" VerticalAlignment="Center"
+                                                       TextTrimming="CharacterEllipsis"
+                                                       ToolTip.Tip="{Binding Value}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <!-- Action Buttons -->
+                        <Border Grid.Row="2" Padding="12,8"
+                                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="0,1,0,0">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Button Command="{Binding AddUserVariableCommand}">
+                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                        <TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons" FontSize="12" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{DynamicResource EnvVar_Add}" FontSize="12" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button Command="{Binding EditUserVariableCommand}"
+                                        IsEnabled="{Binding HasSelectedUserVariable}">
+                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                        <TextBlock Text="&#xE70F;" FontFamily="Segoe Fluent Icons" FontSize="12" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{DynamicResource EnvVar_Edit}" FontSize="12" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button Command="{Binding DeleteUserVariableCommand}"
+                                        Classes="caution"
+                                        IsEnabled="{Binding HasSelectedUserVariable}">
+                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                        <TextBlock Text="&#xE74D;" FontFamily="Segoe Fluent Icons" FontSize="12" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{DynamicResource EnvVar_Delete}" FontSize="12" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- ========================== -->
+                <!-- System Variables Section   -->
+                <!-- ========================== -->
+                <Border Grid.Column="2"
+                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1" CornerRadius="8">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Section Header -->
+                        <Border Grid.Row="0" Padding="16,12"
+                                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="0,0,0,1">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <TextBlock Text="&#xE72E;" FontSize="18" Foreground="#FF9800"
+                                           FontFamily="Segoe Fluent Icons" VerticalAlignment="Center"/>
+                                <TextBlock Text="{DynamicResource EnvVar_SystemVariables}" FontSize="16" FontWeight="SemiBold"
+                                           VerticalAlignment="Center"/>
+                                <Border Background="#30FF9800" CornerRadius="10" Padding="8,2"
+                                        VerticalAlignment="Center">
+                                    <TextBlock FontSize="12" Foreground="#FF9800">
+                                        <TextBlock.Text>
+                                            <Binding Path="SystemVariablesCount" StringFormat="{}{0} 项"/>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- DataGrid -->
+                        <DataGrid Grid.Row="1"
+                                  Name="SystemDataGrid"
+                                  Classes="clean"
+                                  ItemsSource="{Binding FilteredSystemVariables}"
+                                  SelectedItem="{Binding SelectedSystemVariable}"
+                                  AutoGenerateColumns="False"
+                                  CanUserResizeColumns="True"
+                                  GridLinesVisibility="None"
+                                  HeadersVisibility="Column"
+                                  IsReadOnly="True"
+                                  SelectionMode="Single"
+                                  PointerPressed="OnDataGridPointerPressed"
+                                  DoubleTapped="OnDataGridDoubleTapped"
+                                  Margin="0">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="{DynamicResource EnvVar_Name}" Width="200">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}"
+                                                       Padding="8,6" VerticalAlignment="Center"
+                                                       FontWeight="SemiBold"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="{DynamicResource EnvVar_Value}" Width="*">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Value}"
+                                                       Padding="8,6" VerticalAlignment="Center"
+                                                       TextTrimming="CharacterEllipsis"
+                                                       ToolTip.Tip="{Binding Value}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <!-- Action Buttons -->
+                        <Border Grid.Row="2" Padding="12,8"
+                                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="0,1,0,0">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Button Command="{Binding AddSystemVariableCommand}">
+                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                        <TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons" FontSize="12" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{DynamicResource EnvVar_Add}" FontSize="12" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button Command="{Binding EditSystemVariableCommand}"
+                                        IsEnabled="{Binding HasSelectedSystemVariable}">
+                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                        <TextBlock Text="&#xE70F;" FontFamily="Segoe Fluent Icons" FontSize="12" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{DynamicResource EnvVar_Edit}" FontSize="12" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button Command="{Binding DeleteSystemVariableCommand}"
+                                        Classes="caution"
+                                        IsEnabled="{Binding HasSelectedSystemVariable}">
+                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                        <TextBlock Text="&#xE74D;" FontFamily="Segoe Fluent Icons" FontSize="12" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{DynamicResource EnvVar_Delete}" FontSize="12" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <!-- Loading Overlay -->
+        <Border IsVisible="{Binding IsLoading}"
+                Background="#80000000">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="12">
+                <ProgressBar IsIndeterminate="True" Width="200"/>
+                <TextBlock Text="{DynamicResource EnvVar_Loading}" FontSize="14" Opacity="0.8"
+                           HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

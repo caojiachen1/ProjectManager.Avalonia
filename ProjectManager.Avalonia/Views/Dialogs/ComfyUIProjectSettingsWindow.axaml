@@ -1,0 +1,762 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ProjectManager.Avalonia.ViewModels.Dialogs"
+        x:Class="ProjectManager.Avalonia.Views.Dialogs.ComfyUIProjectSettingsWindow"
+        x:CompileBindings="False"
+        Title="{DynamicResource ComfyUI_SettingsTitle}"
+        Width="800" Height="820"
+        MinWidth="700" MinHeight="700"
+        Background="#202020"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        CanResize="True">
+
+    <Window.Styles>
+        <!-- Card style for settings sections -->
+        <Style Selector="Border.card">
+            <Setter Property="Background" Value="{DynamicResource CardBackgroundFillColorDefaultBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="16"/>
+            <Setter Property="Margin" Value="0,0,0,12"/>
+        </Style>
+        <!-- Section label style -->
+        <Style Selector="TextBlock.sectionLabel">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Margin" Value="0,0,0,6"/>
+        </Style>
+        <!-- Description text style -->
+        <Style Selector="TextBlock.descText">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Opacity" Value="0.6"/>
+            <Setter Property="Margin" Value="0,2,0,0"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+    </Window.Styles>
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Project Info Header -->
+        <Border Grid.Row="0" Classes="card" Margin="0,0,0,12">
+            <StackPanel>
+                <TextBlock Text="{Binding ProjectName}" FontSize="18" FontWeight="Bold"/>
+                <TextBlock Text="{Binding ProjectPath}" FontSize="11" Opacity="0.6" Margin="0,4,0,0"
+                           TextTrimming="CharacterEllipsis"/>
+            </StackPanel>
+        </Border>
+
+        <!-- TabControl -->
+        <TabControl Grid.Row="1">
+
+            <!-- Tab 1: Basic -->
+            <TabItem Header="{DynamicResource ComfyUI_BasicConfig}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Margin="8,12,8,8">
+
+                        <!-- Project Name -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource Generic_ProjectName}" Classes="sectionLabel"/>
+                                <TextBox Text="{Binding ProjectName}" PlaceholderText="{DynamicResource Generic_ProjectNamePlaceholder}"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Project Path (read-only display) -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ProjectSettings_Path}" Classes="sectionLabel"/>
+                                <TextBox Text="{Binding ProjectPath}" IsReadOnly="True" Opacity="0.7"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- ComfyUI Root Path -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_RootPath}" Classes="sectionLabel"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Column="0" Text="{Binding ComfyUIRootPath}"
+                                             PlaceholderText="{DynamicResource ComfyUI_RootPathPlaceholder}"/>
+                                    <Button Grid.Column="1" Content="{DynamicResource ComfyUI_AutoDetect}" Margin="8,0,0,0"
+                                            Command="{Binding DetectComfyUIRootCommand}"/>
+                                    <Button Grid.Column="2" Content="{DynamicResource Button_Browse}" Margin="8,0,0,0"
+                                            Command="{Binding BrowseComfyUIRootCommand}"/>
+                                </Grid>
+                                <TextBlock Text="{DynamicResource ComfyUI_RootPathDesc}" Classes="descText"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Python Path -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_PythonPath}" Classes="sectionLabel"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Column="0" Text="{Binding PythonPath}"
+                                             PlaceholderText="{DynamicResource ComfyUI_PythonPathPlaceholder}"/>
+                                    <Button Grid.Column="1" Content="{DynamicResource Button_Browse}" Margin="8,0,0,0"
+                                            Command="{Binding BrowsePythonPathCommand}"/>
+                                </Grid>
+                                <TextBlock Text="{DynamicResource ComfyUI_PythonPathInvalid}" Foreground="Red" FontSize="11"
+                                           IsVisible="{Binding IsPythonPathValid, Converter={x:Static BoolConverters.Not}}"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Port -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_Port}" Classes="sectionLabel"/>
+                                <NumericUpDown Value="{Binding Port}" Minimum="1" Maximum="65535"
+                                               PlaceholderText="8188" FormatString="N0"
+                                               Width="200" HorizontalAlignment="Left"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Listen All Interfaces -->
+                        <Border Classes="card">
+                            <CheckBox Content="{DynamicResource ComfyUI_ListenAll}"
+                                      IsChecked="{Binding ListenAllInterfaces}"/>
+                        </Border>
+
+                        <!-- Start Command (read-only display) -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_StartCommand}" Classes="sectionLabel"/>
+                                <TextBox Text="{Binding StartCommand}" IsReadOnly="True" Opacity="0.7"
+                                         TextWrapping="Wrap"/>
+                                <TextBlock Text="{DynamicResource ComfyUI_StartCommandDesc}" Classes="descText"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Browser Auto-Launch Mode -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_BrowserLaunchMode}" Classes="sectionLabel"/>
+                                <ComboBox x:Name="BrowserLaunchModeCombo"
+                                          SelectedItem="{Binding BrowserAutoLaunchMode}"
+                                          HorizontalAlignment="Stretch"/>
+                            </StackPanel>
+                        </Border>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab 2: Memory / GPU -->
+            <TabItem Header="{DynamicResource ComfyUI_MemoryGpuSettings}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Margin="8,12,8,8">
+
+                        <!-- Memory Management Mode -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_MemoryMode}" Classes="sectionLabel"/>
+                                <ComboBox x:Name="MemoryModeCombo"
+                                          SelectedItem="{Binding MemoryManagementMode}"
+                                          HorizontalAlignment="Stretch"/>
+                                <TextBlock Text="{DynamicResource ComfyUI_MemoryModeDesc}" Classes="descText"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- CUDA Device -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_CudaDevice}" Classes="sectionLabel"/>
+                                <NumericUpDown Value="{Binding CudaDevice}" Minimum="0" Maximum="15"
+                                               PlaceholderText="{DynamicResource ComfyUI_AutoPlaceholder}" FormatString="N0"
+                                               Width="200" HorizontalAlignment="Left"/>
+                                <TextBlock Text="{DynamicResource ComfyUI_CudaDeviceDesc}" Classes="descText"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- DirectML Device -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_DirectmlDevice}" Classes="sectionLabel"/>
+                                <NumericUpDown Value="{Binding DirectmlDevice}" Minimum="-1" Maximum="15"
+                                               PlaceholderText="{DynamicResource ComfyUI_AutoPlaceholder}" FormatString="N0"
+                                               Width="200" HorizontalAlignment="Left"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- CUDA Memory Allocator -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_CudaAllocator}" Classes="sectionLabel"/>
+                                <ComboBox x:Name="CudaAllocatorCombo"
+                                          SelectedItem="{Binding CudaMemoryAllocatorMode}"
+                                          HorizontalAlignment="Stretch"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Reserve VRAM -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_ReserveVram}" Classes="sectionLabel"/>
+                                <NumericUpDown Value="{Binding ReserveVram}" Minimum="0" Maximum="32768"
+                                               Increment="0.5" FormatString="F1"
+                                               PlaceholderText="{DynamicResource Common_None}"
+                                               Width="200" HorizontalAlignment="Left"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- GPU Flags -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="{DynamicResource ComfyUI_GpuFlags}" Classes="sectionLabel"/>
+                                <CheckBox Content="{DynamicResource ComfyUI_AsyncOffload}" IsChecked="{Binding AsyncOffload}"/>
+                                <CheckBox Content="{DynamicResource ComfyUI_ForceNonBlocking}" IsChecked="{Binding ForceNonBlocking}"/>
+                                <CheckBox Content="{DynamicResource ComfyUI_DisableSmartMemory}" IsChecked="{Binding DisableSmartMemory}"/>
+                            </StackPanel>
+                        </Border>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab 3: Precision -->
+            <TabItem Header="{DynamicResource ComfyUI_PrecisionSettings}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Margin="8,12,8,8">
+
+                        <!-- Global Precision Force -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_GlobalPrecision}" Classes="sectionLabel"/>
+                                <ComboBox x:Name="GlobalPrecisionCombo"
+                                          SelectedItem="{Binding GlobalPrecisionForceMode}"
+                                          HorizontalAlignment="Stretch"/>
+                                <TextBlock Text="{DynamicResource ComfyUI_GlobalPrecisionDesc}" Classes="descText"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- UNet Precision -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_UnetPrecision}" Classes="sectionLabel"/>
+                                <ComboBox x:Name="UNetPrecisionCombo"
+                                          SelectedItem="{Binding UnetPrecisionMode}"
+                                          HorizontalAlignment="Stretch"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- VAE Precision -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_VaePrecision}" Classes="sectionLabel"/>
+                                <ComboBox x:Name="VAEPrecisionCombo"
+                                          SelectedItem="{Binding VaePrecisionMode}"
+                                          HorizontalAlignment="Stretch"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Text Encoder Precision -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_TextEncPrecision}" Classes="sectionLabel"/>
+                                <ComboBox x:Name="TextEncPrecisionCombo"
+                                          SelectedItem="{Binding TextEncoderPrecisionMode}"
+                                          HorizontalAlignment="Stretch"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Channels Last -->
+                        <Border Classes="card">
+                            <CheckBox Content="{DynamicResource ComfyUI_ForceChannelsLast}"
+                                      IsChecked="{Binding ForceChannelsLast}"/>
+                        </Border>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab 4: Attention -->
+            <TabItem Header="{DynamicResource ComfyUI_AttentionSettings}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Margin="8,12,8,8">
+
+                        <!-- Attention Algorithm -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_AttentionAlgo}" Classes="sectionLabel"/>
+                                <ComboBox x:Name="AttentionAlgoCombo"
+                                          SelectedItem="{Binding AttentionAlgorithmMode}"
+                                          HorizontalAlignment="Stretch"/>
+                                <TextBlock Text="{DynamicResource ComfyUI_AttentionAlgoDesc}" Classes="descText"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Attention Upcast Mode -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_AttentionUpcast}" Classes="sectionLabel"/>
+                                <ComboBox x:Name="AttentionUpcastCombo"
+                                          SelectedItem="{Binding AttentionUpcastMode}"
+                                          HorizontalAlignment="Stretch"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Cache Mode -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_CacheMode}" Classes="sectionLabel"/>
+                                <ComboBox x:Name="CacheModeCombo"
+                                          SelectedItem="{Binding CacheMode}"
+                                          HorizontalAlignment="Stretch"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Cache LRU Size -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_CacheLruSize}" Classes="sectionLabel"/>
+                                <NumericUpDown Value="{Binding CacheLru}" Minimum="0" Maximum="1000"
+                                               PlaceholderText="0" FormatString="N0"
+                                               Width="200" HorizontalAlignment="Left"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Disable xformers -->
+                        <Border Classes="card">
+                            <CheckBox Content="{DynamicResource ComfyUI_DisableXformers}"
+                                      IsChecked="{Binding DisableXformers}"/>
+                        </Border>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab 5: Directories -->
+            <TabItem Header="{DynamicResource ComfyUI_DirModelConfig}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Margin="8,12,8,8">
+
+                        <!-- Base Directory -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_BaseDir}" Classes="sectionLabel"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Column="0" Text="{Binding BaseDirectory}"
+                                             PlaceholderText="{DynamicResource Generic_DefaultPlaceholder}"/>
+                                    <Button Grid.Column="1" Content="{DynamicResource Button_Browse}" Margin="8,0,0,0"
+                                            Command="{Binding BrowseBaseDirectoryCommand}"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Models Path -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_ModelsPath}" Classes="sectionLabel"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Column="0" Text="{Binding ModelsPath}"
+                                             PlaceholderText="./models"/>
+                                    <Button Grid.Column="1" Content="{DynamicResource Button_Browse}" Margin="8,0,0,0"
+                                            Command="{Binding BrowseModelsPathCommand}"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Output Path -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_OutputPath}" Classes="sectionLabel"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Column="0" Text="{Binding OutputPath}"
+                                             PlaceholderText="./output"/>
+                                    <Button Grid.Column="1" Content="{DynamicResource Button_Browse}" Margin="8,0,0,0"
+                                            Command="{Binding BrowseOutputPathCommand}"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Output Directory -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_OutputDir}" Classes="sectionLabel"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Column="0" Text="{Binding OutputDirectory}"
+                                             PlaceholderText="{DynamicResource Generic_DefaultPlaceholder}"/>
+                                    <Button Grid.Column="1" Content="{DynamicResource Button_Browse}" Margin="8,0,0,0"
+                                            Command="{Binding BrowseBaseDirectoryCommand}"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Input Directory -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_InputDir}" Classes="sectionLabel"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Column="0" Text="{Binding InputDirectory}"
+                                             PlaceholderText="{DynamicResource Generic_DefaultPlaceholder}"/>
+                                    <Button Grid.Column="1" Content="{DynamicResource Button_Browse}" Margin="8,0,0,0"
+                                            Command="{Binding BrowseInputDirectoryCommand}"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Temp Directory -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_TempDir}" Classes="sectionLabel"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Column="0" Text="{Binding TempDirectory}"
+                                             PlaceholderText="{DynamicResource Generic_DefaultPlaceholder}"/>
+                                    <Button Grid.Column="1" Content="{DynamicResource Button_Browse}" Margin="8,0,0,0"
+                                            Command="{Binding BrowseTempDirectoryCommand}"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- User Directory -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_UserDir}" Classes="sectionLabel"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Column="0" Text="{Binding UserDirectory}"
+                                             PlaceholderText="{DynamicResource Generic_DefaultPlaceholder}"/>
+                                    <Button Grid.Column="1" Content="{DynamicResource Button_Browse}" Margin="8,0,0,0"
+                                            Command="{Binding BrowseUserDirectoryCommand}"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Custom Nodes Path -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_CustomNodesDir}" Classes="sectionLabel"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Column="0" Text="{Binding CustomNodesPath}"
+                                             PlaceholderText="./custom_nodes"/>
+                                    <Button Grid.Column="1" Content="{DynamicResource Button_Browse}" Margin="8,0,0,0"
+                                            Command="{Binding BrowseCustomNodesPathCommand}"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Extra Model Paths Config -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_ExtraModelPaths}" Classes="sectionLabel"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Column="0" Text="{Binding ExtraModelPathsConfig}"
+                                             PlaceholderText="extra_model_paths.yaml"/>
+                                    <Button Grid.Column="1" Content="{DynamicResource Button_Browse}" Margin="8,0,0,0"
+                                            Command="{Binding BrowseExtraModelPathsConfigCommand}"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab 6: Network -->
+            <TabItem Header="{DynamicResource ComfyUI_NetworkSecurity}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Margin="8,12,8,8">
+
+                        <!-- Listen Address -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_ListenAddress}" Classes="sectionLabel"/>
+                                <TextBox Text="{Binding ListenAddress}" PlaceholderText="127.0.0.1"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Max Upload Size -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_MaxUploadSize}" Classes="sectionLabel"/>
+                                <NumericUpDown Value="{Binding MaxUploadSize}" Minimum="1" Maximum="10240"
+                                               PlaceholderText="100" FormatString="N0"
+                                               Width="200" HorizontalAlignment="Left"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- CORS -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="{DynamicResource ComfyUI_CorsSection}" Classes="sectionLabel"/>
+                                <CheckBox Content="{DynamicResource ComfyUI_EnableCors}"
+                                          IsChecked="{Binding EnableCorsHeader}"/>
+                                <StackPanel Spacing="4">
+                                    <TextBlock Text="{DynamicResource ComfyUI_CorsOrigin}" FontSize="12"/>
+                                    <TextBox Text="{Binding CorsOrigin}" PlaceholderText="*"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- TLS Key File -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_TlsKey}" Classes="sectionLabel"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Column="0" Text="{Binding TlsKeyFile}"
+                                             PlaceholderText="server.key"/>
+                                    <Button Grid.Column="1" Content="{DynamicResource Button_Browse}" Margin="8,0,0,0"
+                                            Command="{Binding BrowseTlsKeyFileCommand}"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- TLS Cert File -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_TlsCert}" Classes="sectionLabel"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Column="0" Text="{Binding TlsCertFile}"
+                                             PlaceholderText="server.crt"/>
+                                    <Button Grid.Column="1" Content="{DynamicResource Button_Browse}" Margin="8,0,0,0"
+                                            Command="{Binding BrowseTlsCertFileCommand}"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab 7: Advanced -->
+            <TabItem Header="{DynamicResource ComfyUI_AdvancedSettings}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Margin="8,12,8,8">
+
+                        <!-- Preview Method -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_PreviewMethod}" Classes="sectionLabel"/>
+                                <ComboBox x:Name="PreviewMethodCombo"
+                                          SelectedItem="{Binding PreviewMethod}"
+                                          HorizontalAlignment="Stretch"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Preview Size -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_PreviewSize}" Classes="sectionLabel"/>
+                                <NumericUpDown Value="{Binding PreviewSize}" Minimum="64" Maximum="2048"
+                                               PlaceholderText="512" FormatString="N0"
+                                               Width="200" HorizontalAlignment="Left"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Verbose / Log Level -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_LogLevel}" Classes="sectionLabel"/>
+                                <ComboBox x:Name="VerboseCombo"
+                                          SelectedItem="{Binding Verbose}"
+                                          HorizontalAlignment="Stretch"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Default Hashing Function -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_HashFunction}" Classes="sectionLabel"/>
+                                <ComboBox x:Name="HashingFuncCombo"
+                                          SelectedItem="{Binding DefaultHashingFunction}"
+                                          HorizontalAlignment="Stretch"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Logging Flags -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="{DynamicResource ComfyUI_LogDebug}" Classes="sectionLabel"/>
+                                <CheckBox Content="{DynamicResource ComfyUI_LogStdout}" IsChecked="{Binding LogStdout}"/>
+                                <CheckBox Content="{DynamicResource ComfyUI_DontPrintServer}" IsChecked="{Binding DontPrintServer}"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Performance Flags -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="{DynamicResource ComfyUI_PerformanceOpt}" Classes="sectionLabel"/>
+                                <CheckBox Content="{DynamicResource ComfyUI_Deterministic}" IsChecked="{Binding Deterministic}"/>
+                                <CheckBox Content="{DynamicResource ComfyUI_FastFp16Accum}" IsChecked="{Binding FastFp16Accumulation}"/>
+                                <CheckBox Content="{DynamicResource ComfyUI_FastFp8Matrix}" IsChecked="{Binding FastFp8MatrixMult}"/>
+                                <CheckBox Content="{DynamicResource ComfyUI_FastCublas}" IsChecked="{Binding FastCublasOps}"/>
+                                <CheckBox Content="{DynamicResource ComfyUI_MmapTorch}" IsChecked="{Binding MmapTorchFiles}"/>
+                                <CheckBox Content="{DynamicResource ComfyUI_DisableMmap}" IsChecked="{Binding DisableMmap}"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Extra Arguments -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_ExtraArgs}" Classes="sectionLabel"/>
+                                <TextBox Text="{Binding ExtraArgs}"
+                                         PlaceholderText="{DynamicResource ComfyUI_ExtraArgsPlaceholder}"
+                                         TextWrapping="Wrap" MinHeight="50" AcceptsReturn="True"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Other Flags -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="{DynamicResource ComfyUI_OtherFlags}" Classes="sectionLabel"/>
+                                <CheckBox Content="{DynamicResource ComfyUI_WindowsStandalone}" IsChecked="{Binding WindowsStandaloneBuild}"/>
+                                <CheckBox Content="{DynamicResource ComfyUI_MultiUser}" IsChecked="{Binding MultiUser}"/>
+                                <CheckBox Content="{DynamicResource ComfyUI_DisableAllCustomNodes}" IsChecked="{Binding DisableAllCustomNodes}"/>
+                                <CheckBox Content="{DynamicResource ComfyUI_DisableApiNodes}" IsChecked="{Binding DisableApiNodes}"/>
+                                <CheckBox Content="{DynamicResource ComfyUI_DisableMetadata}" IsChecked="{Binding DisableMetadata}"/>
+                            </StackPanel>
+                        </Border>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab 8: Frontend -->
+            <TabItem Header="{DynamicResource ComfyUI_FrontEndSettings}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Margin="8,12,8,8">
+
+                        <!-- FrontEnd Version -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_FrontEndVersion}" Classes="sectionLabel"/>
+                                <TextBox Text="{Binding FrontEndVersion}"
+                                         PlaceholderText="comfyanonymous/ComfyUI@latest"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- FrontEnd Root -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_FrontEndRoot}" Classes="sectionLabel"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Column="0" Text="{Binding FrontEndRoot}"
+                                             PlaceholderText="{DynamicResource Generic_DefaultPlaceholder}"/>
+                                    <Button Grid.Column="1" Content="{DynamicResource Button_Browse}" Margin="8,0,0,0"
+                                            Command="{Binding BrowseFrontEndRootCommand}"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Comfy API Base -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_ApiBase}" Classes="sectionLabel"/>
+                                <TextBox Text="{Binding ComfyApiBase}"
+                                         PlaceholderText="https://api.comfy.org"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Database URL -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ComfyUI_DatabaseUrl}" Classes="sectionLabel"/>
+                                <TextBox Text="{Binding DatabaseUrl}"
+                                         PlaceholderText="{DynamicResource ComfyUI_DatabaseUrlPlaceholder}"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Enable Compress Response Body -->
+                        <Border Classes="card">
+                            <CheckBox Content="{DynamicResource ComfyUI_EnableCompressResponse}"
+                                      IsChecked="{Binding EnableCompressResponseBody}"/>
+                        </Border>
+
+                        <!-- Tags -->
+                        <Border Classes="card">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource Generic_Tags}" Classes="sectionLabel"/>
+                                <TextBox Text="{Binding TagsString}"
+                                         PlaceholderText="{DynamicResource ComfyUI_TagsPlaceholder}"
+                                         TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+        </TabControl>
+
+        <!-- Action Buttons -->
+        <Grid Grid.Row="2" Margin="0,12,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" Content="{DynamicResource ComfyUI_DeleteProject}"
+                    Command="{Binding DeleteCommand}"
+                    Classes="caution"/>
+
+            <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8">
+                <Button Content="{DynamicResource Button_Cancel}" Command="{Binding CancelCommand}"/>
+                <Button Content="{DynamicResource Button_Save}" Command="{Binding SaveCommand}" Classes="accent"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

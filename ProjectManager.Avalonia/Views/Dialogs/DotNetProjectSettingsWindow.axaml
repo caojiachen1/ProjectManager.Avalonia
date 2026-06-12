@@ -1,0 +1,285 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ProjectManager.Avalonia.ViewModels.Dialogs"
+        x:Class="ProjectManager.Avalonia.Views.Dialogs.DotNetProjectSettingsWindow"
+        x:CompileBindings="False"
+        Title="{DynamicResource DotNet_SettingsTitle}"
+        Width="650" Height="780"
+        MinWidth="550" MinHeight="650"
+        Background="#202020"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        CanResize="True">
+
+    <Border Padding="24"
+            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+            BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1" CornerRadius="8" Margin="16">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Title -->
+            <StackPanel Grid.Row="0" Margin="0,0,0,16">
+                <TextBlock Text="{DynamicResource DotNet_SettingsTitle}" FontSize="22" FontWeight="Bold"/>
+                <TextBlock Text="{Binding ProjectName}" FontSize="13" Opacity="0.6" Margin="0,4,0,0"/>
+            </StackPanel>
+
+            <!-- Scrollable Sections -->
+            <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled"
+                          VerticalScrollBarVisibility="Auto">
+                <StackPanel Spacing="8">
+
+                    <!-- General Section -->
+                    <TextBlock Text="{DynamicResource ProjectSettings_General}" FontSize="14" FontWeight="Medium"
+                               Margin="0,0,0,4" Opacity="0.8"/>
+
+                    <Border Padding="16"
+                            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                            BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="1" CornerRadius="8">
+                        <StackPanel Spacing="12">
+
+                            <!-- Project Name -->
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource Generic_ProjectName}" FontWeight="Medium"/>
+                                <TextBox Text="{Binding ProjectName}" PlaceholderText="{DynamicResource Generic_ProjectNamePlaceholder}"/>
+                            </StackPanel>
+
+                            <!-- Project Path -->
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ProjectSettings_Path}" FontWeight="Medium"/>
+                                <TextBox Text="{Binding ProjectPath}" PlaceholderText="{DynamicResource Generic_LocalPathPlaceholder}"
+                                         IsReadOnly="True"/>
+                            </StackPanel>
+
+                            <!-- Target Framework -->
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource DotNet_TargetFramework}" FontWeight="Medium"/>
+                                <ComboBox ItemsSource="{Binding TargetFrameworkOptions}"
+                                          SelectedItem="{Binding TargetFramework}"
+                                          HorizontalAlignment="Stretch"
+                                          PlaceholderText="{DynamicResource DotNet_TargetFrameworkPlaceholder}"/>
+                            </StackPanel>
+
+                            <!-- Project Type -->
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource DotNet_ProjectType}" FontWeight="Medium"/>
+                                <ComboBox ItemsSource="{Binding ProjectTypeOptions}"
+                                          SelectedItem="{Binding ProjectType}"
+                                          HorizontalAlignment="Stretch"
+                                          PlaceholderText="{DynamicResource DotNet_ProjectTypePlaceholder}"/>
+                            </StackPanel>
+
+                            <!-- Start Command -->
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource DotNet_StartCommand}" FontWeight="Medium"/>
+                                <ComboBox ItemsSource="{Binding StartCommandOptions}"
+                                          SelectedItem="{Binding StartCommand}"
+                                          IsEditable="True"
+                                          HorizontalAlignment="Stretch"
+                                          PlaceholderText="dotnet run"/>
+                            </StackPanel>
+
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Runtime Section -->
+                    <TextBlock Text="{DynamicResource DotNet_RuntimeSection}" FontSize="14" FontWeight="Medium"
+                               Margin="0,8,0,4" Opacity="0.8"/>
+
+                    <Border Padding="16"
+                            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                            BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="1" CornerRadius="8">
+                        <StackPanel Spacing="12">
+
+                            <!-- Port -->
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource DotNet_Port}" FontWeight="Medium"/>
+                                <NumericUpDown Value="{Binding Port}" Minimum="1" Maximum="65535"
+                                               Width="150" HorizontalAlignment="Left"/>
+                            </StackPanel>
+
+                            <!-- Hot Reload -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="{DynamicResource DotNet_EnableHotReload}" FontWeight="Medium"/>
+                                    <TextBlock Text="{DynamicResource DotNet_HotReloadDesc}" FontSize="12" Opacity="0.7"/>
+                                </StackPanel>
+                                <CheckBox Grid.Column="1" IsChecked="{Binding EnableHotReload}"
+                                          VerticalAlignment="Center"/>
+                            </Grid>
+
+                            <!-- HTTPS Redirection -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="{DynamicResource DotNet_EnableHttps}" FontWeight="Medium"/>
+                                    <TextBlock Text="{DynamicResource DotNet_HttpsDesc}" FontSize="12" Opacity="0.7"/>
+                                </StackPanel>
+                                <CheckBox Grid.Column="1" IsChecked="{Binding EnableHttpsRedirection}"
+                                          VerticalAlignment="Center"/>
+                            </Grid>
+
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Build Section -->
+                    <TextBlock Text="{DynamicResource DotNet_BuildConfig}" FontSize="14" FontWeight="Medium"
+                               Margin="0,8,0,4" Opacity="0.8"/>
+
+                    <Border Padding="16"
+                            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                            BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="1" CornerRadius="8">
+                        <StackPanel Spacing="12">
+
+                            <!-- Build Configuration -->
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource DotNet_BuildConfig}" FontWeight="Medium"/>
+                                <ComboBox ItemsSource="{Binding BuildConfigurationOptions}"
+                                          SelectedItem="{Binding BuildConfiguration}"
+                                          HorizontalAlignment="Stretch"
+                                          PlaceholderText="{DynamicResource DotNet_BuildConfigPlaceholder}"/>
+                            </StackPanel>
+
+                            <!-- Build Command -->
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource DotNet_BuildCommand}" FontWeight="Medium"/>
+                                <TextBox Text="{Binding BuildCommand}" PlaceholderText="dotnet build"/>
+                            </StackPanel>
+
+                            <!-- Test Command -->
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource DotNet_TestCommand}" FontWeight="Medium"/>
+                                <TextBox Text="{Binding TestCommand}" PlaceholderText="dotnet test"/>
+                            </StackPanel>
+
+                            <!-- Output Path -->
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource DotNet_OutputPath}" FontWeight="Medium"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Column="0" Text="{Binding OutputPath}"
+                                             PlaceholderText="./bin/Debug"/>
+                                    <Button Grid.Column="1" Content="{DynamicResource Button_Browse}" Margin="8,0,0,0"
+                                            Command="{Binding BrowseOutputPathCommand}"/>
+                                </Grid>
+                            </StackPanel>
+
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Publish Section -->
+                    <TextBlock Text="{DynamicResource DotNet_PublishConfig}" FontSize="14" FontWeight="Medium"
+                               Margin="0,8,0,4" Opacity="0.8"/>
+
+                    <Border Padding="16"
+                            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                            BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="1" CornerRadius="8">
+                        <StackPanel Spacing="12">
+
+                            <!-- Target Runtime -->
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource DotNet_TargetRuntime}" FontWeight="Medium"/>
+                                <ComboBox ItemsSource="{Binding TargetRuntimeOptions}"
+                                          SelectedItem="{Binding TargetRuntime}"
+                                          HorizontalAlignment="Stretch"
+                                          PlaceholderText="{DynamicResource DotNet_TargetRuntimePlaceholder}"/>
+                            </StackPanel>
+
+                            <!-- Publish Path -->
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource DotNet_PublishPath}" FontWeight="Medium"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Column="0" Text="{Binding PublishPath}"
+                                             PlaceholderText="./publish"/>
+                                    <Button Grid.Column="1" Content="{DynamicResource Button_Browse}" Margin="8,0,0,0"
+                                            Command="{Binding BrowsePublishPathCommand}"/>
+                                </Grid>
+                            </StackPanel>
+
+                            <!-- Single File Publish -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="{DynamicResource DotNet_SingleFilePublish}" FontWeight="Medium"/>
+                                    <TextBlock Text="{DynamicResource DotNet_SingleFileDesc}" FontSize="12" Opacity="0.7"/>
+                                </StackPanel>
+                                <CheckBox Grid.Column="1" IsChecked="{Binding SingleFilePublish}"
+                                          VerticalAlignment="Center"/>
+                            </Grid>
+
+                            <!-- Self-Contained Publish -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="{DynamicResource DotNet_SelfContainedPublish}" FontWeight="Medium"/>
+                                    <TextBlock Text="{DynamicResource DotNet_SelfContainedDesc}" FontSize="12" Opacity="0.7"/>
+                                </StackPanel>
+                                <CheckBox Grid.Column="1" IsChecked="{Binding SelfContainedPublish}"
+                                          VerticalAlignment="Center"/>
+                            </Grid>
+
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Tags Section -->
+                    <TextBlock Text="{DynamicResource Generic_Tags}" FontSize="14" FontWeight="Medium"
+                               Margin="0,8,0,4" Opacity="0.8"/>
+
+                    <Border Padding="16" Margin="0,0,0,16"
+                            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                            BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="1" CornerRadius="8">
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="{DynamicResource DotNet_TagsDesc}" FontSize="12" Opacity="0.7"/>
+                            <TextBox Text="{Binding TagsString}"
+                                     PlaceholderText="{DynamicResource DotNet_TagsPlaceholder}"
+                                     AcceptsReturn="True" TextWrapping="Wrap" MinHeight="60"/>
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Action Buttons -->
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right"
+                        Spacing="8" Margin="0,16,0,0">
+                <Button Content="{DynamicResource DotNet_DeleteProject}"
+                        Command="{Binding DeleteCommand}"
+                        Classes="caution"/>
+                <Button Content="{DynamicResource Button_Cancel}"
+                        Command="{Binding CancelCommand}"/>
+                <Button Content="{DynamicResource Button_Save}"
+                        Command="{Binding SaveCommand}"
+                        Classes="accent"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

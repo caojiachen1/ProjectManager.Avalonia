@@ -1,0 +1,136 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ProjectManager.Avalonia.ViewModels.Dialogs"
+        xmlns:models="using:ProjectManager.Avalonia.Models"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="650" d:DesignHeight="500"
+        x:Class="ProjectManager.Avalonia.Views.Dialogs.EnvironmentVariablesWindow"
+        x:CompileBindings="False"
+        Title="{DynamicResource EnvVarDialog_Title}"
+        Width="650" Height="620"
+        MinWidth="550" MinHeight="500"
+        Background="#202020"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        CanResize="True">
+
+    <Design.DataContext>
+        <vm:EnvironmentVariablesDialogViewModel/>
+    </Design.DataContext>
+
+    <Border Background="#202020"
+            Padding="20">
+        <Grid RowDefinitions="Auto,Auto,*,Auto,Auto">
+
+            <!-- Header -->
+            <StackPanel Grid.Row="0" Spacing="4" Margin="0,0,0,12">
+                <TextBlock Text="{DynamicResource EnvVarDialog_Title}" FontSize="20" FontWeight="SemiBold"/>
+                <TextBlock FontSize="13" Opacity="0.6">
+                    <TextBlock.Text>
+                        <Binding Path="Project.Name" StringFormat="项目: {0}"/>
+                    </TextBlock.Text>
+                </TextBlock>
+            </StackPanel>
+
+            <!-- Search Bar -->
+            <Border Grid.Row="1" Padding="8" Margin="0,0,0,8"
+                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1" CornerRadius="8">
+                <Grid ColumnDefinitions="Auto,*">
+                    <TextBlock Grid.Column="0"
+                               Text="&#xE721;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                               Opacity="0.5" VerticalAlignment="Center" Margin="4,0,8,0"
+                               IsHitTestVisible="False"/>
+                    <TextBox Grid.Column="1"
+                             Text="{Binding SearchText, Mode=TwoWay}"
+                             PlaceholderText="{DynamicResource EnvVarDialog_Search}"
+                             Background="Transparent" BorderThickness="0"/>
+                </Grid>
+            </Border>
+
+            <!-- DataGrid -->
+            <Border Grid.Row="2"
+                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1" CornerRadius="8">
+                <DataGrid Classes="clean"
+                          ItemsSource="{Binding FilteredVariables}"
+                          SelectedItem="{Binding SelectedVariable, Mode=TwoWay}"
+                          AutoGenerateColumns="False"
+                          CanUserResizeColumns="True"
+                          GridLinesVisibility="None"
+                          HeadersVisibility="Column"
+                          IsReadOnly="False"
+                          SelectionMode="Single">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="{DynamicResource EnvVarDialog_Enabled}" Width="60">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="models:EnvironmentVariable">
+                                    <CheckBox IsChecked="{Binding IsEnabled, Mode=TwoWay}"
+                                              HorizontalAlignment="Center"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="{DynamicResource Common_Name}" Width="180"
+                                            Binding="{Binding Name}"
+                                            IsReadOnly="True"/>
+                        <DataGridTextColumn Header="{DynamicResource Common_Value}" Width="*"
+                                            Binding="{Binding Value}"
+                                            IsReadOnly="True"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Border>
+
+            <!-- Add Form -->
+            <Border Grid.Row="3" Padding="12" Margin="0,8,0,0"
+                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1" CornerRadius="8">
+                <Grid ColumnDefinitions="Auto,*,*,Auto" RowDefinitions="Auto">
+                    <TextBlock Grid.Column="0" Text="{DynamicResource EnvVarDialog_AddLabel}" VerticalAlignment="Center"
+                               FontWeight="SemiBold" FontSize="13" Margin="0,0,8,0"/>
+                    <TextBox Grid.Column="1"
+                             Text="{Binding NewVariableName, Mode=TwoWay}"
+                             PlaceholderText="{DynamicResource EnvVarDialog_NamePlaceholder}"
+                             Margin="0,0,8,0"/>
+                    <TextBox Grid.Column="2"
+                             Text="{Binding NewVariableValue, Mode=TwoWay}"
+                             PlaceholderText="{DynamicResource EnvVarDialog_ValuePlaceholder}"
+                             Margin="0,0,8,0"/>
+                    <Button Grid.Column="3"
+                            Content="{DynamicResource EnvVarDialog_Add}"
+                            Command="{Binding AddVariableCommand}"/>
+                </Grid>
+            </Border>
+
+            <!-- Action Buttons -->
+            <Grid Grid.Row="4" Margin="0,12,0,0"
+                  ColumnDefinitions="Auto,*,Auto">
+                <!-- Left: Remove / Clear -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8">
+                    <Button Content="{DynamicResource EnvVarDialog_DeleteSelected}"
+                            Command="{Binding RemoveSelectedVariableCommand}"
+                            IsEnabled="{Binding SelectedVariable, Converter={x:Static ObjectConverters.IsNotNull}}"
+                            FontSize="12"/>
+                    <Button Content="{DynamicResource EnvVarDialog_ClearAll}"
+                            Command="{Binding ClearAllVariablesCommand}"
+                            FontSize="12"/>
+                </StackPanel>
+
+                <!-- Right: OK / Cancel -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8">
+                    <Button Content="{DynamicResource Button_Cancel}"
+                            Click="OnCancelClick"
+                            MinWidth="80"/>
+                    <Button Content="{DynamicResource Button_OK}"
+                            Click="OnOkClick"
+                            MinWidth="80"
+                            Classes="accent"/>
+                </StackPanel>
+            </Grid>
+
+        </Grid>
+    </Border>
+</Window>

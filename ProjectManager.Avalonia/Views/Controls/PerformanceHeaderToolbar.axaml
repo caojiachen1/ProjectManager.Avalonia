@@ -1,0 +1,48 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="ProjectManager.Avalonia.Views.Controls.PerformanceHeaderToolbar"
+             x:CompileBindings="False">
+
+    <Border Padding="12,8"
+            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+            BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+            BorderThickness="0,0,0,1">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Refresh button -->
+            <Button Grid.Column="0"
+                    Command="{Binding $parent[UserControl].DataContext.RefreshNowCommand}"
+                    ToolTip.Tip="{DynamicResource Performance_Refresh}">
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <TextBlock Text="&#xE72C;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Text="{DynamicResource Performance_Refresh}" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <!-- Status message -->
+            <TextBlock Grid.Column="1"
+                       Text="{Binding $parent[UserControl].DataContext.StatusMessage}"
+                       FontSize="13" Opacity="0.6"
+                       VerticalAlignment="Center"
+                       Margin="16,0,16,0"
+                       TextTrimming="CharacterEllipsis"/>
+
+            <!-- Last updated time -->
+            <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6"
+                        VerticalAlignment="Center">
+                <TextBlock Text="&#xE823;" FontFamily="Segoe Fluent Icons" FontSize="12"
+                           Opacity="0.5" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding $parent[UserControl].DataContext.LastUpdated, StringFormat='{}{0:HH:mm:ss}'}"
+                           FontSize="12" Opacity="0.5"
+                           VerticalAlignment="Center"/>
+            </StackPanel>
+
+        </Grid>
+    </Border>
+</UserControl>

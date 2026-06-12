@@ -1,0 +1,132 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ProjectManager.Avalonia.ViewModels.Dialogs"
+        x:Class="ProjectManager.Avalonia.Views.Dialogs.GenericProjectSettingsWindow"
+        x:CompileBindings="False"
+        Title="{DynamicResource Generic_SettingsTitle}"
+        Width="600" Height="680"
+        MinWidth="500" MinHeight="550"
+        Background="#202020"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        CanResize="True">
+
+    <Border Padding="24"
+            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+            BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1" CornerRadius="8" Margin="16">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Title -->
+            <TextBlock Grid.Row="0" Text="{DynamicResource Generic_SettingsTitle}"
+                       FontSize="22" FontWeight="Bold" Margin="0,0,0,16"/>
+
+            <!-- Form -->
+            <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled"
+                          VerticalScrollBarVisibility="Auto">
+                <StackPanel Spacing="12">
+
+                    <!-- Project Name -->
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="{DynamicResource Generic_ProjectName}" FontWeight="Medium"/>
+                        <TextBox Text="{Binding ProjectName}" PlaceholderText="{DynamicResource Generic_ProjectNamePlaceholder}"/>
+                    </StackPanel>
+
+                    <!-- Description -->
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="{DynamicResource Generic_ProjectDescription}" FontWeight="Medium"/>
+                        <TextBox Text="{Binding ProjectDescription}" PlaceholderText="{DynamicResource Generic_ProjectDescriptionPlaceholder}"
+                                 AcceptsReturn="True" TextWrapping="Wrap" MinHeight="60"/>
+                    </StackPanel>
+
+                    <!-- Local Path -->
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="{DynamicResource Generic_LocalPath}" FontWeight="Medium"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" Text="{Binding LocalPath}"
+                                     PlaceholderText="{DynamicResource Generic_LocalPathPlaceholder}"/>
+                            <Button Grid.Column="1" Content="{DynamicResource Button_Browse}" Margin="8,0,0,0"
+                                    Command="{Binding BrowseLocalPathCommand}"/>
+                        </Grid>
+                    </StackPanel>
+
+                    <!-- Working Directory -->
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="{DynamicResource Generic_WorkingDirectory}" FontWeight="Medium"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" Text="{Binding WorkingDirectory}"
+                                     PlaceholderText="{DynamicResource Generic_WorkingDirectoryPlaceholder}"/>
+                            <Button Grid.Column="1" Content="{DynamicResource Button_Browse}" Margin="8,0,0,0"
+                                    Command="{Binding BrowseWorkingDirectoryCommand}"/>
+                        </Grid>
+                    </StackPanel>
+
+                    <!-- Framework -->
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="{DynamicResource ProjectSettings_Framework}" FontWeight="Medium"/>
+                        <ComboBox ItemsSource="{Binding AvailableFrameworks}"
+                                  SelectedItem="{Binding Framework}"
+                                  PlaceholderText="{DynamicResource Generic_FrameworkPlaceholder}"
+                                  HorizontalAlignment="Stretch"/>
+                    </StackPanel>
+
+                    <!-- Start Command -->
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="{DynamicResource Generic_StartCommand}" FontWeight="Medium"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" Text="{Binding StartCommand}"
+                                     PlaceholderText="{DynamicResource Generic_StartCommandPlaceholder}"/>
+                            <ComboBox Grid.Column="1" Margin="8,0,0,0" Width="140"
+                                      ItemsSource="{Binding FrameworkCommands}"
+                                      PlaceholderText="{DynamicResource Generic_TemplatesPlaceholder}"
+                                      SelectionChanged="FrameworkCommand_SelectionChanged"/>
+                        </Grid>
+                    </StackPanel>
+
+                    <!-- Auto Start -->
+                    <CheckBox Content="{DynamicResource Generic_AutoStart}"
+                              IsChecked="{Binding AutoStart}"/>
+
+                    <!-- Tags -->
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="{DynamicResource Generic_Tags}" FontWeight="Medium"/>
+                        <TextBox Text="{Binding TagsString}"
+                                 PlaceholderText="{DynamicResource Generic_TagsPlaceholder}"/>
+                    </StackPanel>
+
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Action Buttons -->
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right"
+                        Spacing="8" Margin="0,16,0,0">
+                <Button Content="{DynamicResource Generic_DeleteProject}"
+                        Command="{Binding DeleteCommand}"
+                        IsVisible="{Binding IsEditing}"
+                        Classes="caution"/>
+                <Button Content="{DynamicResource Generic_Cancel}"
+                        Command="{Binding CancelCommand}"/>
+                <Button Content="{DynamicResource Generic_Save}"
+                        Command="{Binding SaveCommand}"
+                        Classes="accent"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

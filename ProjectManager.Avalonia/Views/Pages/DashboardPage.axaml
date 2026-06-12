@@ -1,0 +1,171 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="ProjectManager.Avalonia.Views.Pages.DashboardPage"
+             xmlns:vm="using:ProjectManager.Avalonia.ViewModels.Pages"
+             xmlns:models="using:ProjectManager.Avalonia.Models"
+             x:DataType="vm:DashboardViewModel">
+
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+        <Grid Margin="24,12">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- 页面标题 -->
+            <StackPanel Grid.Row="0" Margin="0,16,0,24">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <TextBlock Text="&#xE80F;" FontSize="24" FontFamily="Segoe Fluent Icons" VerticalAlignment="Center"/>
+                    <TextBlock Text="{DynamicResource Nav_Dashboard}" FontSize="24" FontWeight="Bold" VerticalAlignment="Center"/>
+                </StackPanel>
+                <TextBlock Text="{DynamicResource Dashboard_Subtitle}" FontSize="13" Opacity="0.6" Margin="0,4,0,0"/>
+            </StackPanel>
+
+            <!-- 统计卡片 -->
+            <Grid Grid.Row="1" Margin="0,0,0,24">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- 总项目数 -->
+                <Border Grid.Column="0" Margin="0,0,8,0" Padding="16"
+                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1" CornerRadius="8">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8" Spacing="8">
+                            <TextBlock Text="&#xE71D;" FontSize="24" Opacity="0.7" FontFamily="Segoe Fluent Icons"/>
+                            <TextBlock Text="{DynamicResource Dashboard_TotalProjects}" FontSize="14" Opacity="0.7" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <TextBlock Text="{Binding TotalProjects}" FontSize="28" FontWeight="Bold"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- 运行中项目 -->
+                <Border Grid.Column="1" Margin="8,0,8,0" Padding="16"
+                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1" CornerRadius="8">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8" Spacing="8">
+                            <TextBlock Text="&#xE768;" FontSize="24" Foreground="Green" FontFamily="Segoe Fluent Icons"/>
+                            <TextBlock Text="{DynamicResource Dashboard_Running}" FontSize="14" Opacity="0.7" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <TextBlock Text="{Binding RunningProjects}" FontSize="28" FontWeight="Bold" Foreground="Green"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- 已停止项目 -->
+                <Border Grid.Column="2" Margin="8,0,8,0" Padding="16"
+                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1" CornerRadius="8">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8" Spacing="8">
+                            <TextBlock Text="&#xE71A;" FontSize="24" Opacity="0.7" FontFamily="Segoe Fluent Icons"/>
+                            <TextBlock Text="{DynamicResource Dashboard_Stopped}" FontSize="14" Opacity="0.7" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <TextBlock Text="{Binding StoppedProjects}" FontSize="28" FontWeight="Bold"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- 错误项目 -->
+                <Border Grid.Column="3" Margin="8,0,0,0" Padding="16"
+                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1" CornerRadius="8">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8" Spacing="8">
+                            <TextBlock Text="&#xEA39;" FontSize="24" Foreground="Red" FontFamily="Segoe Fluent Icons"/>
+                            <TextBlock Text="{DynamicResource Dashboard_Error}" FontSize="14" Opacity="0.7" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <TextBlock Text="{Binding ErrorProjects}" FontSize="28" FontWeight="Bold" Foreground="Red"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- 快速操作 -->
+            <Border Grid.Row="2" Padding="16" Margin="0,0,0,24"
+                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1" CornerRadius="8">
+                <StackPanel>
+                    <TextBlock Text="{DynamicResource Dashboard_QuickActions}" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,16"/>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button Content="{DynamicResource Dashboard_NewProject}"
+                                Command="{Binding CreateProjectCommand}"
+                                Classes="accent"/>
+                        <Button Content="{DynamicResource Dashboard_GitClone}"
+                                Command="{Binding GitCloneCommand}"/>
+                        <Button Content="{DynamicResource Dashboard_ViewAllProjects}"
+                                Command="{Binding ViewAllProjectsCommand}"/>
+                        <Button Content="{DynamicResource Dashboard_StopAllProjects}"
+                                Command="{Binding StopAllProjectsCommand}"
+                                Classes="caution"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- 最近项目 -->
+            <Border Grid.Row="3" Padding="16"
+                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1" CornerRadius="8">
+                <StackPanel>
+                    <TextBlock Text="{DynamicResource Dashboard_RecentProjects}" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,16"/>
+                    <ItemsControl ItemsSource="{Binding RecentProjects}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="models:Project">
+                                <Border BorderBrush="{DynamicResource ControlElevationBorderBrush}"
+                                        BorderThickness="1"
+                                        CornerRadius="4"
+                                        Margin="0,0,0,8"
+                                        Padding="12">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="{Binding Name}" FontWeight="SemiBold"/>
+                                            <TextBlock Text="{Binding Description}" Opacity="0.7" FontSize="12"/>
+                                            <TextBlock Text="{Binding LastModifiedDisplay}" Opacity="0.5" FontSize="11"/>
+                                        </StackPanel>
+
+                                        <Border Grid.Column="1"
+                                                Background="{Binding Status, Converter={StaticResource StatusToBadgeConverter}}"
+                                                CornerRadius="4" Padding="8,2"
+                                                Margin="8,0" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding StatusDisplay}" FontSize="12"/>
+                                        </Border>
+
+                                        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="4">
+                                            <Button Content="&#xE768;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                                                    Command="{Binding $parent[ItemsControl].((vm:DashboardViewModel)DataContext).StartProjectCommand}"
+                                                    CommandParameter="{Binding}"
+                                                    IsEnabled="{Binding Status, Converter={StaticResource StatusToStartEnabledConverter}}"
+                                                    ToolTip.Tip="{DynamicResource Dashboard_StartProject}"/>
+                                            <Button Content="&#xE71A;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                                                    Command="{Binding $parent[ItemsControl].((vm:DashboardViewModel)DataContext).StopProjectCommand}"
+                                                    CommandParameter="{Binding}"
+                                                    IsEnabled="{Binding Status, Converter={StaticResource StatusToStopEnabledConverter}}"
+                                                    ToolTip.Tip="{DynamicResource Dashboard_StopProject}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

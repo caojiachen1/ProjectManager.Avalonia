@@ -1,0 +1,234 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ProjectManager.Avalonia.ViewModels.Dialogs"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="600"
+        x:Class="ProjectManager.Avalonia.Views.Dialogs.GitManagementWindow"
+        x:DataType="vm:GitManagementDialogViewModel"
+        x:CompileBindings="False"
+        Title="{DynamicResource Git_Title}"
+        Width="700" Height="720"
+        MinWidth="550" MinHeight="550"
+        Background="#202020"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False">
+
+    <Design.DataContext>
+        <vm:GitManagementDialogViewModel/>
+    </Design.DataContext>
+
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <!-- Repository selector (visible when multiple repos) -->
+        <Border Grid.Row="0" Margin="16,16,16,8" Padding="12"
+                IsVisible="{Binding HasMultipleRepositories}"
+                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1" CornerRadius="8">
+            <StackPanel>
+                <TextBlock Text="{DynamicResource Git_RepoSelection}" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                <ComboBox ItemsSource="{Binding AvailableRepositories}"
+                          SelectedItem="{Binding SelectedRepository}"
+                          HorizontalAlignment="Stretch">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding DisplayName}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+        </Border>
+
+        <!-- Main scrollable content -->
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="16,8,16,8">
+
+                <!-- Git Info Section -->
+                <Border Padding="16" Margin="0,0,0,12"
+                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1" CornerRadius="8">
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource Git_RepoStatus}" FontWeight="SemiBold" FontSize="14" Margin="0,0,0,10"/>
+
+                        <!-- Current Branch -->
+                        <Grid ColumnDefinitions="120,*" Margin="0,0,0,6">
+                            <TextBlock Text="{DynamicResource Git_CurrentBranch}" Opacity="0.7" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1"
+                                       Text="{Binding GitInfo.CurrentBranch}"
+                                       FontWeight="SemiBold" VerticalAlignment="Center"/>
+                        </Grid>
+
+                        <!-- Status -->
+                        <Grid ColumnDefinitions="120,*" Margin="0,0,0,6">
+                            <TextBlock Text="{DynamicResource Git_Status}" Opacity="0.7" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1"
+                                       Text="{Binding GitInfo.StatusDisplay}"
+                                       VerticalAlignment="Center"/>
+                        </Grid>
+
+                        <!-- Remote URL -->
+                        <Grid ColumnDefinitions="120,*" Margin="0,0,0,6">
+                            <TextBlock Text="{DynamicResource Git_RemoteUrl}" Opacity="0.7" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1"
+                                       Text="{Binding GitInfo.RemoteUrl}"
+                                       TextTrimming="CharacterEllipsis"
+                                       VerticalAlignment="Center"/>
+                        </Grid>
+
+                        <!-- Last Commit -->
+                        <Grid ColumnDefinitions="120,*" Margin="0,0,0,6">
+                            <TextBlock Text="{DynamicResource Git_LastCommit}" Opacity="0.7" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1"
+                                       Text="{Binding GitInfo.LastCommitDateDisplay}"
+                                       VerticalAlignment="Center"/>
+                        </Grid>
+
+                        <!-- Refresh button -->
+                        <Button Content="{DynamicResource Git_RefreshStatus}"
+                                Command="{Binding RefreshGitInfoCommand}"
+                                HorizontalAlignment="Left" Margin="0,8,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Actions Section -->
+                <Border Padding="16" Margin="0,0,0,12"
+                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1" CornerRadius="8">
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource Git_BasicOps}" FontWeight="SemiBold" FontSize="14" Margin="0,0,0,10"/>
+
+                        <!-- Init repo (when not a git repo) -->
+                        <Button Content="{DynamicResource Git_InitRepo}"
+                                Command="{Binding InitializeRepositoryCommand}"
+                                IsVisible="{Binding GitInfo.IsGitRepository, Converter={x:Static BoolConverters.Not}}"
+                                Classes="accent"
+                                HorizontalAlignment="Left"
+                                Margin="0,0,0,8"/>
+
+                        <!-- Action buttons (when git repo) -->
+                        <WrapPanel IsVisible="{Binding GitInfo.IsGitRepository}"
+                                   Orientation="Horizontal">
+                            <Button Content="{DynamicResource Git_AddAll}"
+                                    Command="{Binding AddAllFilesCommand}"
+                                    Margin="0,0,8,8"/>
+                            <Button Content="{DynamicResource Git_Push}"
+                                    Command="{Binding PushCommand}"
+                                    Margin="0,0,8,8"/>
+                            <Button Content="{DynamicResource Git_Pull}"
+                                    Command="{Binding PullCommand}"
+                                    Margin="0,0,8,8"/>
+                        </WrapPanel>
+
+                        <!-- Commit section -->
+                        <StackPanel IsVisible="{Binding GitInfo.IsGitRepository}" Margin="0,4,0,0">
+                            <TextBlock Text="{DynamicResource Git_CommitChanges}" Opacity="0.7" Margin="0,0,0,4"/>
+                            <Grid ColumnDefinitions="*,Auto">
+                                <TextBox Text="{Binding CommitMessage}"
+                                         Watermark="{DynamicResource Git_CommitMsgPlaceholder}"
+                                         AcceptsReturn="False"
+                                         HorizontalAlignment="Stretch"/>
+                                <Button Grid.Column="1"
+                                        Content="{DynamicResource Git_Commit}"
+                                        Command="{Binding CommitCommand}"
+                                        Margin="8,0,0,0"/>
+                            </Grid>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Branch Management Section -->
+                <Border Padding="16" Margin="0,0,0,12"
+                        IsVisible="{Binding GitInfo.IsGitRepository}"
+                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1" CornerRadius="8">
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource Git_BranchMgmt}" FontWeight="SemiBold" FontSize="14" Margin="0,0,0,10"/>
+
+                        <!-- Current branch display -->
+                        <Grid ColumnDefinitions="120,*" Margin="0,0,0,8">
+                            <TextBlock Text="{DynamicResource Git_CurrentBranchLabel}" Opacity="0.7" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1"
+                                       Text="{Binding GitInfo.CurrentBranch}"
+                                       FontWeight="SemiBold" VerticalAlignment="Center"/>
+                        </Grid>
+
+                        <!-- Switch branch -->
+                        <TextBlock Text="{DynamicResource Git_SwitchBranch}" Opacity="0.7" Margin="0,0,0,4"/>
+                        <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,8">
+                            <ComboBox ItemsSource="{Binding AvailableBranches}"
+                                      SelectedItem="{Binding SelectedBranch}"
+                                      HorizontalAlignment="Stretch"/>
+                            <Button Grid.Column="1"
+                                    Content="{DynamicResource Git_SwitchBranch}"
+                                    Command="{Binding SwitchBranchCommand}"
+                                    Margin="8,0,0,0"/>
+                        </Grid>
+
+                        <!-- Create new branch -->
+                        <TextBlock Text="{DynamicResource Git_CreateNewBranch}" Opacity="0.7" Margin="0,0,0,4"/>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBox Text="{Binding NewBranchName}"
+                                     Watermark="{DynamicResource Git_NewBranchPlaceholder}"
+                                     HorizontalAlignment="Stretch"/>
+                            <Button Grid.Column="1"
+                                    Content="{DynamicResource Git_CreateBranch}"
+                                    Command="{Binding CreateBranchCommand}"
+                                    Margin="8,0,0,0"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Remote Section -->
+                <Border Padding="16" Margin="0,0,0,12"
+                        IsVisible="{Binding GitInfo.IsGitRepository}"
+                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1" CornerRadius="8">
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource Git_RemoteRepo}" FontWeight="SemiBold" FontSize="14" Margin="0,0,0,10"/>
+                        <TextBlock Text="{DynamicResource Git_RemoteUrl}" Opacity="0.7" Margin="0,0,0,4"/>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBox Text="{Binding RemoteUrl}"
+                                     Watermark="{DynamicResource Git_RemoteUrlPlaceholder}"
+                                     HorizontalAlignment="Stretch"/>
+                            <Button Grid.Column="1"
+                                    Content="{DynamicResource Git_SetRemote}"
+                                    Command="{Binding SetRemoteUrlCommand}"
+                                    Margin="8,0,0,0"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Bottom bar: Loading indicator + Close button -->
+        <Border Grid.Row="2" Padding="16,8"
+                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                BorderThickness="0,1,0,0">
+            <Grid ColumnDefinitions="*,Auto">
+                <!-- Loading indicator -->
+                <StackPanel Orientation="Horizontal"
+                            IsVisible="{Binding IsLoading}"
+                            VerticalAlignment="Center">
+                    <ProgressBar IsIndeterminate="True"
+                                 Width="120" Height="4"
+                                 Margin="0,0,8,0"/>
+                    <TextBlock Text="{DynamicResource Common_Loading}" Opacity="0.7" VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <!-- Close button -->
+                <Button Grid.Column="1"
+                        Content="{DynamicResource Button_Close}"
+                        x:Name="CloseButton"
+                        Click="OnCloseClick"
+                        MinWidth="80"/>
+            </Grid>
+        </Border>
+
+    </Grid>
+</Window>

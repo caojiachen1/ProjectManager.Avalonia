@@ -1,0 +1,217 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:ProjectManager.Avalonia.ViewModels.Pages"
+             xmlns:models="using:ProjectManager.Avalonia.Models"
+             xmlns:controls="using:ProjectManager.Avalonia.Views.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ProjectManager.Avalonia.Views.Pages.ProjectsPage"
+             x:CompileBindings="False">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- 页面标题 -->
+        <StackPanel Grid.Row="0" Margin="24,28,24,8">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBlock Text="&#xE8B7;" FontSize="24" FontFamily="Segoe Fluent Icons" VerticalAlignment="Center"/>
+                <TextBlock Text="{DynamicResource Nav_Projects}" FontSize="24" FontWeight="Bold" VerticalAlignment="Center"/>
+            </StackPanel>
+            <TextBlock Text="{DynamicResource Projects_Subtitle}" FontSize="13" Opacity="0.6" Margin="0,4,0,0"/>
+        </StackPanel>
+
+        <!-- 工具栏：搜索、状态过滤、新建/克隆/刷新按钮 -->
+        <controls:ProjectsHeaderToolbar Grid.Row="1" DataContext="{Binding}"/>
+
+        <!-- Project cards list -->
+        <ScrollViewer Grid.Row="2" HorizontalScrollBarVisibility="Disabled"
+                      IsVisible="{Binding HasProjects}">
+            <ItemsControl ItemsSource="{Binding FilteredProjects}"
+                          Margin="24,12">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <!-- Project Card (matching WPF original layout) -->
+                        <Border Margin="0,4,4,0" Padding="14,16" Width="450" MaxHeight="380"
+                                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="1" CornerRadius="12">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Row 0: Project name + action icons -->
+                                <Grid Grid.Row="0" Margin="0,0,0,8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0"
+                                               Text="{Binding Name}"
+                                               FontSize="18" FontWeight="SemiBold"
+                                               VerticalAlignment="Center"
+                                               TextTrimming="CharacterEllipsis"
+                                               ToolTip.Tip="{Binding Name}"/>
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="2">
+                                        <Button Width="28" Height="28" Padding="0"
+                                                Background="Transparent" BorderThickness="0"
+                                                ToolTip.Tip="{DynamicResource Projects_OpenInExplorer}"
+                                                Click="OpenInExplorer_Click">
+                                            <TextBlock Text="&#xE838;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Button>
+                                        <Button Width="28" Height="28" Padding="0"
+                                                Background="Transparent" BorderThickness="0"
+                                                ToolTip.Tip="{DynamicResource Projects_DeleteProject}"
+                                                Click="DeleteProject_Click">
+                                            <TextBlock Text="&#xE74D;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                                                       Foreground="Red"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
+
+                                <!-- Row 1: Description -->
+                                <TextBlock Grid.Row="1"
+                                           Text="{Binding Description}"
+                                           TextWrapping="Wrap" Opacity="0.8"
+                                           Margin="0,0,0,8" MaxHeight="120"/>
+
+                                <!-- Row 2: Status badge + Git info + Framework + Plugin button -->
+                                <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,8" Spacing="8">
+                                    <!-- Status Badge -->
+                                    <Border CornerRadius="4" Padding="8,2" VerticalAlignment="Center"
+                                            Background="#40808080">
+                                        <TextBlock Text="{Binding StatusDisplay}" FontSize="11" Foreground="White"/>
+                                    </Border>
+
+                                    <!-- Git info (visible when project has Git repo) -->
+                                    <StackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center"
+                                                IsVisible="{Binding GitInfo.IsGitRepository}">
+                                        <TextBlock Text="&#xE72B;" FontFamily="Segoe Fluent Icons" FontSize="12"
+                                                   Foreground="Green" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{Binding GitInfo.CurrentBranch}" FontSize="11"
+                                                   Opacity="0.7" VerticalAlignment="Center"/>
+                                    </StackPanel>
+
+                                    <!-- Framework name -->
+                                    <TextBlock Text="{Binding Framework, Converter={StaticResource FrameworkToLocalizedNameConverter}}"
+                                               Opacity="0.6" VerticalAlignment="Center"/>
+
+                                    <!-- ComfyUI plugin management button -->
+                                    <Button Width="28" Height="28" Padding="0"
+                                            Background="Transparent" BorderThickness="0"
+                                            ToolTip.Tip="{DynamicResource Projects_ManageComfyUIPlugins}"
+                                            Command="{Binding $parent[UserControl].DataContext.ManageComfyUIPluginsCommand}"
+                                            CommandParameter="{Binding}"
+                                            IsVisible="{Binding Framework, Converter={StaticResource ComfyUIFrameworkToVisibilityConverter}}">
+                                        <TextBlock Text="&#xEA86;" FontFamily="Segoe Fluent Icons" FontSize="16"
+                                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Button>
+                                </StackPanel>
+
+                                <!-- Row 3: Local path -->
+                                <TextBlock Grid.Row="3"
+                                           Text="{Binding LocalPath}"
+                                           FontSize="12" Opacity="0.6"
+                                           TextTrimming="CharacterEllipsis"
+                                           Margin="0,0,0,8"/>
+
+                                <!-- Row 4: Last modified -->
+                                <TextBlock Grid.Row="4"
+                                           Text="{Binding LastModifiedDisplay}"
+                                           FontSize="11" Opacity="0.5"
+                                           Margin="0,0,0,8"/>
+
+                                <!-- Row 5: Spacer -->
+                                <Grid Grid.Row="5"/>
+
+                                <!-- Row 6: Action buttons -->
+                                <WrapPanel Grid.Row="6" Orientation="Horizontal">
+                                    <!-- Toggle (Start/Stop) button -->
+                                    <Button Margin="0,0,4,4"
+                                            Content="{Binding Status, Converter={StaticResource StatusToToggleButtonTextConverter}}"
+                                            Command="{Binding $parent[UserControl].DataContext.ToggleProjectCommand}"
+                                            CommandParameter="{Binding}"
+                                            IsEnabled="{Binding Status, Converter={StaticResource StatusToToggleButtonEnabledConverter}}"/>
+
+                                    <!-- Git button -->
+                                    <Button Content="Git" Margin="0,0,4,4"
+                                            Command="{Binding $parent[UserControl].DataContext.ManageGitCommand}"
+                                            CommandParameter="{Binding}"
+                                            IsVisible="{Binding ., Converter={StaticResource HasGitRepositoryToVisibilityConverter}}"/>
+
+                                    <!-- Environment Variables button -->
+                                    <Button Content="{DynamicResource Projects_EnvVars}" Margin="0,0,4,4"
+                                            Command="{Binding $parent[UserControl].DataContext.ManageEnvironmentVariablesCommand}"
+                                            CommandParameter="{Binding}"/>
+
+                                    <!-- Settings button -->
+                                    <Button Content="{DynamicResource Projects_Settings}" Margin="0,0,4,4"
+                                            Command="{Binding $parent[UserControl].DataContext.EditProjectCommand}"
+                                            CommandParameter="{Binding}"/>
+
+                                    <!-- Terminal button -->
+                                    <Button Content="{DynamicResource Projects_Terminal}" Margin="0,0,0,4"
+                                            Command="{Binding $parent[UserControl].DataContext.ViewLogsCommand}"
+                                            CommandParameter="{Binding}"/>
+                                </WrapPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <!-- Empty state overlay -->
+        <StackPanel Grid.Row="2" HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    IsVisible="{Binding HasProjects, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+            <TextBlock Text="&#xECAA;" FontFamily="Segoe Fluent Icons"
+                       FontSize="64" Opacity="0.3" HorizontalAlignment="Center"
+                       Margin="0,0,0,16"/>
+            <TextBlock Text="{DynamicResource Projects_NoProjects}" FontSize="18" Opacity="0.6"
+                       HorizontalAlignment="Center" Margin="0,0,0,8"/>
+            <TextBlock Text="{DynamicResource Projects_NoProjectsDesc}"
+                       Opacity="0.4" HorizontalAlignment="Center"
+                       TextAlignment="Center" Margin="0,0,0,16"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="8">
+                <Button Content="{DynamicResource Projects_NewProject}"
+                        Command="{Binding CreateProjectCommand}"
+                        Classes="accent"/>
+                <Button Content="{DynamicResource AddProject_CloneFrom}"
+                        Command="{Binding CloneFromGitCommand}"/>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Refreshing indicator -->
+        <Border Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top"
+                Padding="12,6" CornerRadius="4" Margin="0,8,0,0"
+                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                IsVisible="{Binding IsRefreshing}">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBlock Text="&#xE72C;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                           VerticalAlignment="Center"/>
+                <TextBlock Text="{DynamicResource Projects_Refreshing}" VerticalAlignment="Center" FontSize="12"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

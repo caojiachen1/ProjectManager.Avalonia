@@ -1,0 +1,147 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ProjectManager.Avalonia.ViewModels.Dialogs"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="650" d:DesignHeight="550"
+        x:Class="ProjectManager.Avalonia.Views.Dialogs.GitCloneWindow"
+        x:DataType="vm:GitCloneDialogViewModel"
+        x:CompileBindings="False"
+        Title="{DynamicResource Git_CloneTitle}"
+        Width="650" Height="680"
+        MinWidth="500" MinHeight="500"
+        Background="#202020"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False">
+
+    <Design.DataContext>
+        <vm:GitCloneDialogViewModel/>
+    </Design.DataContext>
+
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <!-- Top section: Clone configuration -->
+        <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"
+                       MaxHeight="280">
+            <StackPanel Margin="16,16,16,8">
+
+                <!-- Repository URL -->
+                <Border Padding="16" Margin="0,0,0,12"
+                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1" CornerRadius="8">
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource Git_RepoUrl}" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                        <TextBox Text="{Binding RepositoryUrl}"
+                                 Watermark="{DynamicResource Git_RepoUrlPlaceholder}"
+                                 HorizontalAlignment="Stretch"/>
+                        <!-- URL validation error -->
+                        <TextBlock Text="{Binding UrlValidationMessage}"
+                                   Foreground="{DynamicResource SystemFillColorCriticalBrush}"
+                                   IsVisible="{Binding HasUrlValidationError}"
+                                   TextWrapping="Wrap"
+                                   Margin="0,4,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Local path + Project name -->
+                <Border Padding="16" Margin="0,0,0,12"
+                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1" CornerRadius="8">
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource Git_LocalPath}" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBox Text="{Binding LocalPath}"
+                                     Watermark="{DynamicResource Git_LocalPathPlaceholder}"
+                                     HorizontalAlignment="Stretch"/>
+                            <Button Grid.Column="1"
+                                    Content="{DynamicResource Button_Browse}"
+                                    Command="{Binding BrowseLocalPathCommand}"
+                                    Margin="8,0,0,0"/>
+                        </Grid>
+
+                        <TextBlock Text="{DynamicResource NewProject_ProjectName}" FontWeight="SemiBold" Margin="0,10,0,6"/>
+                        <TextBox Text="{Binding ProjectName}"
+                                 Watermark="{DynamicResource NewProject_ProjectNamePlaceholder}"
+                                 HorizontalAlignment="Stretch"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Framework + Auto-add -->
+                <Border Padding="16" Margin="0,0,0,12"
+                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1" CornerRadius="8">
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource Git_Framework}" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                        <ComboBox ItemsSource="{Binding AvailableFrameworks}"
+                                  SelectedItem="{Binding SelectedFramework}"
+                                  HorizontalAlignment="Stretch"
+                                  Margin="0,0,0,10"/>
+
+                        <CheckBox Content="{DynamicResource Git_AutoAddToManager}"
+                                  IsChecked="{Binding AutoAddToManager}"/>
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Progress section -->
+        <Border Grid.Row="1" Margin="16,0,16,8" Padding="16"
+                IsVisible="{Binding IsCloning}"
+                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1" CornerRadius="8">
+            <Grid RowDefinitions="Auto,Auto,*">
+                <!-- Progress bar -->
+                <StackPanel Grid.Row="0" Margin="0,0,0,8">
+                    <ProgressBar Value="{Binding CloneProgressValue}"
+                                 Minimum="0" Maximum="100"
+                                 Height="6"
+                                 HorizontalAlignment="Stretch"/>
+                    <TextBlock Text="{Binding CloneStatusMessage}"
+                               Opacity="0.7" Margin="0,6,0,0"
+                               TextTrimming="CharacterEllipsis"/>
+                </StackPanel>
+
+                <!-- Status message -->
+                <TextBlock Grid.Row="1"
+                           Text="{DynamicResource Git_CloneLog}"
+                           FontWeight="SemiBold"
+                           Margin="0,0,0,4"/>
+
+                <!-- Log TextBox (read-only, scrollable) -->
+                <TextBox Grid.Row="2"
+                         Text="{Binding CloneLog, Mode=OneWay}"
+                         IsReadOnly="True"
+                         AcceptsReturn="True"
+                         HorizontalAlignment="Stretch"
+                         VerticalAlignment="Stretch"
+                         TextWrapping="Wrap"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
+            </Grid>
+        </Border>
+
+        <!-- Bottom bar: Buttons -->
+        <Border Grid.Row="2" Padding="16,8"
+                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                BorderThickness="0,1,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="{DynamicResource Button_Cancel}"
+                        x:Name="CancelButton"
+                        Click="OnCancelClick"
+                        MinWidth="80"
+                        Margin="0,0,8,0"/>
+                <Button Content="{DynamicResource Git_Clone}"
+                        Command="{Binding CloneCommand}"
+                        IsEnabled="{Binding CanClone}"
+                        Classes="accent"
+                        MinWidth="80"/>
+            </StackPanel>
+        </Border>
+
+    </Grid>
+</Window>

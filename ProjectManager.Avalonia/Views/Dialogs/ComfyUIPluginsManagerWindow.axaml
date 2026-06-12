@@ -1,0 +1,82 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ProjectManager.Avalonia.ViewModels.Dialogs"
+        xmlns:models="using:ProjectManager.Avalonia.Models"
+        x:Class="ProjectManager.Avalonia.Views.Dialogs.ComfyUIPluginsManagerWindow"
+        x:DataType="vm:ComfyUIPluginsManagerViewModel"
+        Title="{DynamicResource ComfyUI_PluginsTitle}"
+        Width="700" Height="620"
+        MinWidth="600" MinHeight="500"
+        Background="#202020"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        CanResize="True">
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header: CustomNodesPath + Refresh -->
+        <Border Grid.Row="0" Padding="12" Margin="0,0,0,12"
+                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1" CornerRadius="8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                    <TextBlock Text="{DynamicResource ComfyUI_CustomNodesDir}" FontWeight="SemiBold" FontSize="12" Opacity="0.7"/>
+                    <TextBlock Text="{Binding CustomNodesPath}" FontSize="13" Margin="0,2,0,0"
+                               TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding CustomNodesPath}"/>
+                </StackPanel>
+                <Button Grid.Column="1" Content="{DynamicResource Button_Refresh}" Margin="12,0,0,0"
+                        VerticalAlignment="Center"
+                        Command="{Binding RefreshCommand}"/>
+            </Grid>
+        </Border>
+
+        <!-- Plugins DataGrid -->
+        <DataGrid Grid.Row="1"
+                  ItemsSource="{Binding Plugins}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  CanUserSortColumns="True"
+                  CanUserResizeColumns="True"
+                  GridLinesVisibility="Horizontal"
+                  BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                  BorderThickness="1"
+                  CornerRadius="4">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="{DynamicResource ComfyUI_PluginName}" Binding="{Binding Name}" Width="160"/>
+                <DataGridTextColumn Header="{DynamicResource ComfyUI_PluginBranch}" Binding="{Binding Branch}" Width="90"/>
+                <DataGridTextColumn Header="{DynamicResource ComfyUI_PluginVersionId}" Binding="{Binding VersionId}" Width="70"/>
+                <DataGridTextColumn Header="{DynamicResource ComfyUI_PluginRemoteUrl}" Binding="{Binding RemoteUrl}" Width="180"/>
+                <DataGridTextColumn Header="{DynamicResource ComfyUI_PluginLastUpdate}" Binding="{Binding LastUpdated, StringFormat='{}{0:yyyy-MM-dd}'}" Width="100"/>
+                <DataGridTextColumn Header="{DynamicResource ComfyUI_PluginLastCommit}" Binding="{Binding LastCommitMessage}" Width="*"/>
+                <DataGridTemplateColumn Header="{DynamicResource ComfyUI_PluginActions}" Width="80">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="models:ComfyUIPluginInfo">
+                            <Button Content="{DynamicResource ComfyUI_PluginRemove}"
+                                    Command="{Binding $parent[DataGrid].((vm:ComfyUIPluginsManagerViewModel)DataContext).RemoveCommand}"
+                                    CommandParameter="{Binding}"
+                                    Classes="caution"
+                                    Padding="6,2"
+                                    FontSize="11"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Close Button -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right"
+                    Margin="0,12,0,0">
+            <Button Content="{DynamicResource Button_Close}" Click="CloseButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

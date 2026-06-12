@@ -1,0 +1,811 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="using:System">
+
+    <!-- 应用程序标题 -->
+    <system:String x:Key="AppTitle">通用项目管理器</system:String>
+    <system:String x:Key="Search">搜索</system:String>
+
+    <!-- 导航菜单 -->
+    <system:String x:Key="Nav_Dashboard">仪表板</system:String>
+    <system:String x:Key="Nav_Projects">项目管理</system:String>
+    <system:String x:Key="Nav_Terminal">终端控制台</system:String>
+    <system:String x:Key="Nav_Performance">性能监控</system:String>
+    <system:String x:Key="Nav_Environment">系统环境变量</system:String>
+    <system:String x:Key="Nav_Settings">设置</system:String>
+
+    <!-- 仪表板 -->
+    <system:String x:Key="Dashboard_TotalProjects">总项目</system:String>
+    <system:String x:Key="Dashboard_Running">运行中</system:String>
+    <system:String x:Key="Dashboard_Stopped">已停止</system:String>
+    <system:String x:Key="Dashboard_Error">错误</system:String>
+    <system:String x:Key="Dashboard_QuickActions">快速操作</system:String>
+    <system:String x:Key="Dashboard_NewProject">新建项目</system:String>
+    <system:String x:Key="Dashboard_GitClone">Git克隆</system:String>
+    <system:String x:Key="Dashboard_ViewAllProjects">查看所有项目</system:String>
+    <system:String x:Key="Dashboard_StopAllProjects">停止所有项目</system:String>
+    <system:String x:Key="Dashboard_RecentProjects">最近项目</system:String>
+    <system:String x:Key="Dashboard_Subtitle">项目概览与快速操作</system:String>
+    <system:String x:Key="Dashboard_StartProject">启动项目</system:String>
+    <system:String x:Key="Dashboard_StopProject">停止项目</system:String>
+    <system:String x:Key="Dashboard_OpenFolder">打开文件夹</system:String>
+
+    <!-- 项目状态 -->
+    <system:String x:Key="Status_Running">运行中</system:String>
+    <system:String x:Key="Status_Stopped">已停止</system:String>
+    <system:String x:Key="Status_Error">错误</system:String>
+    <system:String x:Key="Status_Starting">启动中</system:String>
+    <system:String x:Key="Status_Stopping">停止中</system:String>
+    <system:String x:Key="Status_Unknown">未知</system:String>
+
+    <!-- 过滤器 -->
+    <system:String x:Key="Filter_All">全部</system:String>
+
+    <!-- 框架 -->
+    <system:String x:Key="Framework_ComfyUI">ComfyUI</system:String>
+    <system:String x:Key="Framework_NodeJS">Node.js</system:String>
+    <system:String x:Key="Framework_DotNet">.NET</system:String>
+    <system:String x:Key="Framework_Other">其他</system:String>
+
+    <system:String x:Key="FrameworkDesc_ComfyUI">ComfyUI图像生成工作流</system:String>
+    <system:String x:Key="FrameworkDesc_NodeJS">Node.js JavaScript运行时</system:String>
+    <system:String x:Key="FrameworkDesc_DotNet">.NET应用程序</system:String>
+    <system:String x:Key="FrameworkDesc_Other">自定义项目类型</system:String>
+
+    <!-- Git 状态 -->
+    <system:String x:Key="GitStatus_Clean">干净</system:String>
+    <system:String x:Key="GitStatus_Modified">有修改</system:String>
+    <system:String x:Key="GitStatus_Staged">已暂存</system:String>
+    <system:String x:Key="GitStatus_Conflicted">有冲突</system:String>
+    <system:String x:Key="GitStatus_Untracked">有未跟踪文件</system:String>
+
+    <!-- 项目管理页面 -->
+    <system:String x:Key="Projects_AddProject">添加项目</system:String>
+    <system:String x:Key="Projects_RefreshAll">刷新全部</system:String>
+    <system:String x:Key="Projects_StopAll">停止全部</system:String>
+    <system:String x:Key="Projects_StartAll">启动全部</system:String>
+    <system:String x:Key="Projects_Settings">设置</system:String>
+    <system:String x:Key="Projects_OpenFolder">打开文件夹</system:String>
+    <system:String x:Key="Projects_OpenTerminal">打开终端</system:String>
+    <system:String x:Key="Projects_Delete">删除</system:String>
+    <system:String x:Key="Projects_NoProjects">还没有项目</system:String>
+    <system:String x:Key="Projects_NoProjectsDesc">点击'新建项目'开始创建您的第一个项目</system:String>
+    <system:String x:Key="Projects_NoProjectsHint">点击"添加项目"按钮添加您的第一个项目</system:String>
+    <system:String x:Key="Projects_DragToSort">按住拖动以排序</system:String>
+    <system:String x:Key="Projects_OpenInExplorer">在资源管理器中打开</system:String>
+    <system:String x:Key="Projects_DeleteProject">删除项目</system:String>
+    <system:String x:Key="Projects_ManageComfyUIPlugins">管理 ComfyUI 插件 (custom_nodes)</system:String>
+    <system:String x:Key="Projects_Git">Git</system:String>
+    <system:String x:Key="Projects_Subtitle">管理你的所有项目和仓库</system:String>
+    <system:String x:Key="Projects_Refreshing">刷新中...</system:String>
+    <system:String x:Key="Projects_EnvVars">环境变量</system:String>
+    <system:String x:Key="Projects_Terminal">终端</system:String>
+    <system:String x:Key="Projects_NewProject">新建项目</system:String>
+
+    <!-- 添加项目页面 -->
+    <system:String x:Key="AddProject_Title">添加新项目</system:String>
+    <system:String x:Key="AddProject_Name">项目名称</system:String>
+    <system:String x:Key="AddProject_NamePlaceholder">输入项目名称</system:String>
+    <system:String x:Key="AddProject_Description">项目描述</system:String>
+    <system:String x:Key="AddProject_DescriptionPlaceholder">输入项目描述（可选）</system:String>
+    <system:String x:Key="AddProject_Path">项目路径</system:String>
+    <system:String x:Key="AddProject_PathPlaceholder">选择项目路径</system:String>
+    <system:String x:Key="AddProject_Browse">浏览</system:String>
+    <system:String x:Key="AddProject_Framework">框架类型</system:String>
+    <system:String x:Key="AddProject_StartCommand">启动命令</system:String>
+    <system:String x:Key="AddProject_StartCommandPlaceholder">输入启动命令</system:String>
+    <system:String x:Key="AddProject_Add">添加</system:String>
+    <system:String x:Key="AddProject_Cancel">取消</system:String>
+
+    <!-- 性能监控页面 -->
+    <system:String x:Key="Performance_Title">性能监控</system:String>
+    <system:String x:Key="Performance_CPU">CPU</system:String>
+    <system:String x:Key="Performance_GPU">GPU</system:String>
+    <system:String x:Key="Performance_Memory">内存 (工作集)</system:String>
+    <system:String x:Key="Performance_Disk">磁盘使用</system:String>
+    <system:String x:Key="Performance_Network">网络</system:String>
+    <system:String x:Key="Performance_Refresh">刷新</system:String>
+    <system:String x:Key="Performance_AutoRefresh">自动刷新</system:String>
+    <system:String x:Key="Performance_Threads">线程数</system:String>
+    <system:String x:Key="Performance_PID">PID</system:String>
+    <system:String x:Key="Performance_StartTime">启动时间</system:String>
+    <system:String x:Key="Performance_Uptime">运行时长</system:String>
+    <system:String x:Key="Performance_OpenFolder">打开目录</system:String>
+    <system:String x:Key="Performance_NoProjects">当前没有可监控的项目</system:String>
+
+    <!-- 系统环境变量页面 -->
+    <system:String x:Key="EnvVar_Title">系统环境变量</system:String>
+    <system:String x:Key="EnvVar_Add">添加</system:String>
+    <system:String x:Key="EnvVar_Edit">编辑</system:String>
+    <system:String x:Key="EnvVar_Delete">删除</system:String>
+    <system:String x:Key="EnvVar_Name">变量名</system:String>
+    <system:String x:Key="EnvVar_Value">变量值</system:String>
+    <system:String x:Key="EnvVar_Scope">作用域</system:String>
+    <system:String x:Key="EnvVar_User">用户</system:String>
+    <system:String x:Key="EnvVar_System">系统</system:String>
+    <system:String x:Key="EnvVar_Refresh">刷新</system:String>
+    <system:String x:Key="EnvVar_UserVariables">用户变量</system:String>
+    <system:String x:Key="EnvVar_SystemVariables">系统变量</system:String>
+    <system:String x:Key="EnvVar_Subtitle">管理系统和用户环境变量</system:String>
+    <system:String x:Key="EnvVar_Loading">正在加载环境变量...</system:String>
+    <system:String x:Key="EnvVar_NoUserVariables">暂无用户变量</system:String>
+    <system:String x:Key="EnvVar_NoSystemVariables">暂无系统变量</system:String>
+    <system:String x:Key="EnvVar_UserVar">用户变量</system:String>
+    <system:String x:Key="EnvVar_SystemVar">系统变量</system:String>
+
+    <!-- 设置页面 -->
+    <system:String x:Key="Settings_Title">设置</system:String>
+
+    <!-- 设置 - 常规设置 -->
+    <system:String x:Key="Settings_General">常规设置</system:String>
+    <system:String x:Key="Settings_GitPath">Git可执行文件路径</system:String>
+    <system:String x:Key="Settings_GitPathDesc">Git可执行文件的路径</system:String>
+    <system:String x:Key="Settings_GitPathPlaceholder">选择Git可执行文件路径</system:String>
+    <system:String x:Key="Settings_GitUsername">Git用户名</system:String>
+    <system:String x:Key="Settings_GitUsernameDesc">用于提交的Git用户名</system:String>
+    <system:String x:Key="Settings_GitUsernamePlaceholder">输入Git用户名</system:String>
+    <system:String x:Key="Settings_GitEmail">Git邮箱</system:String>
+    <system:String x:Key="Settings_GitEmailDesc">用于提交的Git邮箱地址</system:String>
+    <system:String x:Key="Settings_GitEmailPlaceholder">输入Git邮箱</system:String>
+    <system:String x:Key="Settings_DefaultBranch">默认Git分支</system:String>
+    <system:String x:Key="Settings_DefaultBranchDesc">新仓库的默认分支名称</system:String>
+    <system:String x:Key="Settings_AutoFetchGit">自动获取Git更新</system:String>
+    <system:String x:Key="Settings_AutoFetchGitDesc">自动从远程仓库获取更新</system:String>
+
+    <!-- 设置 - 项目设置 -->
+    <system:String x:Key="Settings_Project">项目设置</system:String>
+    <system:String x:Key="Settings_DefaultProjectPath">默认项目路径</system:String>
+    <system:String x:Key="Settings_DefaultProjectPathDesc">新项目的默认目录</system:String>
+    <system:String x:Key="Settings_DefaultProjectPathPlaceholder">选择默认项目路径</system:String>
+    <system:String x:Key="Settings_AutoStart">自动启动项目</system:String>
+    <system:String x:Key="Settings_AutoStartDesc">打开项目时自动启动</system:String>
+    <system:String x:Key="Settings_AutoSave">自动保存项目</system:String>
+    <system:String x:Key="Settings_AutoSaveDesc">自动保存项目更改</system:String>
+    <system:String x:Key="Settings_RefreshInterval">项目刷新间隔</system:String>
+    <system:String x:Key="Settings_RefreshIntervalDesc">刷新项目状态的频率（秒）</system:String>
+    <system:String x:Key="Settings_MaxRecentProjects">最大最近项目数</system:String>
+    <system:String x:Key="Settings_MaxRecentProjectsDesc">记住的最近项目的最大数量</system:String>
+
+    <!-- 设置 - 应用程序设置 -->
+    <system:String x:Key="Settings_Application">应用程序设置</system:String>
+    <system:String x:Key="Settings_PreferredTerminal">首选终端</system:String>
+    <system:String x:Key="Settings_PreferredTerminalDesc">使用的默认终端应用程序</system:String>
+    <system:String x:Key="Settings_ShowNotifications">显示通知</system:String>
+    <system:String x:Key="Settings_ShowNotificationsDesc">显示桌面通知消息</system:String>
+    <system:String x:Key="Settings_TerminalTimestamps">终端显示时间戳</system:String>
+    <system:String x:Key="Settings_TerminalTimestampsDesc">在终端输出前添加 [HH:mm:ss] 时间戳</system:String>
+    <system:String x:Key="Settings_CmdUtf8">CMD 使用 UTF-8 编码</system:String>
+    <system:String x:Key="Settings_CmdUtf8Desc">仅对 CMD 注入 chcp 65001（不影响 PowerShell/Bash）</system:String>
+    <system:String x:Key="Settings_DefaultStartupPage">默认启动页面</system:String>
+    <system:String x:Key="Settings_DefaultStartupPageDesc">启动应用程序时默认打开的页面</system:String>
+
+    <!-- 设置 - 语言设置 -->
+    <system:String x:Key="Settings_Language">语言</system:String>
+    <system:String x:Key="Settings_LanguageDesc">选择应用程序显示语言</system:String>
+    <system:String x:Key="Settings_LanguageRestart">更改语言后需要重启应用程序才能生效</system:String>
+
+    <!-- 设置 - 外观设置 -->
+    <system:String x:Key="Settings_Appearance">外观设置</system:String>
+    <system:String x:Key="Settings_Theme">主题</system:String>
+    <system:String x:Key="Settings_ThemeDesc">选择应用程序颜色主题</system:String>
+    <system:String x:Key="Settings_ThemeLight">浅色</system:String>
+    <system:String x:Key="Settings_ThemeDark">深色</system:String>
+    <system:String x:Key="Settings_ThemeSystem">跟随系统</system:String>
+
+    <!-- 设置 - 操作 -->
+    <system:String x:Key="Settings_Actions">操作</system:String>
+    <system:String x:Key="Settings_Management">设置管理</system:String>
+    <system:String x:Key="Settings_ManagementDesc">保存或重置应用程序设置</system:String>
+    <system:String x:Key="Settings_Save">保存设置</system:String>
+    <system:String x:Key="Settings_Reset">重置设置</system:String>
+
+    <!-- 设置 - 关于 -->
+    <system:String x:Key="Settings_About">关于</system:String>
+    <system:String x:Key="Settings_AppVersion">应用程序版本</system:String>
+    <system:String x:Key="Settings_AppVersionDesc">项目管理器的当前版本</system:String>
+
+    <!-- 通用按钮 -->
+    <system:String x:Key="Button_OK">确定</system:String>
+    <system:String x:Key="Button_Confirm">确认</system:String>
+    <system:String x:Key="Button_Cancel">取消</system:String>
+    <system:String x:Key="Button_Save">保存</system:String>
+    <system:String x:Key="Button_Delete">删除</system:String>
+    <system:String x:Key="Button_Edit">编辑</system:String>
+    <system:String x:Key="Button_Add">添加</system:String>
+    <system:String x:Key="Button_Browse">浏览</system:String>
+    <system:String x:Key="Button_Refresh">刷新</system:String>
+    <system:String x:Key="Button_Start">启动</system:String>
+    <system:String x:Key="Button_Stop">停止</system:String>
+    <system:String x:Key="Button_Close">关闭</system:String>
+
+    <!-- 消息对话框 -->
+    <system:String x:Key="Dialog_Confirm">确认</system:String>
+    <system:String x:Key="Dialog_Warning">警告</system:String>
+    <system:String x:Key="Dialog_Error">错误</system:String>
+    <system:String x:Key="Dialog_Info">信息</system:String>
+    <system:String x:Key="Dialog_DeleteConfirm">确定要删除吗？</system:String>
+    <system:String x:Key="Dialog_SaveConfirm">确定要保存更改吗？</system:String>
+
+    <!-- 错误消息 -->
+    <system:String x:Key="Error_SaveSettings">保存设置失败</system:String>
+    <system:String x:Key="Error_LoadSettings">加载设置失败</system:String>
+    <system:String x:Key="Error_ProjectStart">启动项目失败</system:String>
+    <system:String x:Key="Error_ProjectStop">停止项目失败</system:String>
+    <system:String x:Key="Error_GitOperation">Git操作失败</system:String>
+    <system:String x:Key="Error_Terminal_NoStartCommand">当前会话未配置启动命令，请先在项目中设置启动命令。</system:String>
+    <system:String x:Key="Error_Terminal_CannotOpenCmd">无法打开命令提示符</system:String>
+    <system:String x:Key="Error_Terminal_SyncFailed">同步项目状态失败</system:String>
+    <system:String x:Key="Error_EnvVar_DeleteUserFailed">删除用户环境变量失败</system:String>
+    <system:String x:Key="Error_EnvVar_DeleteSystemFailed">删除系统环境变量失败</system:String>
+    <system:String x:Key="Error_EnvVar_AddUserFailed">添加用户环境变量失败</system:String>
+    <system:String x:Key="Error_EnvVar_SaveUserFailed">保存用户环境变量失败</system:String>
+    <system:String x:Key="Error_EnvVar_SaveSystemFailed">保存系统环境变量失败</system:String>
+    <system:String x:Key="Error_ComfyUI_InvalidRootDir">未配置有效的 ComfyUI 根目录，无法定位 custom_nodes 目录。请在 ComfyUI 项目设置中指定根目录。</system:String>
+    <system:String x:Key="Error_ComfyUI_PathError">路径错误</system:String>
+    <system:String x:Key="Error_ComfyUI_CreateDirFailed">创建 custom_nodes 目录失败</system:String>
+    <system:String x:Key="Error_ComfyUI_OpenPluginManagerFailed">打开插件管理窗口失败</system:String>
+    <system:String x:Key="Error_Project_DeleteFailed">删除项目失败</system:String>
+    <system:String x:Key="Error_Performance_RefreshFailed">刷新性能数据失败</system:String>
+    <system:String x:Key="Error_Performance_Error">性能监控错误</system:String>
+    <system:String x:Key="Error_Performance_OpenExplorerFailed">无法打开资源管理器</system:String>
+    <system:String x:Key="Error_Performance_OpenPathFailed">打开路径失败</system:String>
+    <system:String x:Key="Error_Performance_MonitoringFailed">性能监控失败</system:String>
+    <system:String x:Key="Error_Dashboard_LoadFailed">加载仪表板数据失败</system:String>
+    <system:String x:Key="Error_Dashboard_DataLoadError">数据加载错误</system:String>
+    <system:String x:Key="Error_Project_CreateFailed">创建项目失败</system:String>
+
+    <!-- 托盘菜单 -->
+    <system:String x:Key="Tray_Home">主页</system:String>
+    <system:String x:Key="Tray_Exit">退出</system:String>
+
+    <!-- 项目工具栏 -->
+    <system:String x:Key="Toolbar_SearchProjects">搜索项目...</system:String>
+    <system:String x:Key="Toolbar_NewProject">新建项目</system:String>
+    <system:String x:Key="Toolbar_GitClone">Git克隆</system:String>
+    <system:String x:Key="Toolbar_Refresh">刷新</system:String>
+    <system:String x:Key="Toolbar_RefreshTooltip">重新读取项目列表并刷新Git和运行状态</system:String>
+    <system:String x:Key="Toolbar_FilterAll">全部</system:String>
+    <system:String x:Key="Toolbar_FilterRunning">运行中</system:String>
+    <system:String x:Key="Toolbar_FilterStopped">已停止</system:String>
+
+    <!-- 添加项目页面 -->
+    <system:String x:Key="AddProject_PageTitle">添加新项目</system:String>
+    <system:String x:Key="AddProject_PageDesc">创建一个新的项目或从Git仓库克隆项目</system:String>
+    <system:String x:Key="AddProject_NewTitle">新建项目</system:String>
+    <system:String x:Key="AddProject_NewDesc">从头开始创建一个新的项目</system:String>
+    <system:String x:Key="AddProject_CreateNew">创建新项目</system:String>
+    <system:String x:Key="AddProject_CloneTitle">Git克隆</system:String>
+    <system:String x:Key="AddProject_CloneDesc">从Git远程仓库克隆项目到本地</system:String>
+    <system:String x:Key="AddProject_CloneFrom">从Git克隆</system:String>
+
+    <!-- 终端页面 -->
+    <system:String x:Key="Terminal_Title">终端</system:String>
+    <system:String x:Key="Terminal_Start">启动</system:String>
+    <system:String x:Key="Terminal_Stop">停止</system:String>
+    <system:String x:Key="Terminal_Clear">清空</system:String>
+    <system:String x:Key="Terminal_Refresh">刷新</system:String>
+    <system:String x:Key="Terminal_OpenCmd">打开命令提示符</system:String>
+    <system:String x:Key="Terminal_Status">状态:</system:String>
+    <system:String x:Key="Terminal_Project">项目:</system:String>
+    <system:String x:Key="Terminal_NoSession">暂无终端会话</system:String>
+    <system:String x:Key="Terminal_NoSessionHint">启动项目后将自动创建终端会话</system:String>
+    <system:String x:Key="Terminal_WorkingDir">工作目录:</system:String>
+    <system:String x:Key="Terminal_StartTime">启动时间:</system:String>
+    <system:String x:Key="Terminal_SessionCount">会话数:</system:String>
+    <system:String x:Key="Terminal_Subtitle">查看和管理项目终端输出</system:String>
+    <system:String x:Key="Terminal_StartTooltip">启动终端</system:String>
+    <system:String x:Key="Terminal_StopTooltip">停止终端</system:String>
+    <system:String x:Key="Terminal_ClearTooltip">清除输出</system:String>
+    <system:String x:Key="Terminal_RefreshTooltip">刷新会话</system:String>
+    <system:String x:Key="Terminal_OpenCmdTooltip">打开外部CMD</system:String>
+    <system:String x:Key="Terminal_CloseSession">关闭会话</system:String>
+    <system:String x:Key="Terminal_CopyAll">复制全部</system:String>
+    <system:String x:Key="Terminal_CopyAllOutput">复制全部输出 (Ctrl+Shift+C)</system:String>
+    <system:String x:Key="Terminal_AutoWrap">自动换行</system:String>
+    <system:String x:Key="Terminal_ScrollTop">滚动到顶部</system:String>
+    <system:String x:Key="Terminal_ScrollBottom">滚动到底部</system:String>
+    <system:String x:Key="Terminal_AlreadyRunning">终端已在运行中</system:String>
+    <system:String x:Key="Terminal_Starting">正在启动...</system:String>
+    <system:String x:Key="Terminal_StartCommand">启动命令: </system:String>
+    <system:String x:Key="Terminal_SettingEnvVars">设置环境变量:</system:String>
+    <system:String x:Key="Terminal_Stopped">已停止</system:String>
+    <system:String x:Key="Terminal_ProcessExited">进程已退出，退出代码: </system:String>
+    <system:String x:Key="Terminal_ChildProcessDetected">检测到子进程 PID={0} ({1})</system:String>
+    <system:String x:Key="Terminal_Running">运行中</system:String>
+    <system:String x:Key="Terminal_Started">终端已启动</system:String>
+    <system:String x:Key="Terminal_StartFailed">启动失败</system:String>
+    <system:String x:Key="Terminal_StartFailedMessage">启动失败: {0}</system:String>
+    <system:String x:Key="Terminal_StartError">终端启动错误</system:String>
+    <system:String x:Key="Terminal_ForceStopped">终端已强制停止</system:String>
+    <system:String x:Key="Terminal_StopFailed">停止失败</system:String>
+    <system:String x:Key="Terminal_StopFailedMessage">停止失败: {0}</system:String>
+    <system:String x:Key="Terminal_StopError">终端停止错误</system:String>
+
+    <!-- 性能监控页面 -->
+    <system:String x:Key="Performance_Overall">整体性能</system:String>
+    <system:String x:Key="Performance_CacheHitRate">缓存命中率</system:String>
+    <system:String x:Key="Performance_AvgOpTime">平均操作时间</system:String>
+    <system:String x:Key="Performance_TotalOps">总操作数</system:String>
+    <system:String x:Key="Performance_Details">性能详情</system:String>
+    <system:String x:Key="Performance_Operation">操作</system:String>
+    <system:String x:Key="Performance_Count">次数</system:String>
+    <system:String x:Key="Performance_AvgTime">平均时间</system:String>
+    <system:String x:Key="Performance_TotalTime">总时间</system:String>
+    <system:String x:Key="Performance_RunningProjects">运行项目</system:String>
+    <system:String x:Key="Performance_TotalCpuUsage">总 CPU 占用</system:String>
+    <system:String x:Key="Performance_TotalMemoryUsage">总内存占用</system:String>
+    <system:String x:Key="Performance_Status_Waiting">等待监控启动...</system:String>
+    <system:String x:Key="Performance_Status_Paused">监控已暂停</system:String>
+    <system:String x:Key="Performance_Status_Monitoring">监控中 · {0}/{1} 个项目</system:String>
+    <system:String x:Key="Performance_Status_NoRunning">暂无运行中的项目</system:String>
+    <system:String x:Key="Performance_LastUpdate">最近更新</system:String>
+    <system:String x:Key="Performance_TotalGpu">GPU 总计</system:String>
+    <system:String x:Key="Performance_MemoryShort">内存</system:String>
+
+    <!-- 环境变量页面 -->
+    <system:String x:Key="EnvVars_SearchPlaceholder">搜索环境变量...</system:String>
+    <system:String x:Key="EnvVars_FilterAll">全部变量</system:String>
+    <system:String x:Key="EnvVars_FilterUser">用户变量</system:String>
+    <system:String x:Key="EnvVars_FilterSystem">系统变量</system:String>
+    <system:String x:Key="EnvVars_UserCount">用户: {0}</system:String>
+    <system:String x:Key="EnvVars_SystemCount">系统: {0}</system:String>
+    <system:String x:Key="EnvVars_AddUser">添加用户变量</system:String>
+    <system:String x:Key="EnvVars_AddSystem">添加系统变量</system:String>
+    <system:String x:Key="EnvVars_EditSelected">编辑选中项</system:String>
+    <system:String x:Key="EnvVars_DeleteSelected">删除选中项</system:String>
+    <system:String x:Key="EnvVars_Refresh">刷新列表</system:String>
+    <system:String x:Key="EnvVars_AddUserTooltip">添加新的用户环境变量</system:String>
+    <system:String x:Key="EnvVars_AddSystemTooltip">添加新的系统环境变量（需要管理员权限）</system:String>
+    <system:String x:Key="EnvVars_EditTooltip">编辑当前选中的环境变量</system:String>
+    <system:String x:Key="EnvVars_DeleteTooltip">删除当前选中的环境变量</system:String>
+    <system:String x:Key="EnvVars_RefreshTooltip">重新加载环境变量列表</system:String>
+
+    <!-- Git对话框 -->
+    <system:String x:Key="Git_CloneTitle">从Git克隆项目</system:String>
+    <system:String x:Key="Git_RepoUrl">Git仓库URL</system:String>
+    <system:String x:Key="Git_RepoUrlPlaceholder">https://github.com/username/repository.git</system:String>
+    <system:String x:Key="Git_LocalPath">本地存储路径</system:String>
+    <system:String x:Key="Git_LocalPathPlaceholder">选择项目存储位置</system:String>
+    <system:String x:Key="Git_Framework">项目框架</system:String>
+    <system:String x:Key="Git_AutoAddToManager">克隆完成后自动添加到项目管理器</system:String>
+    <system:String x:Key="Git_CloneProgress">克隆进度</system:String>
+    <system:String x:Key="Git_CloneLog">克隆日志</system:String>
+    <system:String x:Key="Git_Clone">克隆</system:String>
+    <system:String x:Key="Git_Cloning">克隆中...</system:String>
+    <system:String x:Key="Git_Branch">分支</system:String>
+    <system:String x:Key="Git_Commit">提交</system:String>
+    <system:String x:Key="Git_Push">推送</system:String>
+    <system:String x:Key="Git_Pull">拉取</system:String>
+    <system:String x:Key="Git_Management">Git管理</system:String>
+
+    <!-- 项目设置对话框 -->
+    <system:String x:Key="ProjectSettings_Title">项目设置</system:String>
+    <system:String x:Key="ProjectSettings_General">常规</system:String>
+    <system:String x:Key="ProjectSettings_Name">项目名称</system:String>
+    <system:String x:Key="ProjectSettings_Description">描述</system:String>
+    <system:String x:Key="ProjectSettings_Path">路径</system:String>
+    <system:String x:Key="ProjectSettings_Framework">框架</system:String>
+    <system:String x:Key="ProjectSettings_StartCommand">启动命令</system:String>
+    <system:String x:Key="ProjectSettings_StopCommand">停止命令</system:String>
+    <system:String x:Key="ProjectSettings_EnvVars">环境变量</system:String>
+    <system:String x:Key="ProjectSettings_Save">保存</system:String>
+    <system:String x:Key="ProjectSettings_Cancel">取消</system:String>
+
+    <!-- 新建项目对话框 -->
+    <system:String x:Key="NewProject_Title">新建项目</system:String>
+    <system:String x:Key="NewProject_SelectPath">选择项目路径</system:String>
+    <system:String x:Key="NewProject_Create">创建</system:String>
+    <system:String x:Key="NewProject_ProjectInfo">项目信息</system:String>
+    <system:String x:Key="NewProject_ProjectName">项目名称</system:String>
+    <system:String x:Key="NewProject_ProjectNamePlaceholder">输入项目名称</system:String>
+    <system:String x:Key="NewProject_ProjectPath">项目路径</system:String>
+    <system:String x:Key="NewProject_ProjectPathPlaceholder">选择项目文件夹路径</system:String>
+    <system:String x:Key="NewProject_ProjectDesc">项目描述（可选）</system:String>
+    <system:String x:Key="NewProject_ProjectDescPlaceholder">输入项目描述</system:String>
+    <system:String x:Key="NewProject_GitScan">Git仓库扫描</system:String>
+    <system:String x:Key="NewProject_ScanGitRepos">扫描项目中的Git仓库</system:String>
+    <system:String x:Key="NewProject_GitScanDesc">启用后将自动扫描项目文件夹及其子文件夹中的所有Git仓库，可在Git管理界面中切换管理不同的仓库。</system:String>
+    <system:String x:Key="NewProject_SelectFramework">选择项目框架</system:String>
+    <system:String x:Key="NewProject_FrameworkWarning">请谨慎选择！选择框架后将自动保存，后续无法修改框架类型</system:String>
+    <system:String x:Key="NewProject_Next">下一步</system:String>
+    <system:String x:Key="NewProject_FrameworkComfyUI">AI图像生成工作流</system:String>
+    <system:String x:Key="NewProject_FrameworkNodeJS">JavaScript运行时</system:String>
+    <system:String x:Key="NewProject_FrameworkDotNet">微软开发平台</system:String>
+    <system:String x:Key="NewProject_FrameworkOther">自定义项目类型</system:String>
+    <system:String x:Key="NewProject_FillInfo">填写项目信息以创建新项目</system:String>
+    <system:String x:Key="NewProject_FrameworkPlaceholder">选择框架...</system:String>
+    <!-- 环境变量对话框 -->
+    <system:String x:Key="EnvVarDialog_Title">环境变量管理</system:String>
+    <system:String x:Key="EnvVarDialog_Project">项目:</system:String>
+    <system:String x:Key="EnvVarDialog_Description">管理项目的环境变量，这些变量将在项目启动时自动设置</system:String>
+    <system:String x:Key="EnvVarDialog_Search">搜索环境变量...</system:String>
+    <system:String x:Key="EnvVarDialog_Enabled">启用</system:String>
+    <system:String x:Key="EnvVarDialog_Name">变量名</system:String>
+    <system:String x:Key="EnvVarDialog_Value">变量值</system:String>
+    <system:String x:Key="EnvVarDialog_Actions">操作</system:String>
+    <system:String x:Key="EnvVarDialog_NoVariables">暂无环境变量</system:String>
+    <system:String x:Key="EnvVarDialog_AddDescription">在下方添加新的环境变量</system:String>
+    <system:String x:Key="EnvVarDialog_NamePlaceholder">变量名</system:String>
+    <system:String x:Key="EnvVarDialog_ValuePlaceholder">变量值</system:String>
+    <system:String x:Key="EnvVarDialog_Add">添加</system:String>
+    <system:String x:Key="EnvVarDialog_ClearAll">清空全部</system:String>
+    <system:String x:Key="EnvVarDialog_AddLabel">添加:</system:String>
+    <system:String x:Key="EnvVarDialog_DeleteSelected">删除选中</system:String>
+    <system:String x:Key="EnvVarDialog_Delete">删除</system:String>
+
+    <!-- ComfyUI设置 -->
+    <system:String x:Key="ComfyUI_Settings">ComfyUI设置</system:String>
+    <system:String x:Key="ComfyUI_SettingsTitle">ComfyUI项目设置</system:String>
+    <system:String x:Key="ComfyUI_ProjectInfo">ComfyUI 工作流项目</system:String>
+    <system:String x:Key="ComfyUI_BasicConfig">基础配置</system:String>
+    <system:String x:Key="ComfyUI_RootPath">ComfyUI 根目录</system:String>
+    <system:String x:Key="ComfyUI_RootPathPlaceholder">例如：D:\ComfyUI 或 项目内的 ComfyUI 目录</system:String>
+    <system:String x:Key="ComfyUI_AutoDetect">自动检测</system:String>
+    <system:String x:Key="ComfyUI_RootPathDesc">用于推断 main.py 与 custom_nodes 的所在目录；留空则根据项目路径自动尝试。</system:String>
+    <system:String x:Key="ComfyUI_StartCommand">启动命令</system:String>
+    <system:String x:Key="ComfyUI_StartCommandPlaceholder">python main.py --listen --port 8188</system:String>
+    <system:String x:Key="ComfyUI_Port">服务端口</system:String>
+    <system:String x:Key="ComfyUI_ListenAddress">监听地址</system:String>
+    <system:String x:Key="ComfyUI_PythonPath">Python环境路径（可选）</system:String>
+    <system:String x:Key="ComfyUI_PythonPathPlaceholder">留空使用系统默认Python</system:String>
+    <system:String x:Key="ComfyUI_PythonPathInvalid">⚠ 请输入有效的Python可执行文件路径 (python.exe)</system:String>
+    <system:String x:Key="ComfyUI_ListenAll">启动时监听所有网络接口 (--listen)</system:String>
+    <system:String x:Key="ComfyUI_BrowserLaunchMode">浏览器启动模式</system:String>
+    <system:String x:Key="ComfyUI_BrowserLaunch_Default">默认行为</system:String>
+    <system:String x:Key="ComfyUI_BrowserLaunch_Auto">自动启动浏览器 (--auto-launch)</system:String>
+    <system:String x:Key="ComfyUI_BrowserLaunch_Disable">禁用自动启动浏览器 (--disable-auto-launch)</system:String>
+    <system:String x:Key="ComfyUI_MemoryGpuSettings">内存和GPU设置</system:String>
+    <system:String x:Key="ComfyUI_MemoryMode">内存管理模式</system:String>
+    <system:String x:Key="ComfyUI_Memory_None">不设置（默认）</system:String>
+    <system:String x:Key="ComfyUI_Memory_GpuOnly">仅使用GPU (--gpu-only)</system:String>
+    <system:String x:Key="ComfyUI_Memory_HighVram">高显存模式 (--highvram)</system:String>
+    <system:String x:Key="ComfyUI_Memory_NormalVram">标准显存模式 (--normalvram)</system:String>
+    <system:String x:Key="ComfyUI_Memory_LowVram">低显存模式 (--lowvram)</system:String>
+    <system:String x:Key="ComfyUI_Memory_NoVram">无显存模式 (--novram)</system:String>
+    <system:String x:Key="ComfyUI_Memory_Cpu">使用CPU运行 (--cpu)</system:String>
+    <system:String x:Key="ComfyUI_ReserveVram">预留显存 (GB)</system:String>
+    <system:String x:Key="ComfyUI_CudaDevice">CUDA设备ID</system:String>
+    <system:String x:Key="ComfyUI_DirectmlDevice">DirectML设备ID</system:String>
+    <system:String x:Key="ComfyUI_Directml_Auto">-1表示自动检测</system:String>
+    <system:String x:Key="ComfyUI_CudaAllocator">CUDA内存分配器</system:String>
+    <system:String x:Key="ComfyUI_CudaAllocator_Default">默认分配器</system:String>
+    <system:String x:Key="ComfyUI_CudaAllocator_CudaMalloc">使用CUDA分配器 (--cuda-malloc)</system:String>
+    <system:String x:Key="ComfyUI_CudaAllocator_Disable">禁用CUDA分配器 (--disable-cuda-malloc)</system:String>
+    <system:String x:Key="ComfyUI_AsyncOffload">异步卸载 (--async-offload)</system:String>
+    <system:String x:Key="ComfyUI_ForceNonBlocking">强制非阻塞操作 (--force-non-blocking)</system:String>
+    <system:String x:Key="ComfyUI_DisableSmartMemory">禁用智能内存管理 (--disable-smart-memory)</system:String>
+    <system:String x:Key="ComfyUI_PrecisionSettings">精度设置</system:String>
+    <system:String x:Key="ComfyUI_GlobalPrecision">全局精度设置</system:String>
+    <system:String x:Key="ComfyUI_Precision_None">不强制（默认）</system:String>
+    <system:String x:Key="ComfyUI_ForceFP32">强制FP32 (--force-fp32)</system:String>
+    <system:String x:Key="ComfyUI_ForceFP16">强制FP16 (--force-fp16)</system:String>
+    <system:String x:Key="ComfyUI_UnetPrecision">UNet精度</system:String>
+    <system:String x:Key="ComfyUI_FP32_UNet">FP32 UNet (--fp32-unet)</system:String>
+    <system:String x:Key="ComfyUI_FP64_UNet">FP64 UNet (--fp64-unet)</system:String>
+    <system:String x:Key="ComfyUI_BF16_UNet">BF16 UNet (--bf16-unet)</system:String>
+    <system:String x:Key="ComfyUI_FP16_UNet">FP16 UNet (--fp16-unet)</system:String>
+    <system:String x:Key="ComfyUI_FP8_E4M3FN_UNet">FP8 E4M3FN UNet (--fp8_e4m3fn-unet)</system:String>
+    <system:String x:Key="ComfyUI_FP8_E5M2_UNet">FP8 E5M2 UNet (--fp8_e5m2-unet)</system:String>
+    <system:String x:Key="ComfyUI_FP8_E8M0FNU_UNet">FP8 E8M0FNU UNet (--fp8_e8m0fnu-unet)</system:String>
+    <system:String x:Key="ComfyUI_VaePrecision">VAE精度</system:String>
+    <system:String x:Key="ComfyUI_FP16_VAE">FP16 VAE (--fp16-vae)</system:String>
+    <system:String x:Key="ComfyUI_FP32_VAE">FP32 VAE (--fp32-vae)</system:String>
+    <system:String x:Key="ComfyUI_BF16_VAE">BF16 VAE (--bf16-vae)</system:String>
+    <system:String x:Key="ComfyUI_CPU_VAE">CPU VAE (--cpu-vae)</system:String>
+    <system:String x:Key="ComfyUI_TextEncPrecision">文本编码器精度</system:String>
+    <system:String x:Key="ComfyUI_FP8_E4M3FN_TextEnc">FP8 E4M3FN 文本编码器 (--fp8_e4m3fn-text-enc)</system:String>
+    <system:String x:Key="ComfyUI_FP8_E5M2_TextEnc">FP8 E5M2 文本编码器 (--fp8_e5m2-text-enc)</system:String>
+    <system:String x:Key="ComfyUI_FP16_TextEnc">FP16 文本编码器 (--fp16-text-enc)</system:String>
+    <system:String x:Key="ComfyUI_FP32_TextEnc">FP32 文本编码器 (--fp32-text-enc)</system:String>
+    <system:String x:Key="ComfyUI_BF16_TextEnc">BF16 文本编码器 (--bf16-text-enc)</system:String>
+    <system:String x:Key="ComfyUI_ForceChannelsLast">强制通道最后 (--force-channels-last)</system:String>
+    <system:String x:Key="ComfyUI_AttentionSettings">注意力机制设置</system:String>
+    <system:String x:Key="ComfyUI_AttentionAlgo">注意力算法</system:String>
+    <system:String x:Key="ComfyUI_SplitCrossAttention">分割交叉注意力 (--use-split-cross-attention)</system:String>
+    <system:String x:Key="ComfyUI_QuadCrossAttention">四元交叉注意力 (--use-quad-cross-attention)</system:String>
+    <system:String x:Key="ComfyUI_PytorchCrossAttention">PyTorch交叉注意力 (--use-pytorch-cross-attention)</system:String>
+    <system:String x:Key="ComfyUI_SageAttention">Sage注意力 (--use-sage-attention)</system:String>
+    <system:String x:Key="ComfyUI_FlashAttention">Flash注意力 (--use-flash-attention)</system:String>
+    <system:String x:Key="ComfyUI_OtherAttention">其他注意力选项</system:String>
+    <system:String x:Key="ComfyUI_DisableXformers">禁用Xformers (--disable-xformers)</system:String>
+    <system:String x:Key="ComfyUI_AttentionUpcast">注意力上变换</system:String>
+    <system:String x:Key="ComfyUI_ForceUpcastAttention">强制上变换注意力 (--force-upcast-attention)</system:String>
+    <system:String x:Key="ComfyUI_DontUpcastAttention">禁用上变换注意力 (--dont-upcast-attention)</system:String>
+    <system:String x:Key="ComfyUI_CachePerformance">缓存和性能设置</system:String>
+    <system:String x:Key="ComfyUI_CacheMode">缓存模式</system:String>
+    <system:String x:Key="ComfyUI_Cache_Default">默认缓存模式</system:String>
+    <system:String x:Key="ComfyUI_Cache_Classic">经典缓存 (--cache-classic)</system:String>
+    <system:String x:Key="ComfyUI_Cache_None">无缓存 (--cache-none)</system:String>
+    <system:String x:Key="ComfyUI_Cache_LRU">LRU缓存 (--cache-lru)</system:String>
+    <system:String x:Key="ComfyUI_CacheLruSize">LRU缓存大小（当选择LRU缓存时）</system:String>
+    <system:String x:Key="ComfyUI_CacheLruSizePlaceholder">0表示禁用</system:String>
+    <system:String x:Key="ComfyUI_PreviewSettings">预览设置</system:String>
+    <system:String x:Key="ComfyUI_PreviewMethod">预览方法</system:String>
+    <system:String x:Key="ComfyUI_PreviewSize">预览大小</system:String>
+    <system:String x:Key="ComfyUI_PerformanceOpt">性能优化</system:String>
+    <system:String x:Key="ComfyUI_Deterministic">确定性算法 (--deterministic)</system:String>
+    <system:String x:Key="ComfyUI_FastFp16Accum">快速FP16累积 (--fast fp16_accumulation)</system:String>
+    <system:String x:Key="ComfyUI_FastFp8Matrix">快速FP8矩阵乘法 (--fast fp8_matrix_mult)</system:String>
+    <system:String x:Key="ComfyUI_FastCublas">快速CUBLAS操作 (--fast cublas_ops)</system:String>
+    <system:String x:Key="ComfyUI_MmapTorch">内存映射Torch文件 (--mmap-torch-files)</system:String>
+    <system:String x:Key="ComfyUI_DisableMmap">禁用内存映射 (--disable-mmap)</system:String>
+    <system:String x:Key="ComfyUI_DirModelConfig">目录和模型配置</system:String>
+    <system:String x:Key="ComfyUI_BaseDir">基础目录</system:String>
+    <system:String x:Key="ComfyUI_ModelsPath">模型文件夹路径</system:String>
+    <system:String x:Key="ComfyUI_OutputPath">输出文件夹路径</system:String>
+    <system:String x:Key="ComfyUI_InputDir">输入文件夹路径</system:String>
+    <system:String x:Key="ComfyUI_TempDir">临时文件夹路径</system:String>
+    <system:String x:Key="ComfyUI_UserDir">用户目录路径</system:String>
+    <system:String x:Key="ComfyUI_ExtraModelPaths">额外模型路径配置文件</system:String>
+    <system:String x:Key="ComfyUI_NetworkSecurity">网络和安全设置</system:String>
+    <system:String x:Key="ComfyUI_MaxUploadSize">最大上传大小 (MB)</system:String>
+    <system:String x:Key="ComfyUI_EnableCors">启用CORS (--enable-cors-header)</system:String>
+    <system:String x:Key="ComfyUI_CorsOrigin">CORS来源</system:String>
+    <system:String x:Key="ComfyUI_TlsSslSettings">TLS/SSL设置</system:String>
+    <system:String x:Key="ComfyUI_TlsKey">TLS密钥文件</system:String>
+    <system:String x:Key="ComfyUI_TlsCert">TLS证书文件</system:String>
+    <system:String x:Key="ComfyUI_WorkflowConfig">工作流和自定义节点配置</system:String>
+    <system:String x:Key="ComfyUI_CustomNodesDir">自定义节点文件夹</system:String>
+    <system:String x:Key="ComfyUI_AutoLoadWorkflow">启动时自动加载默认工作流</system:String>
+    <system:String x:Key="ComfyUI_EnableWorkflowSnapshots">启用工作流快照保存</system:String>
+    <system:String x:Key="ComfyUI_CustomNodesMgmt">自定义节点管理</system:String>
+    <system:String x:Key="ComfyUI_DisableAllCustomNodes">禁用所有自定义节点 (--disable-all-custom-nodes)</system:String>
+    <system:String x:Key="ComfyUI_WhitelistNodes">白名单自定义节点</system:String>
+    <system:String x:Key="ComfyUI_WhitelistNodesPlaceholder">用空格分隔节点文件夹名称</system:String>
+    <system:String x:Key="ComfyUI_DisableApiNodes">禁用API节点 (--disable-api-nodes)</system:String>
+    <system:String x:Key="ComfyUI_DisableMetadata">禁用元数据 (--disable-metadata)</system:String>
+    <system:String x:Key="ComfyUI_AdvancedSettings">高级设置</system:String>
+    <system:String x:Key="ComfyUI_LogDebug">日志和调试</system:String>
+    <system:String x:Key="ComfyUI_LogLevel">日志级别</system:String>
+    <system:String x:Key="ComfyUI_HashFunction">哈希函数</system:String>
+    <system:String x:Key="ComfyUI_LogStdout">输出日志到标准输出 (--log-stdout)</system:String>
+    <system:String x:Key="ComfyUI_DontPrintServer">不打印服务器输出 (--dont-print-server)</system:String>
+    <system:String x:Key="ComfyUI_WindowsStandalone">Windows独立构建 (--windows-standalone-build)</system:String>
+    <system:String x:Key="ComfyUI_MultiUser">多用户模式 (--multi-user)</system:String>
+    <system:String x:Key="ComfyUI_FrontEndSettings">前端设置</system:String>
+    <system:String x:Key="ComfyUI_FrontEndVersion">前端版本</system:String>
+    <system:String x:Key="ComfyUI_FrontEndRoot">前端根目录</system:String>
+    <system:String x:Key="ComfyUI_EnableCompressResponse">启用响应体压缩 (--enable-compress-response-body)</system:String>
+    <system:String x:Key="ComfyUI_ExtraArgs">额外启动参数</system:String>
+    <system:String x:Key="ComfyUI_ExtraArgsPlaceholder">其他未包含的启动参数</system:String>
+    <system:String x:Key="ComfyUI_ProjectTags">项目标签</system:String>
+    <system:String x:Key="ComfyUI_TagsPlaceholder">输入标签，用逗号分隔（例如：AI绘画,图像生成,工作流）</system:String>
+    <system:String x:Key="ComfyUI_DeleteProject">删除项目</system:String>
+    <system:String x:Key="ComfyUI_AutoOpen">自动打开浏览器</system:String>
+    <system:String x:Key="ComfyUI_Plugins">插件</system:String>
+    <system:String x:Key="ComfyUI_PluginManager">插件管理器</system:String>
+    <system:String x:Key="ComfyUI_StartCommandDesc">根据上方设置自动生成。</system:String>
+    <system:String x:Key="ComfyUI_MemoryModeDesc">控制显存使用：GpuOnly、HighVram、NormalVram、LowVram、NoVram 或 CPU 模式。</system:String>
+    <system:String x:Key="ComfyUI_CudaDeviceDesc">GPU 设备索引。留空则自动检测。</system:String>
+    <system:String x:Key="ComfyUI_GlobalPrecisionDesc">强制所有模型使用 FP32 或 FP16，忽略单独设置。</system:String>
+    <system:String x:Key="ComfyUI_AttentionAlgoDesc">选择推理的交叉注意力算法。</system:String>
+    <system:String x:Key="ComfyUI_OutputDir">输出目录</system:String>
+    <system:String x:Key="ComfyUI_CorsSection">CORS</system:String>
+    <system:String x:Key="ComfyUI_AutoPlaceholder">自动</system:String>
+    <system:String x:Key="ComfyUI_OtherFlags">其他</system:String>
+    <system:String x:Key="ComfyUI_ApiBase">Comfy API 地址</system:String>
+    <system:String x:Key="ComfyUI_DatabaseUrl">数据库 URL</system:String>
+    <system:String x:Key="ComfyUI_DatabaseUrlPlaceholder">数据库连接 URL</system:String>
+
+    <!-- NodeJS设置 -->
+    <system:String x:Key="NodeJS_Settings">NodeJS设置</system:String>
+    <system:String x:Key="NodeJS_SettingsTitle">Node.js项目设置</system:String>
+    <system:String x:Key="NodeJS_ProjectInfo">Node.js JavaScript运行时项目</system:String>
+    <system:String x:Key="NodeJS_Config">Node.js配置</system:String>
+    <system:String x:Key="NodeJS_StartCommand">启动命令</system:String>
+    <system:String x:Key="NodeJS_Port">服务端口</system:String>
+    <system:String x:Key="NodeJS_VersionReq">Node.js版本要求</system:String>
+    <system:String x:Key="NodeJS_VersionReqPlaceholder">例如: >=16.0.0</system:String>
+    <system:String x:Key="NodeJS_PackageManager">包管理器</system:String>
+    <system:String x:Key="NodeJS_Scripts">脚本</system:String>
+    <system:String x:Key="NodeJS_EnableDevMode">启用开发模式 (NODE_ENV=development)</system:String>
+    <system:String x:Key="NodeJS_EnableHotReload">启用热重载/监听模式</system:String>
+    <system:String x:Key="NodeJS_EnableDebug">启用调试模式 (--inspect)</system:String>
+    <system:String x:Key="NodeJS_BuildConfig">构建配置</system:String>
+    <system:String x:Key="NodeJS_BuildCommand">构建命令</system:String>
+    <system:String x:Key="NodeJS_BuildCommandPlaceholder">npm run build</system:String>
+    <system:String x:Key="NodeJS_TestCommand">测试命令</system:String>
+    <system:String x:Key="NodeJS_TestCommandPlaceholder">npm test</system:String>
+    <system:String x:Key="NodeJS_OutputPath">输出目录</system:String>
+    <system:String x:Key="NodeJS_OutputPathPlaceholder">./dist 或 ./build</system:String>
+    <system:String x:Key="NodeJS_RunTestsBeforeBuild">构建前自动运行测试</system:String>
+    <system:String x:Key="NodeJS_MinifyOutput">构建后自动压缩代码</system:String>
+    <system:String x:Key="NodeJS_EnvVars">环境变量</system:String>
+    <system:String x:Key="NodeJS_EnvFile">.env 文件路径</system:String>
+    <system:String x:Key="NodeJS_CustomEnvVars">自定义环境变量</system:String>
+    <system:String x:Key="NodeJS_CustomEnvVarsPlaceholder">KEY1=value1;KEY2=value2</system:String>
+    <system:String x:Key="NodeJS_ProjectTags">项目标签</system:String>
+    <system:String x:Key="NodeJS_TagsPlaceholder">输入标签，用逗号分隔（例如：JavaScript,Node.js,后端,Web API）</system:String>
+    <system:String x:Key="NodeJS_DeleteProject">删除项目</system:String>
+    <system:String x:Key="NodeJS_Development">开发</system:String>
+    <system:String x:Key="NodeJS_PackageManagerPlaceholder">选择包管理器</system:String>
+    <system:String x:Key="NodeJS_StartCommandPlaceholder">例如 npm start</system:String>
+    <system:String x:Key="NodeJS_HotReloadDesc">文件更改时自动重载</system:String>
+    <system:String x:Key="NodeJS_EnableDebugDesc">启用 --inspect 调试标志</system:String>
+    <system:String x:Key="NodeJS_RunTestsDesc">构建前执行测试套件</system:String>
+    <system:String x:Key="NodeJS_MinifyOutputDesc">压缩构建输出文件</system:String>
+    <system:String x:Key="NodeJS_CustomEnvVarsHint">每行一个，格式：KEY=VALUE</system:String>
+    <system:String x:Key="NodeJS_TagsDesc">用逗号分隔的标签，用于项目分类</system:String>
+
+    <!-- .NET项目设置 -->
+    <system:String x:Key="DotNet_SettingsTitle">.NET项目设置</system:String>
+    <system:String x:Key="DotNet_ProjectInfo">.NET应用程序项目</system:String>
+    <system:String x:Key="DotNet_StartCommand">启动命令</system:String>
+    <system:String x:Key="DotNet_TargetFramework">目标框架</system:String>
+    <system:String x:Key="DotNet_ProjectType">项目类型</system:String>
+    <system:String x:Key="DotNet_Port">服务端口（Web项目）</system:String>
+    <system:String x:Key="DotNet_EnableHotReload">启用热重载 (dotnet watch)</system:String>
+    <system:String x:Key="DotNet_EnableHttps">启用HTTPS重定向</system:String>
+    <system:String x:Key="DotNet_EnableDevPage">启用开发者异常页面</system:String>
+    <system:String x:Key="DotNet_BuildConfig">构建配置</system:String>
+    <system:String x:Key="DotNet_BuildCommand">构建命令</system:String>
+    <system:String x:Key="DotNet_TestCommand">测试命令</system:String>
+    <system:String x:Key="DotNet_OutputPath">输出目录</system:String>
+    <system:String x:Key="DotNet_RunTestsBeforeBuild">构建前自动运行测试</system:String>
+    <system:String x:Key="DotNet_EnableCodeAnalysis">启用代码分析</system:String>
+    <system:String x:Key="DotNet_TreatWarningsAsErrors">警告视为错误</system:String>
+    <system:String x:Key="DotNet_PublishConfig">发布配置</system:String>
+    <system:String x:Key="DotNet_PublishCommand">发布命令</system:String>
+    <system:String x:Key="DotNet_TargetRuntime">目标运行时</system:String>
+    <system:String x:Key="DotNet_PublishPath">发布输出目录</system:String>
+    <system:String x:Key="DotNet_SingleFilePublish">单文件发布</system:String>
+    <system:String x:Key="DotNet_SelfContainedPublish">自包含发布</system:String>
+    <system:String x:Key="DotNet_EnableReadyToRun">启用ReadyToRun</system:String>
+    <system:String x:Key="DotNet_ProjectTags">项目标签</system:String>
+    <system:String x:Key="DotNet_TagsPlaceholder">输入标签，用逗号分隔（例如：.NET,C#,后端,Web API）</system:String>
+    <system:String x:Key="DotNet_DeleteProject">删除项目</system:String>
+    <system:String x:Key="DotNet_RuntimeSection">运行时</system:String>
+    <system:String x:Key="DotNet_TargetFrameworkPlaceholder">选择目标框架</system:String>
+    <system:String x:Key="DotNet_ProjectTypePlaceholder">选择项目类型</system:String>
+    <system:String x:Key="DotNet_HotReloadDesc">使用 dotnet watch 自动重载</system:String>
+    <system:String x:Key="DotNet_HttpsDesc">将 HTTP 请求重定向到 HTTPS</system:String>
+    <system:String x:Key="DotNet_BuildConfigPlaceholder">选择配置</system:String>
+    <system:String x:Key="DotNet_TargetRuntimePlaceholder">选择目标运行时</system:String>
+    <system:String x:Key="DotNet_SingleFileDesc">打包为单个可执行文件</system:String>
+    <system:String x:Key="DotNet_SelfContainedDesc">在输出中包含 .NET 运行时</system:String>
+    <system:String x:Key="DotNet_TagsDesc">用逗号分隔的标签，用于项目分类</system:String>
+
+    <!-- 通用项目设置 -->
+    <system:String x:Key="Generic_SettingsTitle">通用项目设置</system:String>
+    <system:String x:Key="Generic_BasicInfo">基本信息</system:String>
+    <system:String x:Key="Generic_ProjectName">项目名称</system:String>
+    <system:String x:Key="Generic_ProjectNamePlaceholder">输入项目名称</system:String>
+    <system:String x:Key="Generic_ProjectDescription">项目描述</system:String>
+    <system:String x:Key="Generic_ProjectDescriptionPlaceholder">输入项目描述</system:String>
+    <system:String x:Key="Generic_PathConfig">路径配置</system:String>
+    <system:String x:Key="Generic_LocalPath">项目本地路径</system:String>
+    <system:String x:Key="Generic_LocalPathPlaceholder">选择项目文件夹路径</system:String>
+    <system:String x:Key="Generic_Browse">浏览</system:String>
+    <system:String x:Key="Generic_WorkingDirectory">工作目录</system:String>
+    <system:String x:Key="Generic_WorkingDirectoryPlaceholder">设置启动工作目录（默认为项目路径）</system:String>
+    <system:String x:Key="Generic_StartConfig">启动配置</system:String>
+    <system:String x:Key="Generic_StartCommand">启动命令</system:String>
+    <system:String x:Key="Generic_StartCommandPlaceholder">例如: python app.py 或 streamlit run app.py</system:String>
+    <system:String x:Key="Generic_AutoStart">应用启动时自动启动此项目</system:String>
+    <system:String x:Key="Generic_Tags">标签</system:String>
+    <system:String x:Key="Generic_TagsPlaceholder">输入标签，用逗号分隔（例如：机器学习,图像处理,API）</system:String>
+    <system:String x:Key="Generic_ApplyCommandToolTip">点击应用此命令</system:String>
+    <system:String x:Key="Generic_Save">保存</system:String>
+    <system:String x:Key="Generic_Cancel">取消</system:String>
+    <system:String x:Key="Generic_DeleteProject">删除项目</system:String>
+    <system:String x:Key="Generic_DeleteProjectDesc">永久从列表中移除此项目。此操作不会删除磁盘上的文件。</system:String>
+    <system:String x:Key="Generic_Delete">删除</system:String>
+    <system:String x:Key="Generic_Close">关闭</system:String>
+    <system:String x:Key="Generic_FrameworkPlaceholder">选择框架</system:String>
+    <system:String x:Key="Generic_TemplatesPlaceholder">模板</system:String>
+    <system:String x:Key="Generic_SettingsAutoSaved">设置会自动保存</system:String>
+    <system:String x:Key="Generic_DefaultPlaceholder">留空使用默认</system:String>
+
+    <!-- Project Edit -->
+    <system:String x:Key="ProjectEdit_Title">项目设置</system:String>
+    <system:String x:Key="ProjectEdit_EditProjectHeader">编辑项目</system:String>
+    <system:String x:Key="ProjectEdit_FrameworkPlaceholder">选择框架</system:String>
+
+    <!-- Git 管理 -->
+    <system:String x:Key="Git_Title">Git 管理</system:String>
+    <system:String x:Key="Git_RepoSelection">Git 仓库选择</system:String>
+    <system:String x:Key="Git_MultipleReposDesc">项目中发现多个Git仓库，请选择要管理的仓库:</system:String>
+    <system:String x:Key="Git_RepoStatus">仓库状态</system:String>
+    <system:String x:Key="Git_IsRepo">这是一个 Git 仓库</system:String>
+    <system:String x:Key="Git_IsNotRepo">这不是一个 Git 仓库</system:String>
+    <system:String x:Key="Git_InitRepo">初始化 Git 仓库</system:String>
+    <system:String x:Key="Git_CurrentBranch">当前分支:</system:String>
+    <system:String x:Key="Git_Status">状态:</system:String>
+    <system:String x:Key="Git_UncommittedChanges">未提交更改:</system:String>
+    <system:String x:Key="Git_UnpushedCommits">未推送提交:</system:String>
+    <system:String x:Key="Git_LastCommit">最后提交:</system:String>
+    <system:String x:Key="Git_CommitTime">提交时间:</system:String>
+    <system:String x:Key="Git_RefreshStatus">刷新状态</system:String>
+    <system:String x:Key="Git_BasicOps">基本操作</system:String>
+    <system:String x:Key="Git_CommitChanges">提交更改</system:String>
+    <system:String x:Key="Git_CommitMsgPlaceholder">输入提交信息...</system:String>
+    <system:String x:Key="Git_AddAll">添加所有文件</system:String>
+    <system:String x:Key="Git_SyncOps">同步操作</system:String>
+    <system:String x:Key="Git_BranchMgmt">分支管理</system:String>
+    <system:String x:Key="Git_CurrentBranchLabel">当前分支</system:String>
+    <system:String x:Key="Git_SwitchBranch">切换分支</system:String>
+    <system:String x:Key="Git_CreateNewBranch">创建新分支</system:String>
+    <system:String x:Key="Git_NewBranchPlaceholder">输入新分支名称...</system:String>
+    <system:String x:Key="Git_CreateBranch">创建分支</system:String>
+    <system:String x:Key="Git_RemoteRepo">远程仓库</system:String>
+    <system:String x:Key="Git_RemoteUrl">远程仓库地址</system:String>
+    <system:String x:Key="Git_RemoteUrlPlaceholder">输入远程仓库 URL...</system:String>
+    <system:String x:Key="Git_SetRemote">设置远程地址</system:String>
+
+    <!-- 环境变量编辑 -->
+    <system:String x:Key="EnvVar_EditTitle">编辑环境变量</system:String>
+    <system:String x:Key="EnvVar_Edit_Name">变量名:</system:String>
+    <system:String x:Key="EnvVar_NamePlaceholder">输入变量名</system:String>
+    <system:String x:Key="EnvVar_Edit_Value">变量值:</system:String>
+    <system:String x:Key="EnvVar_EditPath">编辑路径...</system:String>
+    <system:String x:Key="EnvVar_BrowseFolder">浏览目录...</system:String>
+    <system:String x:Key="EnvVar_BrowseFile">浏览文件...</system:String>
+    <system:String x:Key="EnvVar_ValuePlaceholder">输入变量值，可以包含多个路径用分号分隔</system:String>
+
+    <!-- ComfyUI 插件管理 -->
+    <system:String x:Key="ComfyUI_PluginsTitle">ComfyUI 插件管理</system:String>
+    <system:String x:Key="ComfyUI_PluginEnabled">启用</system:String>
+    <system:String x:Key="ComfyUI_PluginName">插件名</system:String>
+    <system:String x:Key="ComfyUI_PluginRemoteUrl">远端地址</system:String>
+    <system:String x:Key="ComfyUI_PluginBranch">当前分支</system:String>
+    <system:String x:Key="ComfyUI_PluginVersionId">版本 ID</system:String>
+    <system:String x:Key="ComfyUI_PluginLastCommit">最后提交信息</system:String>
+    <system:String x:Key="ComfyUI_PluginLastUpdate">更新日期</system:String>
+    <system:String x:Key="ComfyUI_PluginActions">操作</system:String>
+    <system:String x:Key="ComfyUI_PluginRemove">移除</system:String>
+
+    <!-- 路径编辑器 -->
+    <system:String x:Key="PathEditor_Title">编辑路径</system:String>
+    <system:String x:Key="PathEditor_Directory">目录</system:String>
+    <system:String x:Key="PathEditor_Available">可用</system:String>
+    <system:String x:Key="PathEditor_New">新建</system:String>
+    <system:String x:Key="PathEditor_Edit">编辑</system:String>
+    <system:String x:Key="PathEditor_Delete">删除</system:String>
+    <system:String x:Key="PathEditor_MoveUp">上移</system:String>
+    <system:String x:Key="PathEditor_MoveDown">下移</system:String>
+    <system:String x:Key="PathEditor_Browse">浏览...</system:String>
+    <system:String x:Key="PathEditor_EditAsText">编辑文本</system:String>
+    <system:String x:Key="PathEditor_EditAsList">编辑列表</system:String>
+    <system:String x:Key="PathEditor_TextTitle">编辑路径文本</system:String>
+    <system:String x:Key="PathEditor_TextDescription">以分号分隔的路径列表，每个路径占一行：</system:String>
+
+    <system:String x:Key="PathEditor_ItemTitle">编辑路径项</system:String>
+    <system:String x:Key="PathEditor_HeaderTitle">PATH 路径编辑器</system:String>
+    <system:String x:Key="PathEditor_VariableLabel">变量:</system:String>
+    <system:String x:Key="PathEditor_Description">每个路径占一行，使用分号 (;) 分隔。可以添加、删除、编辑和重新排序路径。</system:String>
+    <system:String x:Key="PathEditor_PathLabel">路径:</system:String>
+    <system:String x:Key="PathEditor_PathPlaceholder">输入路径或使用浏览按钮选择...</system:String>
+
+    <!-- 通用单词 -->
+    <system:String x:Key="Common_Name">名称</system:String>
+    <system:String x:Key="Common_Value">值</system:String>
+    <system:String x:Key="Common_Type">类型</system:String>
+    <system:String x:Key="Common_Status">状态</system:String>
+    <system:String x:Key="Common_Action">操作</system:String>
+    <system:String x:Key="Common_All">全部</system:String>
+    <system:String x:Key="Common_None">无</system:String>
+    <system:String x:Key="Common_Loading">加载中...</system:String>
+    <system:String x:Key="Common_Saving">保存中...</system:String>
+    <system:String x:Key="Common_Success">成功</system:String>
+    <system:String x:Key="Common_Failed">失败</system:String>
+    <system:String x:Key="Common_Yes">是</system:String>
+    <system:String x:Key="Common_No">否</system:String>
+
+    <!-- ComfyUI 项目设置对话框 -->
+    <system:String x:Key="ComfyUI_SelectPythonExecutable">选择Python可执行文件</system:String>
+    <system:String x:Key="ComfyUI_SelectComfyUIDirectory">选择 ComfyUI 目录中的任意文件（例如 main.py）</system:String>
+    <system:String x:Key="ComfyUI_SelectModelsFolder">选择模型文件夹</system:String>
+    <system:String x:Key="ComfyUI_SelectOutputFolder">选择输出文件夹</system:String>
+    <system:String x:Key="ComfyUI_SelectCustomNodesFolder">选择自定义节点文件夹</system:String>
+    <system:String x:Key="ComfyUI_SelectBaseDirectory">选择基础目录</system:String>
+    <system:String x:Key="ComfyUI_SelectInputFolder">选择输入文件夹</system:String>
+    <system:String x:Key="ComfyUI_SelectTempFolder">选择临时文件夹</system:String>
+    <system:String x:Key="ComfyUI_SelectUserDirectory">选择用户目录</system:String>
+    <system:String x:Key="ComfyUI_SelectExtraModelPathsConfig">选择额外模型路径配置文件</system:String>
+    <system:String x:Key="ComfyUI_SelectTLSKeyFile">选择TLS密钥文件</system:String>
+    <system:String x:Key="ComfyUI_SelectTLSCertFile">选择TLS证书文件</system:String>
+    <system:String x:Key="ComfyUI_SelectFrontendRoot">选择前端根目录</system:String>
+    <system:String x:Key="ComfyUI_SelectFolder">选择文件夹</system:String>
+    <system:String x:Key="ComfyUI_OnlyPythonExeAllowed">只能选择python.exe文件</system:String>
+
+</ResourceDictionary>

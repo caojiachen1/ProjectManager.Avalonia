@@ -1,0 +1,811 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="using:System">
+
+    <!-- Application Title -->
+    <system:String x:Key="AppTitle">Universal Project Manager</system:String>
+    <system:String x:Key="Search">Search</system:String>
+
+    <!-- Navigation Menu -->
+    <system:String x:Key="Nav_Dashboard">Dashboard</system:String>
+    <system:String x:Key="Nav_Projects">Projects</system:String>
+    <system:String x:Key="Nav_Terminal">Terminal</system:String>
+    <system:String x:Key="Nav_Performance">Performance</system:String>
+    <system:String x:Key="Nav_Environment">Environment Variables</system:String>
+    <system:String x:Key="Nav_Settings">Settings</system:String>
+
+    <!-- Dashboard -->
+    <system:String x:Key="Dashboard_TotalProjects">Total Projects</system:String>
+    <system:String x:Key="Dashboard_Running">Running</system:String>
+    <system:String x:Key="Dashboard_Stopped">Stopped</system:String>
+    <system:String x:Key="Dashboard_Error">Error</system:String>
+    <system:String x:Key="Dashboard_QuickActions">Quick Actions</system:String>
+    <system:String x:Key="Dashboard_NewProject">New Project</system:String>
+    <system:String x:Key="Dashboard_GitClone">Git Clone</system:String>
+    <system:String x:Key="Dashboard_ViewAllProjects">View All Projects</system:String>
+    <system:String x:Key="Dashboard_StopAllProjects">Stop All Projects</system:String>
+    <system:String x:Key="Dashboard_RecentProjects">Recent Projects</system:String>
+    <system:String x:Key="Dashboard_Subtitle">Project overview and quick actions</system:String>
+    <system:String x:Key="Dashboard_StartProject">Start Project</system:String>
+    <system:String x:Key="Dashboard_StopProject">Stop Project</system:String>
+    <system:String x:Key="Dashboard_OpenFolder">Open Folder</system:String>
+
+    <!-- Project Status -->
+    <system:String x:Key="Status_Running">Running</system:String>
+    <system:String x:Key="Status_Stopped">Stopped</system:String>
+    <system:String x:Key="Status_Error">Error</system:String>
+    <system:String x:Key="Status_Starting">Starting</system:String>
+    <system:String x:Key="Status_Stopping">Stopping</system:String>
+    <system:String x:Key="Status_Unknown">Unknown</system:String>
+
+    <!-- Filters -->
+    <system:String x:Key="Filter_All">All</system:String>
+
+    <!-- Frameworks -->
+    <system:String x:Key="Framework_ComfyUI">ComfyUI</system:String>
+    <system:String x:Key="Framework_NodeJS">Node.js</system:String>
+    <system:String x:Key="Framework_DotNet">.NET</system:String>
+    <system:String x:Key="Framework_Other">Other</system:String>
+
+    <system:String x:Key="FrameworkDesc_ComfyUI">ComfyUI image generation workflow</system:String>
+    <system:String x:Key="FrameworkDesc_NodeJS">Node.js JavaScript runtime</system:String>
+    <system:String x:Key="FrameworkDesc_DotNet">.NET application</system:String>
+    <system:String x:Key="FrameworkDesc_Other">Custom project type</system:String>
+
+    <!-- Git Status -->
+    <system:String x:Key="GitStatus_Clean">Clean</system:String>
+    <system:String x:Key="GitStatus_Modified">Modified</system:String>
+    <system:String x:Key="GitStatus_Staged">Staged</system:String>
+    <system:String x:Key="GitStatus_Conflicted">Conflicted</system:String>
+    <system:String x:Key="GitStatus_Untracked">Untracked</system:String>
+
+    <!-- Projects Page -->
+    <system:String x:Key="Projects_AddProject">Add Project</system:String>
+    <system:String x:Key="Projects_RefreshAll">Refresh All</system:String>
+    <system:String x:Key="Projects_StopAll">Stop All</system:String>
+    <system:String x:Key="Projects_StartAll">Start All</system:String>
+    <system:String x:Key="Projects_Settings">Settings</system:String>
+    <system:String x:Key="Projects_OpenFolder">Open Folder</system:String>
+    <system:String x:Key="Projects_OpenTerminal">Open Terminal</system:String>
+    <system:String x:Key="Projects_Delete">Delete</system:String>
+    <system:String x:Key="Projects_NoProjects">No projects yet</system:String>
+    <system:String x:Key="Projects_NoProjectsDesc">Click 'New Project' to create your first project</system:String>
+    <system:String x:Key="Projects_NoProjectsHint">Click "Add Project" button to add your first project</system:String>
+    <system:String x:Key="Projects_DragToSort">Hold to drag and sort</system:String>
+    <system:String x:Key="Projects_OpenInExplorer">Open in Explorer</system:String>
+    <system:String x:Key="Projects_DeleteProject">Delete Project</system:String>
+    <system:String x:Key="Projects_ManageComfyUIPlugins">Manage ComfyUI Plugins (custom_nodes)</system:String>
+    <system:String x:Key="Projects_Git">Git</system:String>
+    <system:String x:Key="Projects_Subtitle">Manage all your projects and repositories</system:String>
+    <system:String x:Key="Projects_Refreshing">Refreshing...</system:String>
+    <system:String x:Key="Projects_EnvVars">Environment Variables</system:String>
+    <system:String x:Key="Projects_Terminal">Terminal</system:String>
+    <system:String x:Key="Projects_NewProject">New Project</system:String>
+
+    <!-- Add Project Page -->
+    <system:String x:Key="AddProject_Title">Add New Project</system:String>
+    <system:String x:Key="AddProject_Name">Project Name</system:String>
+    <system:String x:Key="AddProject_NamePlaceholder">Enter project name</system:String>
+    <system:String x:Key="AddProject_Description">Description</system:String>
+    <system:String x:Key="AddProject_DescriptionPlaceholder">Enter description (optional)</system:String>
+    <system:String x:Key="AddProject_Path">Project Path</system:String>
+    <system:String x:Key="AddProject_PathPlaceholder">Select project path</system:String>
+    <system:String x:Key="AddProject_Browse">Browse</system:String>
+    <system:String x:Key="AddProject_Framework">Framework</system:String>
+    <system:String x:Key="AddProject_StartCommand">Start Command</system:String>
+    <system:String x:Key="AddProject_StartCommandPlaceholder">Enter start command</system:String>
+    <system:String x:Key="AddProject_Add">Add</system:String>
+    <system:String x:Key="AddProject_Cancel">Cancel</system:String>
+
+    <!-- Performance Page -->
+    <system:String x:Key="Performance_Title">Performance Monitor</system:String>
+    <system:String x:Key="Performance_CPU">CPU</system:String>
+    <system:String x:Key="Performance_GPU">GPU</system:String>
+    <system:String x:Key="Performance_Memory">Memory (Working Set)</system:String>
+    <system:String x:Key="Performance_Disk">Disk Usage</system:String>
+    <system:String x:Key="Performance_Network">Network</system:String>
+    <system:String x:Key="Performance_Refresh">Refresh</system:String>
+    <system:String x:Key="Performance_AutoRefresh">Auto Refresh</system:String>
+    <system:String x:Key="Performance_Threads">Threads</system:String>
+    <system:String x:Key="Performance_PID">PID</system:String>
+    <system:String x:Key="Performance_StartTime">Start Time</system:String>
+    <system:String x:Key="Performance_Uptime">Uptime</system:String>
+    <system:String x:Key="Performance_OpenFolder">Open Folder</system:String>
+    <system:String x:Key="Performance_NoProjects">No projects to monitor</system:String>
+
+    <!-- Environment Variables Page -->
+    <system:String x:Key="EnvVar_Title">System Environment Variables</system:String>
+    <system:String x:Key="EnvVar_Add">Add</system:String>
+    <system:String x:Key="EnvVar_Edit">Edit</system:String>
+    <system:String x:Key="EnvVar_Delete">Delete</system:String>
+    <system:String x:Key="EnvVar_Name">Name</system:String>
+    <system:String x:Key="EnvVar_Value">Value</system:String>
+    <system:String x:Key="EnvVar_Scope">Scope</system:String>
+    <system:String x:Key="EnvVar_User">User</system:String>
+    <system:String x:Key="EnvVar_System">System</system:String>
+    <system:String x:Key="EnvVar_Refresh">Refresh</system:String>
+    <system:String x:Key="EnvVar_UserVariables">User Variables</system:String>
+    <system:String x:Key="EnvVar_SystemVariables">System Variables</system:String>
+    <system:String x:Key="EnvVar_Subtitle">Manage system and user environment variables</system:String>
+    <system:String x:Key="EnvVar_Loading">Loading environment variables...</system:String>
+    <system:String x:Key="EnvVar_NoUserVariables">No user variables</system:String>
+    <system:String x:Key="EnvVar_NoSystemVariables">No system variables</system:String>
+    <system:String x:Key="EnvVar_UserVar">User Variable</system:String>
+    <system:String x:Key="EnvVar_SystemVar">System Variable</system:String>
+
+    <!-- Settings Page -->
+    <system:String x:Key="Settings_Title">Settings</system:String>
+
+    <!-- Settings - General -->
+    <system:String x:Key="Settings_General">General Settings</system:String>
+    <system:String x:Key="Settings_GitPath">Git Executable Path</system:String>
+    <system:String x:Key="Settings_GitPathDesc">Path to Git executable</system:String>
+    <system:String x:Key="Settings_GitPathPlaceholder">Select Git executable path</system:String>
+    <system:String x:Key="Settings_GitUsername">Git Username</system:String>
+    <system:String x:Key="Settings_GitUsernameDesc">Git username for commits</system:String>
+    <system:String x:Key="Settings_GitUsernamePlaceholder">Enter Git username</system:String>
+    <system:String x:Key="Settings_GitEmail">Git Email</system:String>
+    <system:String x:Key="Settings_GitEmailDesc">Git email for commits</system:String>
+    <system:String x:Key="Settings_GitEmailPlaceholder">Enter Git email</system:String>
+    <system:String x:Key="Settings_DefaultBranch">Default Git Branch</system:String>
+    <system:String x:Key="Settings_DefaultBranchDesc">Default branch name for new repositories</system:String>
+    <system:String x:Key="Settings_AutoFetchGit">Auto Fetch Git Updates</system:String>
+    <system:String x:Key="Settings_AutoFetchGitDesc">Automatically fetch updates from remote</system:String>
+
+    <!-- Settings - Project -->
+    <system:String x:Key="Settings_Project">Project Settings</system:String>
+    <system:String x:Key="Settings_DefaultProjectPath">Default Project Path</system:String>
+    <system:String x:Key="Settings_DefaultProjectPathDesc">Default directory for new projects</system:String>
+    <system:String x:Key="Settings_DefaultProjectPathPlaceholder">Select default project path</system:String>
+    <system:String x:Key="Settings_AutoStart">Auto Start Projects</system:String>
+    <system:String x:Key="Settings_AutoStartDesc">Automatically start projects when opened</system:String>
+    <system:String x:Key="Settings_AutoSave">Auto Save Projects</system:String>
+    <system:String x:Key="Settings_AutoSaveDesc">Automatically save project changes</system:String>
+    <system:String x:Key="Settings_RefreshInterval">Project Refresh Interval</system:String>
+    <system:String x:Key="Settings_RefreshIntervalDesc">Frequency to refresh project status (seconds)</system:String>
+    <system:String x:Key="Settings_MaxRecentProjects">Max Recent Projects</system:String>
+    <system:String x:Key="Settings_MaxRecentProjectsDesc">Maximum number of recent projects to remember</system:String>
+
+    <!-- Settings - Application -->
+    <system:String x:Key="Settings_Application">Application Settings</system:String>
+    <system:String x:Key="Settings_PreferredTerminal">Preferred Terminal</system:String>
+    <system:String x:Key="Settings_PreferredTerminalDesc">Default terminal application to use</system:String>
+    <system:String x:Key="Settings_ShowNotifications">Show Notifications</system:String>
+    <system:String x:Key="Settings_ShowNotificationsDesc">Show desktop notification messages</system:String>
+    <system:String x:Key="Settings_TerminalTimestamps">Terminal Timestamps</system:String>
+    <system:String x:Key="Settings_TerminalTimestampsDesc">Add [HH:mm:ss] timestamp before terminal output</system:String>
+    <system:String x:Key="Settings_CmdUtf8">CMD UTF-8 Encoding</system:String>
+    <system:String x:Key="Settings_CmdUtf8Desc">Inject chcp 65001 for CMD only (does not affect PowerShell/Bash)</system:String>
+    <system:String x:Key="Settings_DefaultStartupPage">Default Startup Page</system:String>
+    <system:String x:Key="Settings_DefaultStartupPageDesc">Default page to open when starting the application</system:String>
+
+    <!-- Settings - Language -->
+    <system:String x:Key="Settings_Language">Language</system:String>
+    <system:String x:Key="Settings_LanguageDesc">Select application display language</system:String>
+    <system:String x:Key="Settings_LanguageRestart">Application restart required for language changes to take effect</system:String>
+
+    <!-- Settings - Appearance -->
+    <system:String x:Key="Settings_Appearance">Appearance</system:String>
+    <system:String x:Key="Settings_Theme">Theme</system:String>
+    <system:String x:Key="Settings_ThemeDesc">Select application color theme</system:String>
+    <system:String x:Key="Settings_ThemeLight">Light</system:String>
+    <system:String x:Key="Settings_ThemeDark">Dark</system:String>
+    <system:String x:Key="Settings_ThemeSystem">System</system:String>
+
+    <!-- Settings - Actions -->
+    <system:String x:Key="Settings_Actions">Actions</system:String>
+    <system:String x:Key="Settings_Management">Settings Management</system:String>
+    <system:String x:Key="Settings_ManagementDesc">Save or reset application settings</system:String>
+    <system:String x:Key="Settings_Save">Save Settings</system:String>
+    <system:String x:Key="Settings_Reset">Reset Settings</system:String>
+
+    <!-- Settings - About -->
+    <system:String x:Key="Settings_About">About</system:String>
+    <system:String x:Key="Settings_AppVersion">Application Version</system:String>
+    <system:String x:Key="Settings_AppVersionDesc">Current version of Project Manager</system:String>
+
+    <!-- Common Buttons -->
+    <system:String x:Key="Button_OK">OK</system:String>
+    <system:String x:Key="Button_Confirm">Confirm</system:String>
+    <system:String x:Key="Button_Cancel">Cancel</system:String>
+    <system:String x:Key="Button_Save">Save</system:String>
+    <system:String x:Key="Button_Delete">Delete</system:String>
+    <system:String x:Key="Button_Edit">Edit</system:String>
+    <system:String x:Key="Button_Add">Add</system:String>
+    <system:String x:Key="Button_Browse">Browse</system:String>
+    <system:String x:Key="Button_Refresh">Refresh</system:String>
+    <system:String x:Key="Button_Start">Start</system:String>
+    <system:String x:Key="Button_Stop">Stop</system:String>
+    <system:String x:Key="Button_Close">Close</system:String>
+
+    <!-- Dialog Messages -->
+    <system:String x:Key="Dialog_Confirm">Confirm</system:String>
+    <system:String x:Key="Dialog_Warning">Warning</system:String>
+    <system:String x:Key="Dialog_Error">Error</system:String>
+    <system:String x:Key="Dialog_Info">Information</system:String>
+    <system:String x:Key="Dialog_DeleteConfirm">Are you sure you want to delete?</system:String>
+    <system:String x:Key="Dialog_SaveConfirm">Are you sure you want to save changes?</system:String>
+
+    <!-- Error Messages -->
+    <system:String x:Key="Error_SaveSettings">Failed to save settings</system:String>
+    <system:String x:Key="Error_LoadSettings">Failed to load settings</system:String>
+    <system:String x:Key="Error_ProjectStart">Failed to start project</system:String>
+    <system:String x:Key="Error_ProjectStop">Failed to stop project</system:String>
+    <system:String x:Key="Error_GitOperation">Git operation failed</system:String>
+    <system:String x:Key="Error_Terminal_NoStartCommand">Current session has no start command configured. Please set a start command in the project first.</system:String>
+    <system:String x:Key="Error_Terminal_CannotOpenCmd">Cannot open command prompt</system:String>
+    <system:String x:Key="Error_Terminal_SyncFailed">Failed to sync project status</system:String>
+    <system:String x:Key="Error_EnvVar_DeleteUserFailed">Failed to delete user environment variable</system:String>
+    <system:String x:Key="Error_EnvVar_DeleteSystemFailed">Failed to delete system environment variable</system:String>
+    <system:String x:Key="Error_EnvVar_AddUserFailed">Failed to add user environment variable</system:String>
+    <system:String x:Key="Error_EnvVar_SaveUserFailed">Failed to save user environment variable</system:String>
+    <system:String x:Key="Error_EnvVar_SaveSystemFailed">Failed to save system environment variable</system:String>
+    <system:String x:Key="Error_ComfyUI_InvalidRootDir">No valid ComfyUI root directory configured, cannot locate custom_nodes directory. Please specify the root directory in ComfyUI project settings.</system:String>
+    <system:String x:Key="Error_ComfyUI_PathError">Path Error</system:String>
+    <system:String x:Key="Error_ComfyUI_CreateDirFailed">Failed to create custom_nodes directory</system:String>
+    <system:String x:Key="Error_ComfyUI_OpenPluginManagerFailed">Failed to open plugin manager window</system:String>
+    <system:String x:Key="Error_Project_DeleteFailed">Failed to delete project</system:String>
+    <system:String x:Key="Error_Performance_RefreshFailed">Failed to refresh performance data</system:String>
+    <system:String x:Key="Error_Performance_Error">Performance Monitoring Error</system:String>
+    <system:String x:Key="Error_Performance_OpenExplorerFailed">Cannot open File Explorer</system:String>
+    <system:String x:Key="Error_Performance_OpenPathFailed">Failed to open path</system:String>
+    <system:String x:Key="Error_Performance_MonitoringFailed">Performance monitoring failed</system:String>
+    <system:String x:Key="Error_Dashboard_LoadFailed">Failed to load dashboard data</system:String>
+    <system:String x:Key="Error_Dashboard_DataLoadError">Data Load Error</system:String>
+    <system:String x:Key="Error_Project_CreateFailed">Failed to create project</system:String>
+
+    <!-- Tray Menu -->
+    <system:String x:Key="Tray_Home">Home</system:String>
+    <system:String x:Key="Tray_Exit">Exit</system:String>
+
+    <!-- Project Toolbar -->
+    <system:String x:Key="Toolbar_SearchProjects">Search projects...</system:String>
+    <system:String x:Key="Toolbar_NewProject">New Project</system:String>
+    <system:String x:Key="Toolbar_GitClone">Git Clone</system:String>
+    <system:String x:Key="Toolbar_Refresh">Refresh</system:String>
+    <system:String x:Key="Toolbar_RefreshTooltip">Reload project list and refresh Git and running status</system:String>
+    <system:String x:Key="Toolbar_FilterAll">All</system:String>
+    <system:String x:Key="Toolbar_FilterRunning">Running</system:String>
+    <system:String x:Key="Toolbar_FilterStopped">Stopped</system:String>
+
+    <!-- Add Project Page -->
+    <system:String x:Key="AddProject_PageTitle">Add New Project</system:String>
+    <system:String x:Key="AddProject_PageDesc">Create a new project or clone from Git repository</system:String>
+    <system:String x:Key="AddProject_NewTitle">New Project</system:String>
+    <system:String x:Key="AddProject_NewDesc">Create a new project from scratch</system:String>
+    <system:String x:Key="AddProject_CreateNew">Create New Project</system:String>
+    <system:String x:Key="AddProject_CloneTitle">Git Clone</system:String>
+    <system:String x:Key="AddProject_CloneDesc">Clone project from Git remote repository</system:String>
+    <system:String x:Key="AddProject_CloneFrom">Clone from Git</system:String>
+
+    <!-- Terminal Page -->
+    <system:String x:Key="Terminal_Title">Terminal</system:String>
+    <system:String x:Key="Terminal_Start">Start</system:String>
+    <system:String x:Key="Terminal_Stop">Stop</system:String>
+    <system:String x:Key="Terminal_Clear">Clear</system:String>
+    <system:String x:Key="Terminal_Refresh">Refresh</system:String>
+    <system:String x:Key="Terminal_OpenCmd">Open Command Prompt</system:String>
+    <system:String x:Key="Terminal_Status">Status:</system:String>
+    <system:String x:Key="Terminal_Project">Project:</system:String>
+    <system:String x:Key="Terminal_NoSession">No terminal session</system:String>
+    <system:String x:Key="Terminal_NoSessionHint">Terminal session will be created automatically after starting project</system:String>
+    <system:String x:Key="Terminal_WorkingDir">Working Directory:</system:String>
+    <system:String x:Key="Terminal_StartTime">Start Time:</system:String>
+    <system:String x:Key="Terminal_SessionCount">Sessions:</system:String>
+    <system:String x:Key="Terminal_Subtitle">View and manage project terminal output</system:String>
+    <system:String x:Key="Terminal_StartTooltip">Start Terminal</system:String>
+    <system:String x:Key="Terminal_StopTooltip">Stop Terminal</system:String>
+    <system:String x:Key="Terminal_ClearTooltip">Clear Output</system:String>
+    <system:String x:Key="Terminal_RefreshTooltip">Refresh Sessions</system:String>
+    <system:String x:Key="Terminal_OpenCmdTooltip">Open External CMD</system:String>
+    <system:String x:Key="Terminal_CloseSession">Close Session</system:String>
+    <system:String x:Key="Terminal_CopyAll">Copy All</system:String>
+    <system:String x:Key="Terminal_CopyAllOutput">Copy All Output (Ctrl+Shift+C)</system:String>
+    <system:String x:Key="Terminal_AutoWrap">Auto Wrap</system:String>
+    <system:String x:Key="Terminal_ScrollTop">Scroll to top</system:String>
+    <system:String x:Key="Terminal_ScrollBottom">Scroll to bottom</system:String>
+    <system:String x:Key="Terminal_AlreadyRunning">Terminal is already running</system:String>
+    <system:String x:Key="Terminal_Starting">Starting...</system:String>
+    <system:String x:Key="Terminal_StartCommand">Start command: </system:String>
+    <system:String x:Key="Terminal_SettingEnvVars">Setting environment variables:</system:String>
+    <system:String x:Key="Terminal_Stopped">Stopped</system:String>
+    <system:String x:Key="Terminal_ProcessExited">Process exited with code: </system:String>
+    <system:String x:Key="Terminal_ChildProcessDetected">Detected child process PID={0} ({1})</system:String>
+    <system:String x:Key="Terminal_Running">Running</system:String>
+    <system:String x:Key="Terminal_Started">Terminal started</system:String>
+    <system:String x:Key="Terminal_StartFailed">Start failed</system:String>
+    <system:String x:Key="Terminal_StartFailedMessage">Start failed: {0}</system:String>
+    <system:String x:Key="Terminal_StartError">Terminal Start Error</system:String>
+    <system:String x:Key="Terminal_ForceStopped">Terminal force stopped</system:String>
+    <system:String x:Key="Terminal_StopFailed">Stop failed</system:String>
+    <system:String x:Key="Terminal_StopFailedMessage">Stop failed: {0}</system:String>
+    <system:String x:Key="Terminal_StopError">Terminal Stop Error</system:String>
+
+    <!-- Performance Page -->
+    <system:String x:Key="Performance_Overall">Overall Performance</system:String>
+    <system:String x:Key="Performance_CacheHitRate">Cache Hit Rate</system:String>
+    <system:String x:Key="Performance_AvgOpTime">Avg Operation Time</system:String>
+    <system:String x:Key="Performance_TotalOps">Total Operations</system:String>
+    <system:String x:Key="Performance_Details">Performance Details</system:String>
+    <system:String x:Key="Performance_Operation">Operation</system:String>
+    <system:String x:Key="Performance_Count">Count</system:String>
+    <system:String x:Key="Performance_AvgTime">Avg Time</system:String>
+    <system:String x:Key="Performance_TotalTime">Total Time</system:String>
+    <system:String x:Key="Performance_RunningProjects">Running Projects</system:String>
+    <system:String x:Key="Performance_TotalCpuUsage">Total CPU Usage</system:String>
+    <system:String x:Key="Performance_TotalMemoryUsage">Total Memory Usage</system:String>
+    <system:String x:Key="Performance_Status_Waiting">Waiting for monitoring to start...</system:String>
+    <system:String x:Key="Performance_Status_Paused">Monitoring paused</system:String>
+    <system:String x:Key="Performance_Status_Monitoring">Monitoring · {0}/{1} projects</system:String>
+    <system:String x:Key="Performance_Status_NoRunning">No running projects</system:String>
+    <system:String x:Key="Performance_LastUpdate">Last Update</system:String>
+    <system:String x:Key="Performance_TotalGpu">Total GPU</system:String>
+    <system:String x:Key="Performance_MemoryShort">Memory</system:String>
+
+    <!-- Environment Variables Page -->
+    <system:String x:Key="EnvVars_SearchPlaceholder">Search environment variables...</system:String>
+    <system:String x:Key="EnvVars_FilterAll">All Variables</system:String>
+    <system:String x:Key="EnvVars_FilterUser">User Variables</system:String>
+    <system:String x:Key="EnvVars_FilterSystem">System Variables</system:String>
+    <system:String x:Key="EnvVars_UserCount">User: {0}</system:String>
+    <system:String x:Key="EnvVars_SystemCount">System: {0}</system:String>
+    <system:String x:Key="EnvVars_AddUser">Add User Variable</system:String>
+    <system:String x:Key="EnvVars_AddSystem">Add System Variable</system:String>
+    <system:String x:Key="EnvVars_EditSelected">Edit Selected</system:String>
+    <system:String x:Key="EnvVars_DeleteSelected">Delete Selected</system:String>
+    <system:String x:Key="EnvVars_Refresh">Refresh List</system:String>
+    <system:String x:Key="EnvVars_AddUserTooltip">Add new user environment variable</system:String>
+    <system:String x:Key="EnvVars_AddSystemTooltip">Add new system environment variable (requires admin privileges)</system:String>
+    <system:String x:Key="EnvVars_EditTooltip">Edit currently selected environment variable</system:String>
+    <system:String x:Key="EnvVars_DeleteTooltip">Delete currently selected environment variable</system:String>
+    <system:String x:Key="EnvVars_RefreshTooltip">Reload environment variables list</system:String>
+
+    <!-- Git Dialog -->
+    <system:String x:Key="Git_CloneTitle">Clone from Git</system:String>
+    <system:String x:Key="Git_RepoUrl">Git Repository URL</system:String>
+    <system:String x:Key="Git_RepoUrlPlaceholder">https://github.com/username/repository.git</system:String>
+    <system:String x:Key="Git_LocalPath">Local Storage Path</system:String>
+    <system:String x:Key="Git_LocalPathPlaceholder">Select project storage location</system:String>
+    <system:String x:Key="Git_Framework">Project Framework</system:String>
+    <system:String x:Key="Git_AutoAddToManager">Automatically add to project manager after cloning</system:String>
+    <system:String x:Key="Git_CloneProgress">Clone Progress</system:String>
+    <system:String x:Key="Git_CloneLog">Clone Log</system:String>
+    <system:String x:Key="Git_Clone">Clone</system:String>
+    <system:String x:Key="Git_Cloning">Cloning...</system:String>
+    <system:String x:Key="Git_Branch">Branch</system:String>
+    <system:String x:Key="Git_Commit">Commit</system:String>
+    <system:String x:Key="Git_Push">Push</system:String>
+    <system:String x:Key="Git_Pull">Pull</system:String>
+    <system:String x:Key="Git_Management">Git Management</system:String>
+
+    <!-- Project Settings Dialog -->
+    <system:String x:Key="ProjectSettings_Title">Project Settings</system:String>
+    <system:String x:Key="ProjectSettings_General">General</system:String>
+    <system:String x:Key="ProjectSettings_Name">Project Name</system:String>
+    <system:String x:Key="ProjectSettings_Description">Description</system:String>
+    <system:String x:Key="ProjectSettings_Path">Path</system:String>
+    <system:String x:Key="ProjectSettings_Framework">Framework</system:String>
+    <system:String x:Key="ProjectSettings_StartCommand">Start Command</system:String>
+    <system:String x:Key="ProjectSettings_StopCommand">Stop Command</system:String>
+    <system:String x:Key="ProjectSettings_EnvVars">Environment Variables</system:String>
+    <system:String x:Key="ProjectSettings_Save">Save</system:String>
+    <system:String x:Key="ProjectSettings_Cancel">Cancel</system:String>
+
+    <!-- New Project Dialog -->
+    <system:String x:Key="NewProject_Title">New Project</system:String>
+    <system:String x:Key="NewProject_SelectPath">Select project path</system:String>
+    <system:String x:Key="NewProject_Create">Create</system:String>
+    <system:String x:Key="NewProject_ProjectInfo">Project Information</system:String>
+    <system:String x:Key="NewProject_ProjectName">Project Name</system:String>
+    <system:String x:Key="NewProject_ProjectNamePlaceholder">Enter project name</system:String>
+    <system:String x:Key="NewProject_ProjectPath">Project Path</system:String>
+    <system:String x:Key="NewProject_ProjectPathPlaceholder">Select project folder path</system:String>
+    <system:String x:Key="NewProject_ProjectDesc">Project Description (Optional)</system:String>
+    <system:String x:Key="NewProject_ProjectDescPlaceholder">Enter project description</system:String>
+    <system:String x:Key="NewProject_GitScan">Git Repository Scan</system:String>
+    <system:String x:Key="NewProject_ScanGitRepos">Scan for Git repositories in project</system:String>
+    <system:String x:Key="NewProject_GitScanDesc">When enabled, it will automatically scan all Git repositories in the project folder and its subfolders, allowing you to switch between different repositories in the Git management interface.</system:String>
+    <system:String x:Key="NewProject_SelectFramework">Select Project Framework</system:String>
+    <system:String x:Key="NewProject_FrameworkWarning">Choose carefully! Framework selection will be automatically saved and cannot be changed later</system:String>
+    <system:String x:Key="NewProject_Next">Next</system:String>
+    <system:String x:Key="NewProject_FrameworkComfyUI">AI Image Generation Workflow</system:String>
+    <system:String x:Key="NewProject_FrameworkNodeJS">JavaScript Runtime</system:String>
+    <system:String x:Key="NewProject_FrameworkDotNet">Microsoft Development Platform</system:String>
+    <system:String x:Key="NewProject_FrameworkOther">Custom Project Type</system:String>
+    <system:String x:Key="NewProject_FillInfo">Fill in project information to create a new project</system:String>
+    <system:String x:Key="NewProject_FrameworkPlaceholder">Select framework...</system:String>
+    <!-- Environment Variable Dialog -->
+    <system:String x:Key="EnvVarDialog_Title">Environment Variables Management</system:String>
+    <system:String x:Key="EnvVarDialog_Project">Project:</system:String>
+    <system:String x:Key="EnvVarDialog_Description">Manage project environment variables, these variables will be automatically set when the project starts</system:String>
+    <system:String x:Key="EnvVarDialog_Search">Search environment variables...</system:String>
+    <system:String x:Key="EnvVarDialog_Enabled">Enabled</system:String>
+    <system:String x:Key="EnvVarDialog_Name">Variable Name</system:String>
+    <system:String x:Key="EnvVarDialog_Value">Variable Value</system:String>
+    <system:String x:Key="EnvVarDialog_Actions">Actions</system:String>
+    <system:String x:Key="EnvVarDialog_NoVariables">No environment variables</system:String>
+    <system:String x:Key="EnvVarDialog_AddDescription">Add new environment variables below</system:String>
+    <system:String x:Key="EnvVarDialog_NamePlaceholder">Variable name</system:String>
+    <system:String x:Key="EnvVarDialog_ValuePlaceholder">Variable value</system:String>
+    <system:String x:Key="EnvVarDialog_Add">Add</system:String>
+    <system:String x:Key="EnvVarDialog_ClearAll">Clear All</system:String>
+    <system:String x:Key="EnvVarDialog_AddLabel">Add:</system:String>
+    <system:String x:Key="EnvVarDialog_DeleteSelected">Delete Selected</system:String>
+    <system:String x:Key="EnvVarDialog_Delete">Delete</system:String>
+
+    <!-- ComfyUI Settings -->
+    <system:String x:Key="ComfyUI_Settings">ComfyUI Settings</system:String>
+    <system:String x:Key="ComfyUI_SettingsTitle">ComfyUI Project Settings</system:String>
+    <system:String x:Key="ComfyUI_ProjectInfo">ComfyUI Workflow Project</system:String>
+    <system:String x:Key="ComfyUI_BasicConfig">Basic Configuration</system:String>
+    <system:String x:Key="ComfyUI_RootPath">ComfyUI Root Directory</system:String>
+    <system:String x:Key="ComfyUI_RootPathPlaceholder">e.g.: D:\ComfyUI or ComfyUI directory in project</system:String>
+    <system:String x:Key="ComfyUI_AutoDetect">Auto Detect</system:String>
+    <system:String x:Key="ComfyUI_RootPathDesc">Used to infer the directory of main.py and custom_nodes; leave blank to try automatically based on project path.</system:String>
+    <system:String x:Key="ComfyUI_StartCommand">Start Command</system:String>
+    <system:String x:Key="ComfyUI_StartCommandPlaceholder">python main.py --listen --port 8188</system:String>
+    <system:String x:Key="ComfyUI_Port">Service Port</system:String>
+    <system:String x:Key="ComfyUI_ListenAddress">Listen Address</system:String>
+    <system:String x:Key="ComfyUI_PythonPath">Python Path (Optional)</system:String>
+    <system:String x:Key="ComfyUI_PythonPathPlaceholder">Leave blank to use system default Python</system:String>
+    <system:String x:Key="ComfyUI_PythonPathInvalid">⚠ Please enter a valid Python executable path (python.exe)</system:String>
+    <system:String x:Key="ComfyUI_ListenAll">Listen on all network interfaces at startup (--listen)</system:String>
+    <system:String x:Key="ComfyUI_BrowserLaunchMode">Browser Launch Mode</system:String>
+    <system:String x:Key="ComfyUI_BrowserLaunch_Default">Default Behavior</system:String>
+    <system:String x:Key="ComfyUI_BrowserLaunch_Auto">Auto Launch Browser (--auto-launch)</system:String>
+    <system:String x:Key="ComfyUI_BrowserLaunch_Disable">Disable Auto Launch Browser (--disable-auto-launch)</system:String>
+    <system:String x:Key="ComfyUI_MemoryGpuSettings">Memory and GPU Settings</system:String>
+    <system:String x:Key="ComfyUI_MemoryMode">Memory Management Mode</system:String>
+    <system:String x:Key="ComfyUI_Memory_None">Not set (Default)</system:String>
+    <system:String x:Key="ComfyUI_Memory_GpuOnly">GPU Only (--gpu-only)</system:String>
+    <system:String x:Key="ComfyUI_Memory_HighVram">High VRAM Mode (--highvram)</system:String>
+    <system:String x:Key="ComfyUI_Memory_NormalVram">Normal VRAM Mode (--normalvram)</system:String>
+    <system:String x:Key="ComfyUI_Memory_LowVram">Low VRAM Mode (--lowvram)</system:String>
+    <system:String x:Key="ComfyUI_Memory_NoVram">No VRAM Mode (--novram)</system:String>
+    <system:String x:Key="ComfyUI_Memory_Cpu">CPU Mode (--cpu)</system:String>
+    <system:String x:Key="ComfyUI_ReserveVram">Reserve VRAM (GB)</system:String>
+    <system:String x:Key="ComfyUI_CudaDevice">CUDA Device ID</system:String>
+    <system:String x:Key="ComfyUI_DirectmlDevice">DirectML Device ID</system:String>
+    <system:String x:Key="ComfyUI_Directml_Auto">-1 for auto detect</system:String>
+    <system:String x:Key="ComfyUI_CudaAllocator">CUDA Memory Allocator</system:String>
+    <system:String x:Key="ComfyUI_CudaAllocator_Default">Default Allocator</system:String>
+    <system:String x:Key="ComfyUI_CudaAllocator_CudaMalloc">Use CUDA Allocator (--cuda-malloc)</system:String>
+    <system:String x:Key="ComfyUI_CudaAllocator_Disable">Disable CUDA Allocator (--disable-cuda-malloc)</system:String>
+    <system:String x:Key="ComfyUI_AsyncOffload">Async Offload (--async-offload)</system:String>
+    <system:String x:Key="ComfyUI_ForceNonBlocking">Force Non-Blocking (--force-non-blocking)</system:String>
+    <system:String x:Key="ComfyUI_DisableSmartMemory">Disable Smart Memory Management (--disable-smart-memory)</system:String>
+    <system:String x:Key="ComfyUI_PrecisionSettings">Precision Settings</system:String>
+    <system:String x:Key="ComfyUI_GlobalPrecision">Global Precision Settings</system:String>
+    <system:String x:Key="ComfyUI_Precision_None">Not forced (Default)</system:String>
+    <system:String x:Key="ComfyUI_ForceFP32">Force FP32 (--force-fp32)</system:String>
+    <system:String x:Key="ComfyUI_ForceFP16">Force FP16 (--force-fp16)</system:String>
+    <system:String x:Key="ComfyUI_UnetPrecision">UNet Model Precision</system:String>
+    <system:String x:Key="ComfyUI_FP32_UNet">FP32 UNet (--fp32-unet)</system:String>
+    <system:String x:Key="ComfyUI_FP64_UNet">FP64 UNet (--fp64-unet)</system:String>
+    <system:String x:Key="ComfyUI_BF16_UNet">BF16 UNet (--bf16-unet)</system:String>
+    <system:String x:Key="ComfyUI_FP16_UNet">FP16 UNet (--fp16-unet)</system:String>
+    <system:String x:Key="ComfyUI_FP8_E4M3FN_UNet">FP8 E4M3FN UNet (--fp8_e4m3fn-unet)</system:String>
+    <system:String x:Key="ComfyUI_FP8_E5M2_UNet">FP8 E5M2 UNet (--fp8_e5m2-unet)</system:String>
+    <system:String x:Key="ComfyUI_FP8_E8M0FNU_UNet">FP8 E8M0FNU UNet (--fp8_e8m0fnu-unet)</system:String>
+    <system:String x:Key="ComfyUI_VaePrecision">VAE Model Precision</system:String>
+    <system:String x:Key="ComfyUI_FP16_VAE">FP16 VAE (--fp16-vae)</system:String>
+    <system:String x:Key="ComfyUI_FP32_VAE">FP32 VAE (--fp32-vae)</system:String>
+    <system:String x:Key="ComfyUI_BF16_VAE">BF16 VAE (--bf16-vae)</system:String>
+    <system:String x:Key="ComfyUI_CPU_VAE">CPU VAE (--cpu-vae)</system:String>
+    <system:String x:Key="ComfyUI_TextEncPrecision">Text Encoder Precision</system:String>
+    <system:String x:Key="ComfyUI_FP8_E4M3FN_TextEnc">FP8 E4M3FN Text Encoder (--fp8_e4m3fn-text-enc)</system:String>
+    <system:String x:Key="ComfyUI_FP8_E5M2_TextEnc">FP8 E5M2 Text Encoder (--fp8_e5m2-text-enc)</system:String>
+    <system:String x:Key="ComfyUI_FP16_TextEnc">FP16 Text Encoder (--fp16-text-enc)</system:String>
+    <system:String x:Key="ComfyUI_FP32_TextEnc">FP32 Text Encoder (--fp32-text-enc)</system:String>
+    <system:String x:Key="ComfyUI_BF16_TextEnc">BF16 Text Encoder (--bf16-text-enc)</system:String>
+    <system:String x:Key="ComfyUI_ForceChannelsLast">Force Channels Last (--force-channels-last)</system:String>
+    <system:String x:Key="ComfyUI_AttentionSettings">Attention Mechanism Settings</system:String>
+    <system:String x:Key="ComfyUI_AttentionAlgo">Attention Algorithm</system:String>
+    <system:String x:Key="ComfyUI_SplitCrossAttention">Split Cross Attention (--use-split-cross-attention)</system:String>
+    <system:String x:Key="ComfyUI_QuadCrossAttention">Quad Cross Attention (--use-quad-cross-attention)</system:String>
+    <system:String x:Key="ComfyUI_PytorchCrossAttention">PyTorch Cross Attention (--use-pytorch-cross-attention)</system:String>
+    <system:String x:Key="ComfyUI_SageAttention">Sage Attention (--use-sage-attention)</system:String>
+    <system:String x:Key="ComfyUI_FlashAttention">Flash Attention (--use-flash-attention)</system:String>
+    <system:String x:Key="ComfyUI_OtherAttention">Other Attention Settings</system:String>
+    <system:String x:Key="ComfyUI_DisableXformers">Disable Xformers (--disable-xformers)</system:String>
+    <system:String x:Key="ComfyUI_AttentionUpcast">Attention Upcast Mode</system:String>
+    <system:String x:Key="ComfyUI_ForceUpcastAttention">Force Upcast Attention (--force-upcast-attention)</system:String>
+    <system:String x:Key="ComfyUI_DontUpcastAttention">Don't Upcast Attention (--dont-upcast-attention)</system:String>
+    <system:String x:Key="ComfyUI_CachePerformance">Cache and Performance Settings</system:String>
+    <system:String x:Key="ComfyUI_CacheMode">Cache Mode</system:String>
+    <system:String x:Key="ComfyUI_Cache_Default">Default Cache Mode</system:String>
+    <system:String x:Key="ComfyUI_Cache_Classic">Classic Cache (--cache-classic)</system:String>
+    <system:String x:Key="ComfyUI_Cache_None">No Cache (--cache-none)</system:String>
+    <system:String x:Key="ComfyUI_Cache_LRU">LRU Cache (--cache-lru)</system:String>
+    <system:String x:Key="ComfyUI_CacheLruSize">LRU Cache Size (when LRU is selected)</system:String>
+    <system:String x:Key="ComfyUI_CacheLruSizePlaceholder">0 to disable</system:String>
+    <system:String x:Key="ComfyUI_PreviewSettings">Preview Settings</system:String>
+    <system:String x:Key="ComfyUI_PreviewMethod">Preview Method</system:String>
+    <system:String x:Key="ComfyUI_PreviewSize">Preview Size</system:String>
+    <system:String x:Key="ComfyUI_PerformanceOpt">Performance Optimization</system:String>
+    <system:String x:Key="ComfyUI_Deterministic">Deterministic Algorithms (--deterministic)</system:String>
+    <system:String x:Key="ComfyUI_FastFp16Accum">Fast FP16 Accumulation (--fast fp16_accumulation)</system:String>
+    <system:String x:Key="ComfyUI_FastFp8Matrix">Fast FP8 Matrix Multiplication (--fast fp8_matrix_mult)</system:String>
+    <system:String x:Key="ComfyUI_FastCublas">Fast CUBLAS Operations (--fast cublas_ops)</system:String>
+    <system:String x:Key="ComfyUI_MmapTorch">Memory Map Torch Files (--mmap-torch-files)</system:String>
+    <system:String x:Key="ComfyUI_DisableMmap">Disable Memory Mapping (--disable-mmap)</system:String>
+    <system:String x:Key="ComfyUI_DirModelConfig">Directory and Model Configuration</system:String>
+    <system:String x:Key="ComfyUI_BaseDir">Base Directory</system:String>
+    <system:String x:Key="ComfyUI_ModelsPath">Models Folder Path</system:String>
+    <system:String x:Key="ComfyUI_OutputPath">Output Folder Path</system:String>
+    <system:String x:Key="ComfyUI_InputDir">Input Folder Path</system:String>
+    <system:String x:Key="ComfyUI_TempDir">Temp Folder Path</system:String>
+    <system:String x:Key="ComfyUI_UserDir">User Directory Path</system:String>
+    <system:String x:Key="ComfyUI_ExtraModelPaths">Extra Model Paths Config File</system:String>
+    <system:String x:Key="ComfyUI_NetworkSecurity">Network and Security Settings</system:String>
+    <system:String x:Key="ComfyUI_MaxUploadSize">Max Upload Size (MB)</system:String>
+    <system:String x:Key="ComfyUI_EnableCors">Enable CORS (--enable-cors-header)</system:String>
+    <system:String x:Key="ComfyUI_CorsOrigin">CORS Origin</system:String>
+    <system:String x:Key="ComfyUI_TlsSslSettings">TLS/SSL Settings</system:String>
+    <system:String x:Key="ComfyUI_TlsKey">TLS Key File</system:String>
+    <system:String x:Key="ComfyUI_TlsCert">TLS Certificate File</system:String>
+    <system:String x:Key="ComfyUI_WorkflowConfig">Workflow and Custom Nodes Configuration</system:String>
+    <system:String x:Key="ComfyUI_CustomNodesDir">Custom Nodes Folder</system:String>
+    <system:String x:Key="ComfyUI_AutoLoadWorkflow">Auto Load Default Workflow at Startup</system:String>
+    <system:String x:Key="ComfyUI_EnableWorkflowSnapshots">Enable Workflow Snapshot Saving</system:String>
+    <system:String x:Key="ComfyUI_CustomNodesMgmt">Custom Nodes Management</system:String>
+    <system:String x:Key="ComfyUI_DisableAllCustomNodes">Disable All Custom Nodes (--disable-all-custom-nodes)</system:String>
+    <system:String x:Key="ComfyUI_WhitelistNodes">Whitelist Custom Nodes</system:String>
+    <system:String x:Key="ComfyUI_WhitelistNodesPlaceholder">Separate node folder names with spaces</system:String>
+    <system:String x:Key="ComfyUI_DisableApiNodes">Disable API Nodes (--disable-api-nodes)</system:String>
+    <system:String x:Key="ComfyUI_DisableMetadata">Disable Metadata (--disable-metadata)</system:String>
+    <system:String x:Key="ComfyUI_AdvancedSettings">Advanced Settings</system:String>
+    <system:String x:Key="ComfyUI_LogDebug">Logging and Debugging</system:String>
+    <system:String x:Key="ComfyUI_LogLevel">Log Level</system:String>
+    <system:String x:Key="ComfyUI_HashFunction">Hashing Function</system:String>
+    <system:String x:Key="ComfyUI_LogStdout">Log to Stdout (--log-stdout)</system:String>
+    <system:String x:Key="ComfyUI_DontPrintServer">Don't Print Server Output (--dont-print-server)</system:String>
+    <system:String x:Key="ComfyUI_WindowsStandalone">Windows Standalone Build (--windows-standalone-build)</system:String>
+    <system:String x:Key="ComfyUI_MultiUser">Multi-User Mode (--multi-user)</system:String>
+    <system:String x:Key="ComfyUI_FrontEndSettings">Front-End Settings</system:String>
+    <system:String x:Key="ComfyUI_FrontEndVersion">Front-End Version</system:String>
+    <system:String x:Key="ComfyUI_FrontEndRoot">Front-End Root Directory</system:String>
+    <system:String x:Key="ComfyUI_EnableCompressResponse">Enable Compress Response Body (--enable-compress-response-body)</system:String>
+    <system:String x:Key="ComfyUI_ExtraArgs">Extra Startup Arguments</system:String>
+    <system:String x:Key="ComfyUI_ExtraArgsPlaceholder">Other startup arguments not included</system:String>
+    <system:String x:Key="ComfyUI_ProjectTags">Project Tags</system:String>
+    <system:String x:Key="ComfyUI_TagsPlaceholder">Enter tags, separated by commas (e.g.: AI Art, Image Gen, Workflow)</system:String>
+    <system:String x:Key="ComfyUI_DeleteProject">Delete Project</system:String>
+    <system:String x:Key="ComfyUI_AutoOpen">Auto Open Browser</system:String>
+    <system:String x:Key="ComfyUI_Plugins">Plugins</system:String>
+    <system:String x:Key="ComfyUI_PluginManager">Plugin Manager</system:String>
+    <system:String x:Key="ComfyUI_StartCommandDesc">Auto-generated from the settings above.</system:String>
+    <system:String x:Key="ComfyUI_MemoryModeDesc">Controls VRAM usage: GpuOnly, HighVram, NormalVram, LowVram, NoVram, or CPU mode.</system:String>
+    <system:String x:Key="ComfyUI_CudaDeviceDesc">GPU device index. Leave empty for auto-detect.</system:String>
+    <system:String x:Key="ComfyUI_GlobalPrecisionDesc">Force all models to FP32 or FP16 regardless of individual settings.</system:String>
+    <system:String x:Key="ComfyUI_AttentionAlgoDesc">Select the cross-attention algorithm for inference.</system:String>
+    <system:String x:Key="ComfyUI_OutputDir">Output Directory</system:String>
+    <system:String x:Key="ComfyUI_CorsSection">CORS</system:String>
+    <system:String x:Key="ComfyUI_AutoPlaceholder">Auto</system:String>
+    <system:String x:Key="ComfyUI_OtherFlags">Other</system:String>
+    <system:String x:Key="ComfyUI_ApiBase">Comfy API Base</system:String>
+    <system:String x:Key="ComfyUI_DatabaseUrl">Database URL</system:String>
+    <system:String x:Key="ComfyUI_DatabaseUrlPlaceholder">Database connection URL</system:String>
+
+    <!-- NodeJS Settings -->
+    <system:String x:Key="NodeJS_Settings">NodeJS Settings</system:String>
+    <system:String x:Key="NodeJS_SettingsTitle">Node.js Project Settings</system:String>
+    <system:String x:Key="NodeJS_ProjectInfo">Node.js JavaScript Runtime Project</system:String>
+    <system:String x:Key="NodeJS_Config">Node.js Configuration</system:String>
+    <system:String x:Key="NodeJS_StartCommand">Start Command</system:String>
+    <system:String x:Key="NodeJS_Port">Service Port</system:String>
+    <system:String x:Key="NodeJS_VersionReq">Node.js Version Requirement</system:String>
+    <system:String x:Key="NodeJS_VersionReqPlaceholder">e.g.: >=16.0.0</system:String>
+    <system:String x:Key="NodeJS_PackageManager">Package Manager</system:String>
+    <system:String x:Key="NodeJS_Scripts">Scripts</system:String>
+    <system:String x:Key="NodeJS_EnableDevMode">Enable Development Mode (NODE_ENV=development)</system:String>
+    <system:String x:Key="NodeJS_EnableHotReload">Enable Hot Reload/Watch Mode</system:String>
+    <system:String x:Key="NodeJS_EnableDebug">Enable Debug Mode (--inspect)</system:String>
+    <system:String x:Key="NodeJS_BuildConfig">Build Configuration</system:String>
+    <system:String x:Key="NodeJS_BuildCommand">Build Command</system:String>
+    <system:String x:Key="NodeJS_BuildCommandPlaceholder">npm run build</system:String>
+    <system:String x:Key="NodeJS_TestCommand">Test Command</system:String>
+    <system:String x:Key="NodeJS_TestCommandPlaceholder">npm test</system:String>
+    <system:String x:Key="NodeJS_OutputPath">Output Directory</system:String>
+    <system:String x:Key="NodeJS_OutputPathPlaceholder">./dist or ./build</system:String>
+    <system:String x:Key="NodeJS_RunTestsBeforeBuild">Run Tests Before Build</system:String>
+    <system:String x:Key="NodeJS_MinifyOutput">Minify Output After Build</system:String>
+    <system:String x:Key="NodeJS_EnvVars">Environment Variables</system:String>
+    <system:String x:Key="NodeJS_EnvFile">.env File Path</system:String>
+    <system:String x:Key="NodeJS_CustomEnvVars">Custom Environment Variables</system:String>
+    <system:String x:Key="NodeJS_CustomEnvVarsPlaceholder">KEY1=value1;KEY2=value2</system:String>
+    <system:String x:Key="NodeJS_ProjectTags">Project Tags</system:String>
+    <system:String x:Key="NodeJS_TagsPlaceholder">Enter tags, separated by commas (e.g.: JavaScript,Node.js,Backend,Web API)</system:String>
+    <system:String x:Key="NodeJS_DeleteProject">Delete Project</system:String>
+    <system:String x:Key="NodeJS_Development">Development</system:String>
+    <system:String x:Key="NodeJS_PackageManagerPlaceholder">Select package manager</system:String>
+    <system:String x:Key="NodeJS_StartCommandPlaceholder">e.g. npm start</system:String>
+    <system:String x:Key="NodeJS_HotReloadDesc">Automatically reload on file changes</system:String>
+    <system:String x:Key="NodeJS_EnableDebugDesc">Enable --inspect flag for debugging</system:String>
+    <system:String x:Key="NodeJS_RunTestsDesc">Execute test suite before building</system:String>
+    <system:String x:Key="NodeJS_MinifyOutputDesc">Minify build output files</system:String>
+    <system:String x:Key="NodeJS_CustomEnvVarsHint">One per line, format: KEY=VALUE</system:String>
+    <system:String x:Key="NodeJS_TagsDesc">Comma-separated tags for categorizing this project</system:String>
+
+    <!-- .NET Project Settings -->
+    <system:String x:Key="DotNet_SettingsTitle">.NET Project Settings</system:String>
+    <system:String x:Key="DotNet_ProjectInfo">.NET Application Project</system:String>
+    <system:String x:Key="DotNet_StartCommand">Start Command</system:String>
+    <system:String x:Key="DotNet_TargetFramework">Target Framework</system:String>
+    <system:String x:Key="DotNet_ProjectType">Project Type</system:String>
+    <system:String x:Key="DotNet_Port">Service Port (Web Project)</system:String>
+    <system:String x:Key="DotNet_EnableHotReload">Enable Hot Reload (dotnet watch)</system:String>
+    <system:String x:Key="DotNet_EnableHttps">Enable HTTPS Redirection</system:String>
+    <system:String x:Key="DotNet_EnableDevPage">Enable Developer Exception Page</system:String>
+    <system:String x:Key="DotNet_BuildConfig">Build Configuration</system:String>
+    <system:String x:Key="DotNet_BuildCommand">Build Command</system:String>
+    <system:String x:Key="DotNet_TestCommand">Test Command</system:String>
+    <system:String x:Key="DotNet_OutputPath">Output Directory</system:String>
+    <system:String x:Key="DotNet_RunTestsBeforeBuild">Run Tests Before Build</system:String>
+    <system:String x:Key="DotNet_EnableCodeAnalysis">Enable Code Analysis</system:String>
+    <system:String x:Key="DotNet_TreatWarningsAsErrors">Treat Warnings as Errors</system:String>
+    <system:String x:Key="DotNet_PublishConfig">Publish Configuration</system:String>
+    <system:String x:Key="DotNet_PublishCommand">Publish Command</system:String>
+    <system:String x:Key="DotNet_TargetRuntime">Target Runtime</system:String>
+    <system:String x:Key="DotNet_PublishPath">Publish Output Directory</system:String>
+    <system:String x:Key="DotNet_SingleFilePublish">Single File Publish</system:String>
+    <system:String x:Key="DotNet_SelfContainedPublish">Self-Contained Publish</system:String>
+    <system:String x:Key="DotNet_EnableReadyToRun">Enable ReadyToRun</system:String>
+    <system:String x:Key="DotNet_ProjectTags">Project Tags</system:String>
+    <system:String x:Key="DotNet_TagsPlaceholder">Enter tags, separated by commas (e.g.: .NET,C#,Backend,Web API)</system:String>
+    <system:String x:Key="DotNet_DeleteProject">Delete Project</system:String>
+    <system:String x:Key="DotNet_RuntimeSection">Runtime</system:String>
+    <system:String x:Key="DotNet_TargetFrameworkPlaceholder">Select target framework</system:String>
+    <system:String x:Key="DotNet_ProjectTypePlaceholder">Select project type</system:String>
+    <system:String x:Key="DotNet_HotReloadDesc">Use dotnet watch for automatic reload</system:String>
+    <system:String x:Key="DotNet_HttpsDesc">Redirect HTTP requests to HTTPS</system:String>
+    <system:String x:Key="DotNet_BuildConfigPlaceholder">Select configuration</system:String>
+    <system:String x:Key="DotNet_TargetRuntimePlaceholder">Select target runtime</system:String>
+    <system:String x:Key="DotNet_SingleFileDesc">Bundle into a single executable</system:String>
+    <system:String x:Key="DotNet_SelfContainedDesc">Include .NET runtime in output</system:String>
+    <system:String x:Key="DotNet_TagsDesc">Comma-separated tags for categorizing this project</system:String>
+
+    <!-- Generic Project Settings -->
+    <system:String x:Key="Generic_SettingsTitle">Generic Project Settings</system:String>
+    <system:String x:Key="Generic_BasicInfo">Basic Information</system:String>
+    <system:String x:Key="Generic_ProjectName">Project Name</system:String>
+    <system:String x:Key="Generic_ProjectNamePlaceholder">Enter project name</system:String>
+    <system:String x:Key="Generic_ProjectDescription">Project Description</system:String>
+    <system:String x:Key="Generic_ProjectDescriptionPlaceholder">Enter project description</system:String>
+    <system:String x:Key="Generic_PathConfig">Path Configuration</system:String>
+    <system:String x:Key="Generic_LocalPath">Project Local Path</system:String>
+    <system:String x:Key="Generic_LocalPathPlaceholder">Select project folder path</system:String>
+    <system:String x:Key="Generic_Browse">Browse</system:String>
+    <system:String x:Key="Generic_WorkingDirectory">Working Directory</system:String>
+    <system:String x:Key="Generic_WorkingDirectoryPlaceholder">Set startup working directory (default is project path)</system:String>
+    <system:String x:Key="Generic_StartConfig">Startup Configuration</system:String>
+    <system:String x:Key="Generic_StartCommand">Start Command</system:String>
+    <system:String x:Key="Generic_StartCommandPlaceholder">e.g.: python app.py or streamlit run app.py</system:String>
+    <system:String x:Key="Generic_AutoStart">Auto-start this project when app starts</system:String>
+    <system:String x:Key="Generic_Tags">Tags</system:String>
+    <system:String x:Key="Generic_TagsPlaceholder">Enter tags, separated by commas (e.g.: ML, Image Processing, API)</system:String>
+    <system:String x:Key="Generic_ApplyCommandToolTip">Click to apply this command</system:String>
+    <system:String x:Key="Generic_Save">Save</system:String>
+    <system:String x:Key="Generic_Cancel">Cancel</system:String>
+    <system:String x:Key="Generic_DeleteProject">Delete Project</system:String>
+    <system:String x:Key="Generic_DeleteProjectDesc">Permanently remove this project from the list. This will not delete files on disk.</system:String>
+    <system:String x:Key="Generic_Delete">Delete</system:String>
+    <system:String x:Key="Generic_Close">Close</system:String>
+    <system:String x:Key="Generic_FrameworkPlaceholder">Select framework</system:String>
+    <system:String x:Key="Generic_TemplatesPlaceholder">Templates</system:String>
+    <system:String x:Key="Generic_SettingsAutoSaved">Settings are automatically saved</system:String>
+    <system:String x:Key="Generic_DefaultPlaceholder">Leave blank to use default</system:String>
+
+    <!-- Project Edit -->
+    <system:String x:Key="ProjectEdit_Title">Project Settings</system:String>
+    <system:String x:Key="ProjectEdit_EditProjectHeader">Edit Project</system:String>
+    <system:String x:Key="ProjectEdit_FrameworkPlaceholder">Select framework</system:String>
+
+    <!-- Git Management -->
+    <system:String x:Key="Git_Title">Git Management</system:String>
+    <system:String x:Key="Git_RepoSelection">Git Repository Selection</system:String>
+    <system:String x:Key="Git_MultipleReposDesc">Multiple Git repositories found in project, please select one to manage:</system:String>
+    <system:String x:Key="Git_RepoStatus">Repository Status</system:String>
+    <system:String x:Key="Git_IsRepo">This is a Git repository</system:String>
+    <system:String x:Key="Git_IsNotRepo">This is not a Git repository</system:String>
+    <system:String x:Key="Git_InitRepo">Initialize Git Repository</system:String>
+    <system:String x:Key="Git_CurrentBranch">Current Branch:</system:String>
+    <system:String x:Key="Git_Status">Status:</system:String>
+    <system:String x:Key="Git_UncommittedChanges">Uncommitted Changes:</system:String>
+    <system:String x:Key="Git_UnpushedCommits">Unpushed Commits:</system:String>
+    <system:String x:Key="Git_LastCommit">Last Commit:</system:String>
+    <system:String x:Key="Git_CommitTime">Commit Time:</system:String>
+    <system:String x:Key="Git_RefreshStatus">Refresh Status</system:String>
+    <system:String x:Key="Git_BasicOps">Basic Operations</system:String>
+    <system:String x:Key="Git_CommitChanges">Commit Changes</system:String>
+    <system:String x:Key="Git_CommitMsgPlaceholder">Enter commit message...</system:String>
+    <system:String x:Key="Git_AddAll">Add All Files</system:String>
+    <system:String x:Key="Git_SyncOps">Sync Operations</system:String>
+    <system:String x:Key="Git_BranchMgmt">Branch Management</system:String>
+    <system:String x:Key="Git_CurrentBranchLabel">Current Branch</system:String>
+    <system:String x:Key="Git_SwitchBranch">Switch Branch</system:String>
+    <system:String x:Key="Git_CreateNewBranch">Create New Branch</system:String>
+    <system:String x:Key="Git_NewBranchPlaceholder">Enter new branch name...</system:String>
+    <system:String x:Key="Git_CreateBranch">Create Branch</system:String>
+    <system:String x:Key="Git_RemoteRepo">Remote Repository</system:String>
+    <system:String x:Key="Git_RemoteUrl">Remote Repository URL</system:String>
+    <system:String x:Key="Git_RemoteUrlPlaceholder">Enter remote repository URL...</system:String>
+    <system:String x:Key="Git_SetRemote">Set Remote URL</system:String>
+
+    <!-- Environment Variable Edit -->
+    <system:String x:Key="EnvVar_EditTitle">Edit Environment Variable</system:String>
+    <system:String x:Key="EnvVar_Edit_Name">Variable Name:</system:String>
+    <system:String x:Key="EnvVar_NamePlaceholder">Enter variable name</system:String>
+    <system:String x:Key="EnvVar_Edit_Value">Variable Value:</system:String>
+    <system:String x:Key="EnvVar_EditPath">Edit Path...</system:String>
+    <system:String x:Key="EnvVar_BrowseFolder">Browse Folder...</system:String>
+    <system:String x:Key="EnvVar_BrowseFile">Browse File...</system:String>
+    <system:String x:Key="EnvVar_ValuePlaceholder">Enter variable value, multiple paths can be separated by semicolons</system:String>
+
+    <!-- ComfyUI Plugins Management -->
+    <system:String x:Key="ComfyUI_PluginsTitle">ComfyUI Plugins Management</system:String>
+    <system:String x:Key="ComfyUI_PluginEnabled">Enabled</system:String>
+    <system:String x:Key="ComfyUI_PluginName">Plugin Name</system:String>
+    <system:String x:Key="ComfyUI_PluginRemoteUrl">Remote URL</system:String>
+    <system:String x:Key="ComfyUI_PluginBranch">Branch</system:String>
+    <system:String x:Key="ComfyUI_PluginVersionId">Version ID</system:String>
+    <system:String x:Key="ComfyUI_PluginLastCommit">Last Commit Message</system:String>
+    <system:String x:Key="ComfyUI_PluginLastUpdate">Update Date</system:String>
+    <system:String x:Key="ComfyUI_PluginActions">Actions</system:String>
+    <system:String x:Key="ComfyUI_PluginRemove">Remove</system:String>
+
+    <!-- Path Editor -->
+    <system:String x:Key="PathEditor_Title">Edit Path</system:String>
+    <system:String x:Key="PathEditor_Directory">Directory</system:String>
+    <system:String x:Key="PathEditor_Available">Available</system:String>
+    <system:String x:Key="PathEditor_New">New</system:String>
+    <system:String x:Key="PathEditor_Edit">Edit</system:String>
+    <system:String x:Key="PathEditor_Delete">Delete</system:String>
+    <system:String x:Key="PathEditor_MoveUp">Move Up</system:String>
+    <system:String x:Key="PathEditor_MoveDown">Move Down</system:String>
+    <system:String x:Key="PathEditor_Browse">Browse...</system:String>
+    <system:String x:Key="PathEditor_EditAsText">Edit as Text</system:String>
+    <system:String x:Key="PathEditor_EditAsList">Edit as List</system:String>
+    <system:String x:Key="PathEditor_TextTitle">Edit Path Text</system:String>
+    <system:String x:Key="PathEditor_TextDescription">Semicolon-separated list of paths, one per line:</system:String>
+
+    <system:String x:Key="PathEditor_ItemTitle">Edit Path Item</system:String>
+    <system:String x:Key="PathEditor_HeaderTitle">PATH Editor</system:String>
+    <system:String x:Key="PathEditor_VariableLabel">Variable:</system:String>
+    <system:String x:Key="PathEditor_Description">One path per line, separated by semicolons (;). You can add, delete, edit, and reorder paths.</system:String>
+    <system:String x:Key="PathEditor_PathLabel">Path:</system:String>
+    <system:String x:Key="PathEditor_PathPlaceholder">Enter path or use browse buttons...</system:String>
+
+    <!-- Common Words -->
+    <system:String x:Key="Common_Name">Name</system:String>
+    <system:String x:Key="Common_Value">Value</system:String>
+    <system:String x:Key="Common_Type">Type</system:String>
+    <system:String x:Key="Common_Status">Status</system:String>
+    <system:String x:Key="Common_Action">Action</system:String>
+    <system:String x:Key="Common_All">All</system:String>
+    <system:String x:Key="Common_None">None</system:String>
+    <system:String x:Key="Common_Loading">Loading...</system:String>
+    <system:String x:Key="Common_Saving">Saving...</system:String>
+    <system:String x:Key="Common_Success">Success</system:String>
+    <system:String x:Key="Common_Failed">Failed</system:String>
+    <system:String x:Key="Common_Yes">Yes</system:String>
+    <system:String x:Key="Common_No">No</system:String>
+
+    <!-- ComfyUI Project Settings Dialog -->
+    <system:String x:Key="ComfyUI_SelectPythonExecutable">Select Python Executable</system:String>
+    <system:String x:Key="ComfyUI_SelectComfyUIDirectory">Select any file in ComfyUI directory (e.g., main.py)</system:String>
+    <system:String x:Key="ComfyUI_SelectModelsFolder">Select Models Folder</system:String>
+    <system:String x:Key="ComfyUI_SelectOutputFolder">Select Output Folder</system:String>
+    <system:String x:Key="ComfyUI_SelectCustomNodesFolder">Select Custom Nodes Folder</system:String>
+    <system:String x:Key="ComfyUI_SelectBaseDirectory">Select Base Directory</system:String>
+    <system:String x:Key="ComfyUI_SelectInputFolder">Select Input Folder</system:String>
+    <system:String x:Key="ComfyUI_SelectTempFolder">Select Temp Folder</system:String>
+    <system:String x:Key="ComfyUI_SelectUserDirectory">Select User Directory</system:String>
+    <system:String x:Key="ComfyUI_SelectExtraModelPathsConfig">Select Extra Model Paths Config File</system:String>
+    <system:String x:Key="ComfyUI_SelectTLSKeyFile">Select TLS Key File</system:String>
+    <system:String x:Key="ComfyUI_SelectTLSCertFile">Select TLS Certificate File</system:String>
+    <system:String x:Key="ComfyUI_SelectFrontendRoot">Select Frontend Root Directory</system:String>
+    <system:String x:Key="ComfyUI_SelectFolder">Select Folder</system:String>
+    <system:String x:Key="ComfyUI_OnlyPythonExeAllowed">Only python.exe files are allowed</system:String>
+
+</ResourceDictionary>

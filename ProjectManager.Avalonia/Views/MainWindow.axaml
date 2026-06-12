@@ -1,0 +1,64 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ProjectManager.Avalonia.ViewModels"
+        xmlns:pg="using:ProjectManager.Avalonia.ViewModels.Pages"
+        xmlns:pages="using:ProjectManager.Avalonia.Views.Pages"
+        xmlns:fa="using:FluentAvalonia.UI.Controls"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="800"
+        x:Class="ProjectManager.Avalonia.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="{Binding AppTitle}"
+        Width="1280" Height="800"
+        MinWidth="900" MinHeight="600"
+        WindowStartupLocation="CenterScreen">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <!-- 使用 FluentAvalonia FANavigationView 替代 WPF-UI NavigationView -->
+    <fa:FANavigationView x:Name="RootNavigation"
+                         IsBackButtonVisible="False"
+                         IsPaneToggleButtonVisible="True"
+                         IsSettingsVisible="False"
+                         OpenPaneLength="240"
+                         PaneDisplayMode="Left"
+                         SelectionChanged="OnNavigationSelectionChanged"
+                         MenuItemsSource="{Binding MenuItems}"
+                         FooterMenuItemsSource="{Binding FooterMenuItems}">
+
+        <!-- 页面内容区域 -->
+        <fa:FANavigationView.Content>
+            <ContentControl Content="{Binding CurrentPage}"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch">
+                <ContentControl.DataTemplates>
+                    <DataTemplate DataType="pg:DashboardViewModel">
+                        <pages:DashboardPage />
+                    </DataTemplate>
+                    <DataTemplate DataType="pg:ProjectsViewModel">
+                        <pages:ProjectsPage />
+                    </DataTemplate>
+                    <DataTemplate DataType="pg:TerminalViewModel">
+                        <pages:TerminalPage />
+                    </DataTemplate>
+                    <DataTemplate DataType="pg:PerformanceViewModel">
+                        <pages:PerformancePage />
+                    </DataTemplate>
+                    <DataTemplate DataType="pg:SystemEnvironmentVariablesViewModel">
+                        <pages:SystemEnvironmentVariablesPage />
+                    </DataTemplate>
+                    <DataTemplate DataType="pg:SettingsViewModel">
+                        <pages:SettingsPage />
+                    </DataTemplate>
+                    <DataTemplate DataType="pg:AddProjectViewModel">
+                        <pages:AddProjectPage />
+                    </DataTemplate>
+                </ContentControl.DataTemplates>
+            </ContentControl>
+        </fa:FANavigationView.Content>
+    </fa:FANavigationView>
+</Window>

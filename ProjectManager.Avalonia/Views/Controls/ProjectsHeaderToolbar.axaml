@@ -1,0 +1,63 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="ProjectManager.Avalonia.Views.Controls.ProjectsHeaderToolbar"
+             x:CompileBindings="False">
+
+    <Grid Margin="24,0,24,8">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Left: Search box + Status filter -->
+        <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+            <!-- Search TextBox with icon -->
+            <Grid Width="280" VerticalAlignment="Center">
+                <TextBlock Text="&#xE721;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                           Opacity="0.5" VerticalAlignment="Center" Margin="10,0,0,0"
+                           IsHitTestVisible="False"/>
+                <TextBox Text="{Binding $parent[UserControl].DataContext.SearchText, Mode=TwoWay}"
+                         PlaceholderText="{DynamicResource Toolbar_SearchProjects}"
+                         Padding="32,6,8,6"/>
+            </Grid>
+
+            <!-- Status filter ComboBox -->
+            <ComboBox ItemsSource="{Binding $parent[UserControl].DataContext.StatusFilters}"
+                      SelectedItem="{Binding $parent[UserControl].DataContext.SelectedStatusFilter}"
+                      MinWidth="80"/>
+        </StackPanel>
+
+        <!-- Right: Action buttons -->
+        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+            <!-- New Project button (accent) -->
+            <Button Classes="accent"
+                    Command="{Binding $parent[UserControl].DataContext.CreateProjectCommand}">
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Text="{DynamicResource Toolbar_NewProject}" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <!-- Clone from Git button -->
+            <Button Command="{Binding $parent[UserControl].DataContext.CloneFromGitCommand}">
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <TextBlock Text="&#xE72B;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Text="{DynamicResource AddProject_CloneFrom}" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <!-- Refresh button -->
+            <Button Command="{Binding $parent[UserControl].DataContext.RefreshCommand}"
+                    ToolTip.Tip="{DynamicResource Toolbar_RefreshTooltip}"
+                    IsEnabled="{Binding $parent[UserControl].DataContext.IsRefreshing, Converter={StaticResource InverseBooleanConverter}}">
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <TextBlock Text="&#xE72C;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Text="{DynamicResource Toolbar_Refresh}" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

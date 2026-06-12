@@ -1,0 +1,294 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ProjectManager.Avalonia.ViewModels.Dialogs"
+        x:Class="ProjectManager.Avalonia.Views.Dialogs.NodeJSProjectSettingsWindow"
+        x:CompileBindings="False"
+        Title="{DynamicResource NodeJS_SettingsTitle}"
+        Width="650" Height="730"
+        MinWidth="550" MinHeight="600"
+        Background="#202020"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        CanResize="True">
+
+    <Border Padding="24"
+            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+            BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1" CornerRadius="8" Margin="16">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Title -->
+            <StackPanel Grid.Row="0" Margin="0,0,0,16">
+                <TextBlock Text="{DynamicResource NodeJS_SettingsTitle}" FontSize="22" FontWeight="Bold"/>
+                <TextBlock Text="{Binding ProjectName}" FontSize="13" Opacity="0.6" Margin="0,4,0,0"/>
+            </StackPanel>
+
+            <!-- Tabbed Content -->
+            <TabControl Grid.Row="1">
+
+                <!-- General Tab -->
+                <TabItem Header="{DynamicResource ProjectSettings_General}">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                  VerticalScrollBarVisibility="Auto" Padding="0,12">
+                        <StackPanel Spacing="12">
+
+                            <!-- Project Name -->
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource Generic_ProjectName}" FontWeight="Medium"/>
+                                <TextBox Text="{Binding ProjectName}" PlaceholderText="{DynamicResource Generic_ProjectNamePlaceholder}"/>
+                            </StackPanel>
+
+                            <!-- Project Path -->
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource ProjectSettings_Path}" FontWeight="Medium"/>
+                                <TextBox Text="{Binding ProjectPath}" PlaceholderText="{DynamicResource Generic_LocalPathPlaceholder}"
+                                         IsReadOnly="True"/>
+                            </StackPanel>
+
+                            <!-- Port -->
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource NodeJS_Port}" FontWeight="Medium"/>
+                                <NumericUpDown Value="{Binding Port}" Minimum="1" Maximum="65535"
+                                               Width="150" HorizontalAlignment="Left"/>
+                            </StackPanel>
+
+                            <!-- Node Version -->
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource NodeJS_VersionReq}" FontWeight="Medium"/>
+                                <TextBox Text="{Binding NodeVersion}" PlaceholderText="{DynamicResource NodeJS_VersionReqPlaceholder}"/>
+                            </StackPanel>
+
+                            <!-- Package Manager -->
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource NodeJS_PackageManager}" FontWeight="Medium"/>
+                                <ComboBox SelectedItem="{Binding PackageManager}"
+                                          HorizontalAlignment="Stretch"
+                                          PlaceholderText="{DynamicResource NodeJS_PackageManagerPlaceholder}">
+                                    <ComboBoxItem Content="npm"/>
+                                    <ComboBoxItem Content="yarn"/>
+                                    <ComboBoxItem Content="pnpm"/>
+                                </ComboBox>
+                            </StackPanel>
+
+                            <!-- Start Command -->
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource NodeJS_StartCommand}" FontWeight="Medium"/>
+                                <TextBox Text="{Binding StartCommand}" PlaceholderText="{DynamicResource NodeJS_StartCommandPlaceholder}"/>
+                            </StackPanel>
+
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                <!-- Development Tab -->
+                <TabItem Header="{DynamicResource NodeJS_Development}">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                  VerticalScrollBarVisibility="Auto" Padding="0,12">
+                        <StackPanel Spacing="12">
+
+                            <!-- Development Mode -->
+                            <Border Padding="16"
+                                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                                    BorderThickness="1" CornerRadius="8">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0">
+                                        <TextBlock Text="{DynamicResource NodeJS_EnableDevMode}" FontWeight="Medium"/>
+                                        <TextBlock Text="{DynamicResource NodeJS_EnableDevModeDesc}" FontSize="12" Opacity="0.7"/>
+                                    </StackPanel>
+                                    <CheckBox Grid.Column="1" IsChecked="{Binding DevelopmentMode}"
+                                              VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+
+                            <!-- Hot Reload -->
+                            <Border Padding="16"
+                                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                                    BorderThickness="1" CornerRadius="8">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0">
+                                        <TextBlock Text="{DynamicResource NodeJS_EnableHotReload}" FontWeight="Medium"/>
+                                        <TextBlock Text="{DynamicResource NodeJS_HotReloadDesc}" FontSize="12" Opacity="0.7"/>
+                                    </StackPanel>
+                                    <CheckBox Grid.Column="1" IsChecked="{Binding HotReload}"
+                                              VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+
+                            <!-- Debug Mode -->
+                            <Border Padding="16"
+                                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                                    BorderThickness="1" CornerRadius="8">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0">
+                                        <TextBlock Text="{DynamicResource NodeJS_EnableDebug}" FontWeight="Medium"/>
+                                        <TextBlock Text="{DynamicResource NodeJS_EnableDebugDesc}" FontSize="12" Opacity="0.7"/>
+                                    </StackPanel>
+                                    <CheckBox Grid.Column="1" IsChecked="{Binding DebugMode}"
+                                              VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                <!-- Build Tab -->
+                <TabItem Header="{DynamicResource NodeJS_BuildConfig}">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                  VerticalScrollBarVisibility="Auto" Padding="0,12">
+                        <StackPanel Spacing="12">
+
+                            <!-- Build Command -->
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource NodeJS_BuildCommand}" FontWeight="Medium"/>
+                                <TextBox Text="{Binding BuildCommand}" PlaceholderText="{DynamicResource NodeJS_BuildCommandPlaceholder}"/>
+                            </StackPanel>
+
+                            <!-- Test Command -->
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource NodeJS_TestCommand}" FontWeight="Medium"/>
+                                <TextBox Text="{Binding TestCommand}" PlaceholderText="{DynamicResource NodeJS_TestCommandPlaceholder}"/>
+                            </StackPanel>
+
+                            <!-- Build Output Path -->
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource NodeJS_OutputPath}" FontWeight="Medium"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Column="0" Text="{Binding BuildOutputPath}"
+                                             PlaceholderText="{DynamicResource NodeJS_OutputPathPlaceholder}"/>
+                                    <Button Grid.Column="1" Content="{DynamicResource Button_Browse}" Margin="8,0,0,0"
+                                            Command="{Binding BrowseBuildOutputPathCommand}"/>
+                                </Grid>
+                            </StackPanel>
+
+                            <!-- Run Tests Before Build -->
+                            <Border Padding="16"
+                                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                                    BorderThickness="1" CornerRadius="8">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0">
+                                        <TextBlock Text="{DynamicResource NodeJS_RunTestsBeforeBuild}" FontWeight="Medium"/>
+                                        <TextBlock Text="{DynamicResource NodeJS_RunTestsDesc}" FontSize="12" Opacity="0.7"/>
+                                    </StackPanel>
+                                    <CheckBox Grid.Column="1" IsChecked="{Binding RunTestsBeforeBuild}"
+                                              VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+
+                            <!-- Minify Output -->
+                            <Border Padding="16"
+                                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                                    BorderThickness="1" CornerRadius="8">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0">
+                                        <TextBlock Text="{DynamicResource NodeJS_MinifyOutput}" FontWeight="Medium"/>
+                                        <TextBlock Text="{DynamicResource NodeJS_MinifyOutputDesc}" FontSize="12" Opacity="0.7"/>
+                                    </StackPanel>
+                                    <CheckBox Grid.Column="1" IsChecked="{Binding MinifyOutput}"
+                                              VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                <!-- Environment Tab -->
+                <TabItem Header="{DynamicResource NodeJS_EnvVars}">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                  VerticalScrollBarVisibility="Auto" Padding="0,12">
+                        <StackPanel Spacing="12">
+
+                            <!-- Environment File -->
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource NodeJS_EnvFile}" FontWeight="Medium"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Column="0" Text="{Binding EnvironmentFile}"
+                                             PlaceholderText=".env"/>
+                                    <Button Grid.Column="1" Content="{DynamicResource Button_Browse}" Margin="8,0,0,0"
+                                            Command="{Binding BrowseEnvironmentFileCommand}"/>
+                                </Grid>
+                            </StackPanel>
+
+                            <!-- Custom Environment Variables -->
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{DynamicResource NodeJS_CustomEnvVars}" FontWeight="Medium"/>
+                                <TextBlock Text="{DynamicResource NodeJS_CustomEnvVarsHint}" FontSize="12" Opacity="0.7"/>
+                                <TextBox Text="{Binding CustomEnvironmentVars}"
+                                         PlaceholderText="NODE_ENV=development&#x0a;API_URL=http://localhost:3000"
+                                         AcceptsReturn="True" TextWrapping="Wrap" MinHeight="120"/>
+                            </StackPanel>
+
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                <!-- Tags Tab -->
+                <TabItem Header="{DynamicResource Generic_Tags}">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                  VerticalScrollBarVisibility="Auto" Padding="0,12">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="{DynamicResource Generic_Tags}" FontWeight="Medium"/>
+                            <TextBlock Text="{DynamicResource NodeJS_TagsDesc}" FontSize="12" Opacity="0.7"/>
+                            <TextBox Text="{Binding TagsString}"
+                                     PlaceholderText="{DynamicResource NodeJS_TagsPlaceholder}"
+                                     AcceptsReturn="True" TextWrapping="Wrap" MinHeight="80"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+            </TabControl>
+
+            <!-- Action Buttons -->
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right"
+                        Spacing="8" Margin="0,16,0,0">
+                <Button Content="{DynamicResource NodeJS_DeleteProject}"
+                        Command="{Binding DeleteCommand}"
+                        Classes="caution"/>
+                <Button Content="{DynamicResource Button_Cancel}"
+                        Command="{Binding CancelCommand}"/>
+                <Button Content="{DynamicResource Button_Save}"
+                        Command="{Binding SaveCommand}"
+                        Classes="accent"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>
