@@ -322,3 +322,15 @@ public class FrameworkToLocalizedNameConverter : IValueConverter
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         => throw new NotImplementedException();
 }
+
+public class BoolToTabBackgroundConverter : IValueConverter
+{
+    private static readonly IBrush SelectedBrush = new SolidColorBrush(Color.Parse("#000000"));
+    private static readonly IBrush DefaultBrush = new SolidColorBrush(Color.Parse("#2D2D30"));
+
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        => value is true ? SelectedBrush : DefaultBrush;
+
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        => throw new NotImplementedException();
+}

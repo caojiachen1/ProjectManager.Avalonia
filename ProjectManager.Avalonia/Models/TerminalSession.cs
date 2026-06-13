@@ -27,6 +27,9 @@ namespace ProjectManager.Avalonia.Models
         private bool _isRunning = false;
 
         [ObservableProperty]
+        private bool _isSelected = false;
+
+        [ObservableProperty]
         private DateTime _startTime = DateTime.Now;
 
         [ObservableProperty]

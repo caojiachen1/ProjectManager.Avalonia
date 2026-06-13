@@ -20,6 +20,14 @@ public partial class TerminalViewModel : ViewModelBase
     [ObservableProperty]
     private TerminalSession? _selectedSession;
 
+    partial void OnSelectedSessionChanging(TerminalSession? oldValue, TerminalSession? newValue)
+    {
+        if (oldValue != null)
+            oldValue.IsSelected = false;
+        if (newValue != null)
+            newValue.IsSelected = true;
+    }
+
     [ObservableProperty]
     private string _selectedOutput = string.Empty;
 
@@ -163,6 +171,13 @@ public partial class TerminalViewModel : ViewModelBase
     private void ClearOutput()
     {
         SelectedSession?.ClearOutput();
+    }
+
+    [RelayCommand]
+    private void SelectSession(TerminalSession? session)
+    {
+        if (session != null)
+            SelectedSession = session;
     }
 
     [RelayCommand]

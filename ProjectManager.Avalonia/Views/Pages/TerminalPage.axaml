@@ -3,11 +3,16 @@
              xmlns:vm="using:ProjectManager.Avalonia.ViewModels.Pages"
              xmlns:models="using:ProjectManager.Avalonia.Models"
              xmlns:behaviors="using:ProjectManager.Avalonia.Behaviors"
+             xmlns:helpers="using:ProjectManager.Avalonia.Helpers"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ProjectManager.Avalonia.Views.Pages.TerminalPage"
              x:CompileBindings="False">
+
+    <UserControl.Resources>
+        <helpers:BoolToTabBackgroundConverter x:Key="BoolToTabBackgroundConverter"/>
+    </UserControl.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -106,102 +111,123 @@
         <!-- ===================== Center: Terminal Area ===================== -->
         <Grid Grid.Row="2" Margin="24,0,24,0">
 
-            <!-- TabControl for terminal sessions -->
-            <TabControl ItemsSource="{Binding TerminalSessions}"
-                        SelectedItem="{Binding SelectedSession}"
-                        Background="#0C0C0C"
-                        BorderThickness="0"
-                        IsVisible="{Binding TerminalSessions.Count, Converter={StaticResource CountToVisibilityConverter}}">
+            <!-- Terminal sessions container -->
+            <Grid RowDefinitions="Auto,*"
+                  IsVisible="{Binding TerminalSessions.Count, Converter={StaticResource CountToVisibilityConverter}}">
 
-                <!-- TabItem styling: dark theme with selected/hover states -->
-                <TabControl.Styles>
-                    <Style Selector="TabItem">
-                        <Setter Property="Background" Value="#2D2D30"/>
-                        <Setter Property="Foreground" Value="#FFFFFF"/>
-                        <Setter Property="BorderBrush" Value="#3F3F46"/>
-                        <Setter Property="BorderThickness" Value="1,1,1,0"/>
-                        <Setter Property="Padding" Value="12,8"/>
-                        <Setter Property="FontSize" Value="12"/>
-                    </Style>
-                    <Style Selector="TabItem:selected">
-                        <Setter Property="Background" Value="#0C0C0C"/>
-                        <Setter Property="BorderBrush" Value="#007ACC"/>
-                    </Style>
-                    <Style Selector="TabItem:pointerover">
-                        <Setter Property="Background" Value="#3E3E42"/>
-                    </Style>
-                </TabControl.Styles>
+                <!-- Custom Fluent Design tab bar -->
+                <Border Grid.Row="0" Background="#252526" CornerRadius="6,6,0,0">
+                    <ItemsControl ItemsSource="{Binding TerminalSessions}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Margin="2,0" Padding="0"
+                                        HorizontalContentAlignment="Stretch"
+                                        Command="{Binding $parent[UserControl].DataContext.SelectSessionCommand}"
+                                        CommandParameter="{Binding}">
+                                    <Button.Theme>
+                                        <ControlTheme TargetType="Button">
+                                            <Setter Property="Template">
+                                                <ControlTemplate>
+                                                    <Border Name="Root"
+                                                            Background="{Binding IsSelected, Converter={StaticResource BoolToTabBackgroundConverter}}"
+                                                            BorderBrush="#B0B0B0"
+                                                            BorderThickness="0.5,0.5,0.5,0"
+                                                            CornerRadius="4,4,0,0"
+                                                            Padding="{TemplateBinding Padding}">
+                                                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                          VerticalAlignment="Center"
+                                                                          Content="{TemplateBinding Content}"/>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter>
+                                            <Style Selector="^:pointerover /template/ Border#Root">
+                                                <Setter Property="Background" Value="#555555"/>
+                                            </Style>
+                                        </ControlTheme>
+                                    </Button.Theme>
+                                    <StackPanel Orientation="Horizontal" Spacing="8" Margin="12,6">
+                                        <TextBlock Text="&#xE756;" FontFamily="Segoe Fluent Icons" FontSize="13"
+                                                   Foreground="{Binding IsRunning, Converter={StaticResource BooleanToColorConverter}}"
+                                                   VerticalAlignment="Center"/>
+                                        <TextBlock Text="{Binding ProjectName}" FontSize="12"
+                                                   Foreground="#FFFFFF" VerticalAlignment="Center"/>
+                                        <Button Content="&#xE711;"
+                                                FontFamily="Segoe Fluent Icons" FontSize="9"
+                                                Width="18" Height="18"
+                                                Padding="0"
+                                                VerticalAlignment="Center"
+                                                Command="{Binding $parent[UserControl].DataContext.CloseSessionCommand}"
+                                                CommandParameter="{Binding}"
+                                                ToolTip.Tip="{DynamicResource Terminal_CloseSession}">
+                                            <Button.Theme>
+                                                <ControlTheme TargetType="Button">
+                                                    <Setter Property="Template">
+                                                        <ControlTemplate>
+                                                            <Border Name="CloseRoot"
+                                                                    Background="Transparent"
+                                                                    CornerRadius="3"
+                                                                    Width="{TemplateBinding Width}"
+                                                                    Height="{TemplateBinding Height}">
+                                                                <ContentPresenter HorizontalAlignment="Center"
+                                                                                  VerticalAlignment="Center"
+                                                                                  Content="{TemplateBinding Content}"
+                                                                                  Foreground="#666666"/>
+                                                            </Border>
+                                                        </ControlTemplate>
+                                                    </Setter>
+                                                    <Style Selector="^:pointerover /template/ Border#CloseRoot">
+                                                        <Setter Property="Background" Value="#30FFFFFF"/>
+                                                    </Style>
+                                                    <Style Selector="^:pointerover /template/ ContentPresenter">
+                                                        <Setter Property="Foreground" Value="#CCCCCC"/>
+                                                    </Style>
+                                                </ControlTheme>
+                                            </Button.Theme>
+                                        </Button>
+                                    </StackPanel>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Border>
 
-                <!-- Tab Header Template -->
-                <TabControl.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-
-                            <!-- Session icon + project name -->
-                            <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="6">
-                                <TextBlock Text="&#xE756;" FontFamily="Segoe Fluent Icons" FontSize="14"
-                                           Foreground="{Binding IsRunning, Converter={StaticResource BooleanToColorConverter}}"
-                                           VerticalAlignment="Center"/>
-                                <TextBlock Text="{Binding ProjectName}" FontSize="12"
-                                           VerticalAlignment="Center"/>
-                            </StackPanel>
-
-                            <!-- Close button -->
-                            <Button Grid.Column="1"
-                                    Content="&#xE711;"
-                                    FontFamily="Segoe Fluent Icons" FontSize="10"
-                                    Width="16" Height="16"
-                                    Padding="0" Margin="8,0,0,0"
-                                    Background="Transparent" BorderThickness="0"
-                                    Foreground="#999999"
-                                    VerticalAlignment="Center"
-                                    Command="{Binding $parent[TabControl].DataContext.CloseSessionCommand}"
-                                    CommandParameter="{Binding}"
-                                    ToolTip.Tip="{DynamicResource Terminal_CloseSession}"/>
-                        </Grid>
-                    </DataTemplate>
-                </TabControl.ItemTemplate>
-
-                <!-- Tab Content Template: terminal output using AnsiTextBehavior with cross-line selection -->
-                <TabControl.ContentTemplate>
-                    <DataTemplate>
-                        <ScrollViewer x:Name="TerminalScrollViewer"
-                                      Background="#0C0C0C"
-                                      HorizontalScrollBarVisibility="Disabled"
-                                      VerticalScrollBarVisibility="Auto">
-                            <SelectableTextBlock x:Name="TerminalOutput"
-                                                 Margin="8,8,16,24"
-                                                 FontFamily="Consolas,Courier New,monospace"
-                                                 FontSize="18"
-                                                 TextWrapping="Wrap"
-                                                 Foreground="#CCCCCC"
-                                                 behaviors:AnsiTextBehavior.ItemsSource="{Binding OutputLines}"
-                                                 behaviors:AnsiTextBehavior.EnableAnsiParsing="True"
-                                                 behaviors:AnsiTextBehavior.AutoScroll="True"
-                                                 behaviors:AnsiTextBehavior.MaxItems="5000">
-                                <SelectableTextBlock.ContextFlyout>
-                                    <MenuFlyout>
-                                        <MenuItem Header="{DynamicResource Terminal_CopyAll}" Click="CopyAll_Click">
-                                            <MenuItem.Icon>
-                                                <TextBlock Text="&#xE8C8;" FontFamily="Segoe Fluent Icons" FontSize="14"/>
-                                            </MenuItem.Icon>
-                                        </MenuItem>
-                                        <MenuItem Header="{DynamicResource Terminal_Clear}" Click="ClearOutput_Click">
-                                            <MenuItem.Icon>
-                                                <TextBlock Text="&#xE74D;" FontFamily="Segoe Fluent Icons" FontSize="14"/>
-                                            </MenuItem.Icon>
-                                        </MenuItem>
-                                    </MenuFlyout>
-                                </SelectableTextBlock.ContextFlyout>
-                            </SelectableTextBlock>
-                        </ScrollViewer>
-                    </DataTemplate>
-                </TabControl.ContentTemplate>
-            </TabControl>
+                <!-- Terminal content for selected session -->
+                <Border Grid.Row="1" Background="#0C0C0C">
+                    <ScrollViewer Background="#0C0C0C"
+                                  HorizontalScrollBarVisibility="Disabled"
+                                  VerticalScrollBarVisibility="Auto">
+                        <SelectableTextBlock Padding="8,8,16,24"
+                                             FontFamily="Consolas,Courier New,monospace"
+                                             FontSize="18"
+                                             TextWrapping="Wrap"
+                                             Foreground="#CCCCCC"
+                                             behaviors:AnsiTextBehavior.ItemsSource="{Binding SelectedSession.OutputLines}"
+                                             behaviors:AnsiTextBehavior.EnableAnsiParsing="True"
+                                             behaviors:AnsiTextBehavior.AutoScroll="True"
+                                             behaviors:AnsiTextBehavior.MaxItems="5000">
+                            <SelectableTextBlock.ContextFlyout>
+                                <MenuFlyout>
+                                    <MenuItem Header="{DynamicResource Terminal_CopyAll}" Click="CopyAll_Click">
+                                        <MenuItem.Icon>
+                                            <TextBlock Text="&#xE8C8;" FontFamily="Segoe Fluent Icons" FontSize="14"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="{DynamicResource Terminal_Clear}" Click="ClearOutput_Click">
+                                        <MenuItem.Icon>
+                                            <TextBlock Text="&#xE74D;" FontFamily="Segoe Fluent Icons" FontSize="14"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </MenuFlyout>
+                            </SelectableTextBlock.ContextFlyout>
+                        </SelectableTextBlock>
+                    </ScrollViewer>
+                </Border>
+            </Grid>
 
             <!-- Empty state: shown when no terminal sessions exist -->
             <Border Background="#0C0C0C"
