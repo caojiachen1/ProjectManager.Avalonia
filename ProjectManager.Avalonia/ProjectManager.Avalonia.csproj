@@ -28,6 +28,7 @@
 
     <!-- Icons -->
     <PackageReference Include="FluentIcons.Avalonia" />
+    <PackageReference Include="Avalonia.FluentIcons" />
 
     <!-- MVVM -->
     <PackageReference Include="CommunityToolkit.Mvvm" />

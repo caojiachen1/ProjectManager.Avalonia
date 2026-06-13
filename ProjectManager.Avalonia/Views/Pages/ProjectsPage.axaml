@@ -1,5 +1,6 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:icons="using:Avalonia.FluentIcons"
              xmlns:vm="using:ProjectManager.Avalonia.ViewModels.Pages"
              xmlns:models="using:ProjectManager.Avalonia.Models"
              xmlns:controls="using:ProjectManager.Avalonia.Views.Controls"
@@ -73,7 +74,7 @@
                                             ToolTip.Tip="{DynamicResource Projects_DragToSort}"
                                             Cursor="SizeAll"
                                             behaviors:DragDropReorder.IsDragHandle="True">
-                                        <TextBlock Text="&#xf58e;" FontFamily="{StaticResource FontAwesomeSolid}" FontSize="20"
+                                        <icons:SymbolIcon Symbol="ReOrderDotsVertical24" FontSize="22"
                                                    Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Border>
 
