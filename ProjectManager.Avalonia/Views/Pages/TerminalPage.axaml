@@ -109,7 +109,7 @@
             <!-- TabControl for terminal sessions -->
             <TabControl ItemsSource="{Binding TerminalSessions}"
                         SelectedItem="{Binding SelectedSession}"
-                        Background="#1E1E1E"
+                        Background="#0C0C0C"
                         BorderThickness="0"
                         IsVisible="{Binding TerminalSessions.Count, Converter={StaticResource CountToVisibilityConverter}}">
 
@@ -124,7 +124,7 @@
                         <Setter Property="FontSize" Value="12"/>
                     </Style>
                     <Style Selector="TabItem:selected">
-                        <Setter Property="Background" Value="#1E1E1E"/>
+                        <Setter Property="Background" Value="#0C0C0C"/>
                         <Setter Property="BorderBrush" Value="#007ACC"/>
                     </Style>
                     <Style Selector="TabItem:pointerover">
@@ -171,10 +171,10 @@
                     <DataTemplate>
                         <ScrollViewer x:Name="TerminalScrollViewer"
                                       Background="#0C0C0C"
-                                      HorizontalScrollBarVisibility="Auto"
+                                      HorizontalScrollBarVisibility="Disabled"
                                       VerticalScrollBarVisibility="Auto">
                             <SelectableTextBlock x:Name="TerminalOutput"
-                                                 Margin="20,4,8,4"
+                                                 Margin="8,8,16,24"
                                                  FontFamily="Consolas,Courier New,monospace"
                                                  FontSize="18"
                                                  TextWrapping="Wrap"
@@ -233,7 +233,7 @@
                 </StackPanel>
             </Border>
 
-            <!-- Floating scroll + action buttons -->
+            <!-- Floating scroll buttons -->
             <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right"
                         Margin="0,0,24,24" Spacing="4">
                 <Button Click="ScrollToTop_Click"
@@ -248,20 +248,6 @@
                         Background="#40000000" BorderThickness="0">
                     <TextBlock Text="&#xE74B;" FontFamily="Segoe Fluent Icons" FontSize="14" Foreground="#CCCCCC"/>
                 </Button>
-                <Button Click="CopyAll_Click"
-                        Padding="8" Opacity="0.8"
-                        ToolTip.Tip="{DynamicResource Terminal_CopyAllOutput}"
-                        Background="#40000000" BorderThickness="0">
-                    <TextBlock Text="&#xE8C8;" FontFamily="Segoe Fluent Icons" FontSize="14" Foreground="#CCCCCC"/>
-                </Button>
-                <ToggleButton x:Name="AutoWrapToggleButton"
-                              IsChecked="True"
-                              Click="AutoWrapToggle_Click"
-                              Padding="8" Opacity="0.85"
-                              ToolTip.Tip="{DynamicResource Terminal_AutoWrap}"
-                              Background="#40000000" BorderThickness="0">
-                    <TextBlock Text="&#xE8A5;" FontFamily="Segoe Fluent Icons" FontSize="14" Foreground="#CCCCCC"/>
-                </ToggleButton>
             </StackPanel>
         </Grid>
 

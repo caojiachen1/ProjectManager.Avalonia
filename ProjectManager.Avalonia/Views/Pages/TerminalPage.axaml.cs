@@ -1,8 +1,6 @@
 using System.Text;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Documents;
-using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Input.Platform;
 using Avalonia.Interactivity;
@@ -48,7 +46,6 @@ public partial class TerminalPage : UserControl
         var sb = new StringBuilder();
         foreach (var line in session.OutputLines)
         {
-            // Strip ANSI escape codes for clean clipboard text
             sb.AppendLine(StripAnsiCodes(line));
         }
 
@@ -75,51 +72,9 @@ public partial class TerminalPage : UserControl
         ViewModel?.ClearOutputCommand.Execute(null);
     }
 
-    private void AutoWrapToggle_Click(object? sender, RoutedEventArgs e)
-    {
-        if (sender is not ToggleButton toggleButton) return;
-        var isWrapEnabled = toggleButton.IsChecked == true;
-
-        var textBlock = FindTerminalOutputTextBlock();
-        if (textBlock != null)
-        {
-            textBlock.TextWrapping = isWrapEnabled ? TextWrapping.Wrap : TextWrapping.NoWrap;
-        }
-
-        var scrollViewer = FindTerminalScrollViewer();
-        if (scrollViewer != null)
-        {
-            scrollViewer.HorizontalScrollBarVisibility = isWrapEnabled
-                ? ScrollBarVisibility.Disabled
-                : ScrollBarVisibility.Auto;
-        }
-    }
-
     private ScrollViewer? FindTerminalScrollViewer()
     {
-        // Search the visual tree for a ScrollViewer inside the TabControl content area
         return FindScrollViewerRecursive(this);
-    }
-
-    private SelectableTextBlock? FindTerminalOutputTextBlock()
-    {
-        return FindSelectableTextBlockRecursive(this);
-    }
-
-    private static SelectableTextBlock? FindSelectableTextBlockRecursive(Visual? visual)
-    {
-        if (visual == null) return null;
-        if (visual is SelectableTextBlock stb) return stb;
-
-        foreach (var child in visual.GetVisualChildren())
-        {
-            if (child is Visual childVisual)
-            {
-                var result = FindSelectableTextBlockRecursive(childVisual);
-                if (result != null) return result;
-            }
-        }
-        return null;
     }
 
     private static ScrollViewer? FindScrollViewerRecursive(Visual? visual)
@@ -138,9 +93,6 @@ public partial class TerminalPage : UserControl
         return null;
     }
 
-    /// <summary>
-    /// Strips ANSI escape codes from a string for clean text output.
-    /// </summary>
     private static string StripAnsiCodes(string text)
     {
         if (string.IsNullOrEmpty(text)) return text;
