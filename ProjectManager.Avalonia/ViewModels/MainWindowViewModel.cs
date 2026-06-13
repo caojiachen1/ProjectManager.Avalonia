@@ -13,6 +13,7 @@ public partial class MainWindowViewModel : ViewModelBase
     private readonly INavigationService _navigationService;
     private readonly IThemeService _themeService;
     private readonly ILanguageService _languageService;
+    private readonly ISettingsService _settingsService;
 
     [ObservableProperty]
     private string _appTitle = "通用项目管理器";
@@ -29,11 +30,13 @@ public partial class MainWindowViewModel : ViewModelBase
     public MainWindowViewModel(
         INavigationService navigationService,
         IThemeService themeService,
-        ILanguageService languageService)
+        ILanguageService languageService,
+        ISettingsService settingsService)
     {
         _navigationService = navigationService;
         _themeService = themeService;
         _languageService = languageService;
+        _settingsService = settingsService;
 
         BuildNavigationItems();
 
@@ -103,12 +106,33 @@ public partial class MainWindowViewModel : ViewModelBase
         }
     }
 
-    public void NavigateToDefault()
+    public async Task NavigateToDefaultAsync()
     {
-        if (MenuItems.Count > 0)
+        if (MenuItems.Count == 0) return;
+
+        string defaultPage = "Dashboard";
+        try
         {
-            NavigateToItem(MenuItems[0]);
+            var settings = await _settingsService.GetSettingsAsync();
+            defaultPage = settings.DefaultStartupPage;
         }
+        catch
+        {
+            // 读取设置失败时回退到 Dashboard
+        }
+
+        var pageType = defaultPage switch
+        {
+            "Dashboard" => typeof(DashboardViewModel),
+            "Projects"  => typeof(ProjectsViewModel),
+            "Terminal"  => typeof(TerminalViewModel),
+            "Performance" => typeof(PerformanceViewModel),
+            _ => typeof(DashboardViewModel)
+        };
+
+        var item = MenuItems.FirstOrDefault(i => i.Tag is Type t && t == pageType)
+                ?? MenuItems[0];
+        NavigateToItem(item);
     }
 
     /// <summary>

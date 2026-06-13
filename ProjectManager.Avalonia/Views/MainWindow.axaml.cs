@@ -16,10 +16,10 @@ public partial class MainWindow : Window
     {
         base.OnLoaded(e);
 
-        // 初始导航到默认页面
+        // 初始导航到默认启动页面（根据设置）
         if (DataContext is MainWindowViewModel vm)
         {
-            vm.NavigateToDefault();
+            _ = vm.NavigateToDefaultAsync();
         }
     }
 

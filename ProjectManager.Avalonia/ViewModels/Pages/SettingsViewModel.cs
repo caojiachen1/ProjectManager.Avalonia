@@ -8,6 +8,11 @@ using ProjectManager.Avalonia.Services;
 
 namespace ProjectManager.Avalonia.ViewModels.Pages;
 
+/// <summary>
+/// 启动页面选项，Name 为显示文本，Value 为持久化值（如 "Dashboard"）
+/// </summary>
+public record StartupPageOption(string Name, string Value);
+
 public partial class SettingsViewModel : ViewModelBase
 {
     private readonly IThemeService _themeService;
@@ -83,6 +88,15 @@ public partial class SettingsViewModel : ViewModelBase
     [ObservableProperty]
     private ObservableCollection<LanguageInfo> _availableLanguages = new();
 
+    [ObservableProperty]
+    private ObservableCollection<string> _terminalOptions = new() { "PowerShell", "CMD", "Git Bash" };
+
+    [ObservableProperty]
+    private ObservableCollection<StartupPageOption> _startupPageOptions = new();
+
+    [ObservableProperty]
+    private StartupPageOption? _selectedStartupPageOption;
+
     public SettingsViewModel(
         IThemeService themeService,
         ISettingsService settingsService,
@@ -107,6 +121,8 @@ public partial class SettingsViewModel : ViewModelBase
             SelectedLanguageInfo = AvailableLanguages.FirstOrDefault(l => l.Code == SelectedLanguage);
             if (!string.IsNullOrEmpty(SelectedLanguage))
                 _languageService.ChangeLanguage(SelectedLanguage);
+            // 语言变化时重新生成启动页面选项的显示名
+            BuildStartupPageOptions();
             return;
         }
 
@@ -115,9 +131,27 @@ public partial class SettingsViewModel : ViewModelBase
             _themeService.SetThemeMode(Theme);
         }
 
+        // SelectedStartupPageOption 变化时同步到 DefaultStartupPage
+        if (e.PropertyName == nameof(SelectedStartupPageOption) && SelectedStartupPageOption != null)
+        {
+            if (DefaultStartupPage != SelectedStartupPageOption.Value)
+                DefaultStartupPage = SelectedStartupPageOption.Value;
+        }
+
+        // DefaultStartupPage 变化时同步 SelectedStartupPageOption
+        if (e.PropertyName == nameof(DefaultStartupPage))
+        {
+            var match = StartupPageOptions.FirstOrDefault(o => o.Value == DefaultStartupPage);
+            if (match != null && !ReferenceEquals(SelectedStartupPageOption, match))
+                SelectedStartupPageOption = match;
+        }
+
         if (e.PropertyName != nameof(AppVersion) &&
             e.PropertyName != nameof(AvailableLanguages) &&
-            e.PropertyName != nameof(SelectedLanguageInfo))
+            e.PropertyName != nameof(SelectedLanguageInfo) &&
+            e.PropertyName != nameof(TerminalOptions) &&
+            e.PropertyName != nameof(StartupPageOptions) &&
+            e.PropertyName != nameof(SelectedStartupPageOption))
         {
             await SaveAllSettingsAsync();
         }
@@ -160,7 +194,23 @@ public partial class SettingsViewModel : ViewModelBase
         SelectedLanguage = _languageService.CurrentLanguage;
         SelectedLanguageInfo = AvailableLanguages.FirstOrDefault(l => l.Code == SelectedLanguage);
 
+        BuildStartupPageOptions();
+
         IsInitialized = true;
+    }
+
+    private void BuildStartupPageOptions()
+    {
+        var currentValue = DefaultStartupPage;
+        StartupPageOptions = new ObservableCollection<StartupPageOption>
+        {
+            new(_languageService.GetString("Nav_Dashboard"), "Dashboard"),
+            new(_languageService.GetString("Nav_Projects"),  "Projects"),
+            new(_languageService.GetString("Nav_Terminal"),  "Terminal"),
+            new(_languageService.GetString("Nav_Performance"), "Performance"),
+        };
+        SelectedStartupPageOption = StartupPageOptions.FirstOrDefault(o => o.Value == currentValue)
+                                  ?? StartupPageOptions[0];
     }
 
     private async Task SaveAllSettingsAsync()

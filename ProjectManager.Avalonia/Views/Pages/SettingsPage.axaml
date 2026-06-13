@@ -154,6 +154,23 @@
                 </Grid>
             </Border>
 
+            <!-- 项目刷新间隔 -->
+            <Border Padding="16" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="{DynamicResource Settings_RefreshInterval}" FontWeight="Medium" Margin="0,0,0,4"/>
+                        <TextBlock Text="{DynamicResource Settings_RefreshIntervalDesc}" FontSize="12" Opacity="0.7"/>
+                    </StackPanel>
+                    <NumericUpDown Grid.Column="1" Value="{Binding ProjectRefreshInterval}"
+                                   Minimum="10" Maximum="300" Width="150" VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+
             <!-- 最大最近项目数 -->
             <Border Padding="16" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
                     BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8">
@@ -186,8 +203,9 @@
                         <TextBlock Text="{DynamicResource Settings_PreferredTerminal}" FontWeight="Medium" Margin="0,0,0,4"/>
                         <TextBlock Text="{DynamicResource Settings_PreferredTerminalDesc}" FontSize="12" Opacity="0.7"/>
                     </StackPanel>
-                    <TextBox Grid.Column="1" Text="{Binding PreferredTerminal}" Width="200" VerticalAlignment="Center"
-                             PlaceholderText="PowerShell"/>
+                    <ComboBox Grid.Column="1" ItemsSource="{Binding TerminalOptions}"
+                              SelectedItem="{Binding PreferredTerminal}"
+                              Width="200" VerticalAlignment="Center"/>
                 </Grid>
             </Border>
 
@@ -236,6 +254,25 @@
                         <TextBlock Text="{DynamicResource Settings_CmdUtf8Desc}" FontSize="12" Opacity="0.7"/>
                     </StackPanel>
                     <CheckBox Grid.Column="1" IsChecked="{Binding UseCmdChcp65001}" VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+
+            <!-- 默认启动页面 -->
+            <Border Padding="16" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="{DynamicResource Settings_DefaultStartupPage}" FontWeight="Medium" Margin="0,0,0,4"/>
+                        <TextBlock Text="{DynamicResource Settings_DefaultStartupPageDesc}" FontSize="12" Opacity="0.7"/>
+                    </StackPanel>
+                    <ComboBox Grid.Column="1" ItemsSource="{Binding StartupPageOptions}"
+                              SelectedItem="{Binding SelectedStartupPageOption}"
+                              DisplayMemberBinding="{Binding Name}"
+                              Width="200" VerticalAlignment="Center"/>
                 </Grid>
             </Border>
 
