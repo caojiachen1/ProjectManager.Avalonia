@@ -33,7 +33,7 @@
         <!-- ===================== Top Toolbar ===================== -->
         <Border Grid.Row="1" Background="#2D2D30"
                 BorderBrush="#3F3F46" BorderThickness="0,0,0,1"
-                Padding="12,8" Margin="0,0,0,0">
+                Padding="12,8" Margin="24,0,24,0">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -104,7 +104,7 @@
         </Border>
 
         <!-- ===================== Center: Terminal Area ===================== -->
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" Margin="24,0,24,0">
 
             <!-- TabControl for terminal sessions -->
             <TabControl ItemsSource="{Binding TerminalSessions}"
@@ -204,9 +204,10 @@
             </TabControl>
 
             <!-- Empty state: shown when no terminal sessions exist -->
-            <Panel HorizontalAlignment="Center" VerticalAlignment="Center"
-                   IsVisible="{Binding TerminalSessions.Count, Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=Invert}">
-                <StackPanel Opacity="0.6">
+            <Border Background="#0C0C0C"
+                    IsVisible="{Binding TerminalSessions.Count, Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=Invert}">
+                <Panel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel Opacity="0.6">
                     <TextBlock Text="&#xE756;"
                                FontFamily="Segoe Fluent Icons" FontSize="48"
                                Foreground="#666666" HorizontalAlignment="Center"
@@ -218,7 +219,8 @@
                                FontSize="12" Foreground="#999999"
                                HorizontalAlignment="Center"/>
                 </StackPanel>
-            </Panel>
+                </Panel>
+            </Border>
 
             <!-- Loading overlay -->
             <Border Background="#80000000"
@@ -266,7 +268,7 @@
         <!-- ===================== Bottom Status Bar ===================== -->
         <Border Grid.Row="3" Background="#2D2D30"
                 BorderBrush="#3F3F46" BorderThickness="0,1,0,0"
-                Padding="12,6">
+                Padding="12,6" Margin="24,0,24,0">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
