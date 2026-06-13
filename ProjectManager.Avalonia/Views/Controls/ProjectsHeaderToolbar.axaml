@@ -29,8 +29,9 @@
 
         <!-- Right: Action buttons -->
         <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
-            <!-- New Project button (accent) -->
-            <Button Classes="accent"
+            <!-- New Project button (primary blue, matches statusButton style) -->
+            <Button Classes="statusButton"
+                    Background="#005FB8"
                     Command="{Binding $parent[UserControl].DataContext.CreateProjectCommand}">
                 <StackPanel Orientation="Horizontal" Spacing="6">
                     <TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons" FontSize="14"
@@ -42,7 +43,7 @@
             <!-- Clone from Git button -->
             <Button Command="{Binding $parent[UserControl].DataContext.CloneFromGitCommand}">
                 <StackPanel Orientation="Horizontal" Spacing="6">
-                    <TextBlock Text="&#xE72B;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                    <TextBlock Text="&#xf126;" FontFamily="{StaticResource FontAwesomeSolid}" FontSize="14"
                                VerticalAlignment="Center"/>
                     <TextBlock Text="{DynamicResource AddProject_CloneFrom}" VerticalAlignment="Center"/>
                 </StackPanel>

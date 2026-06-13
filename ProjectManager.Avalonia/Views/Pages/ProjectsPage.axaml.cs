@@ -14,6 +14,33 @@ public partial class ProjectsPage : UserControl
 
     private ProjectsViewModel? ViewModel => DataContext as ProjectsViewModel;
 
+    /// <summary>
+    /// The project item that the 3-dot menu button belongs to.
+    /// Set by <see cref="MenuButton_Click"/> before the flyout opens.
+    /// </summary>
+    private Project? _menuTargetProject;
+
+    /// <summary>
+    /// Records the project item that the user clicked the 3-dot menu on.
+    /// </summary>
+    private void MenuButton_Click(object? sender, RoutedEventArgs e)
+    {
+        if (sender is Control { DataContext: Project project })
+            _menuTargetProject = project;
+    }
+
+    private void MenuOpenInExplorer_Click(object? sender, RoutedEventArgs e)
+    {
+        if (_menuTargetProject != null)
+            ViewModel?.OpenProjectInExplorerCommand.Execute(_menuTargetProject);
+    }
+
+    private void MenuDeleteProject_Click(object? sender, RoutedEventArgs e)
+    {
+        if (_menuTargetProject != null)
+            ViewModel?.DeleteProjectCommand.Execute(_menuTargetProject);
+    }
+
     private void OpenInExplorer_Click(object? sender, RoutedEventArgs e)
     {
         if (sender is Control { DataContext: Project project })

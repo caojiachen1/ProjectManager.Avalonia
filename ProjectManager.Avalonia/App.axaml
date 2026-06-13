@@ -19,6 +19,7 @@
 
         <!-- Helpers namespace converters -->
         <h:StatusToBadgeConverter x:Key="StatusToBadgeConverter"/>
+        <h:ProjectStatusToStringConverter x:Key="ProjectStatusToStringConverter"/>
         <h:StatusToStartEnabledConverter x:Key="StatusToStartEnabledConverter"/>
         <h:StatusToStopEnabledConverter x:Key="StatusToStopEnabledConverter"/>
         <h:StatusToToggleButtonTextConverter x:Key="StatusToToggleButtonTextConverter"/>
@@ -56,6 +57,9 @@
 
         <!-- Custom DataGrid theme resource overrides -->
         <SolidColorBrush x:Key="DataGridGridLinesBrush" Color="Transparent" />
+
+        <!-- FontAwesome font -->
+        <FontFamily x:Key="FontAwesomeSolid">avares://ProjectManager.Avalonia/Assets/fa-solid-900.ttf#Font Awesome 6 Free Solid</FontFamily>
         </ResourceDictionary>
     </Application.Resources>
 
@@ -125,6 +129,40 @@
             <Setter Property="Background" Value="{DynamicResource CardBackgroundFillColorSecondaryBrush}"/>
             <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
+        <!-- Status-colored button style (custom template to bypass Fluent theme hover overrides) -->
+        <Style Selector="Button.statusButton">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Padding" Value="14,6"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border Name="RootBorder"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="4"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter
+                            Content="{TemplateBinding Content}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Foreground="{TemplateBinding Foreground}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+        </Style>
+        <!-- Hover: darken 12% for any statusButton state -->
+        <Style Selector="Button.statusButton:pointerover /template/ Border#RootBorder">
+            <Setter Property="Opacity" Value="0.85"/>
+        </Style>
+        <!-- Disabled: show at half opacity -->
+        <Style Selector="Button.statusButton:disabled">
+            <Setter Property="Opacity" Value="0.5"/>
         </Style>
     </Application.Styles>
 </Application>

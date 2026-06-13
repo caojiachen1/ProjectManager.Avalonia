@@ -23,13 +23,26 @@ public class StatusToBadgeConverter : IValueConverter
             {
                 ProjectStatus.Running => SuccessBrush,
                 ProjectStatus.Stopped => SecondaryBrush,
-                ProjectStatus.Starting => InfoBrush,
+                ProjectStatus.Starting => CautionBrush,
                 ProjectStatus.Stopping => CautionBrush,
                 ProjectStatus.Error => DangerBrush,
                 _ => SecondaryBrush
             };
         }
         return SecondaryBrush;
+    }
+
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        => throw new NotImplementedException();
+}
+
+public class ProjectStatusToStringConverter : IValueConverter
+{
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (value is ProjectStatus status)
+            return status.ToString().ToLowerInvariant();
+        return "unknown";
     }
 
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -227,7 +240,6 @@ public class StatusToToggleButtonAppearanceConverter : IValueConverter
     private static readonly IBrush DangerBrush = new SolidColorBrush(Color.Parse("#C42B1C"));
     private static readonly IBrush InfoBrush = new SolidColorBrush(Color.Parse("#005FB8"));
     private static readonly IBrush CautionBrush = new SolidColorBrush(Color.Parse("#D48908"));
-    private static readonly IBrush PrimaryBrush = new SolidColorBrush(Color.Parse("#005FB8"));
 
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
@@ -236,14 +248,14 @@ public class StatusToToggleButtonAppearanceConverter : IValueConverter
             return status switch
             {
                 ProjectStatus.Running => DangerBrush,
-                ProjectStatus.Starting => InfoBrush,
+                ProjectStatus.Starting => CautionBrush,
                 ProjectStatus.Stopping => CautionBrush,
-                ProjectStatus.Stopped => PrimaryBrush,
-                ProjectStatus.Error => PrimaryBrush,
-                _ => PrimaryBrush
+                ProjectStatus.Stopped => InfoBrush,
+                ProjectStatus.Error => InfoBrush,
+                _ => InfoBrush
             };
         }
-        return PrimaryBrush;
+        return InfoBrush;
     }
 
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

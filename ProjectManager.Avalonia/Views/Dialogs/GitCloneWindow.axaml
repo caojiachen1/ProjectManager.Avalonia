@@ -21,8 +21,7 @@
     <Grid RowDefinitions="Auto,*,Auto">
 
         <!-- Top section: Clone configuration -->
-        <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"
-                       MaxHeight="280">
+        <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="16,16,16,8">
 
                 <!-- Repository URL -->
@@ -90,6 +89,7 @@
 
         <!-- Progress section -->
         <Border Grid.Row="1" Margin="16,0,16,8" Padding="16"
+                MinHeight="160"
                 IsVisible="{Binding IsCloning}"
                 Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
                 BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
@@ -135,11 +135,16 @@
                         Click="OnCancelClick"
                         MinWidth="80"
                         Margin="0,0,8,0"/>
-                <Button Content="{DynamicResource Git_Clone}"
+                <Button Classes="accent"
                         Command="{Binding CloneCommand}"
                         IsEnabled="{Binding CanClone}"
-                        Classes="accent"
-                        MinWidth="80"/>
+                        MinWidth="80">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <TextBlock Text="&#xf126;" FontFamily="{StaticResource FontAwesomeSolid}" FontSize="14"
+                                   VerticalAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource Git_Clone}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
             </StackPanel>
         </Border>
 

@@ -13,6 +13,7 @@
         Title="{Binding AppTitle}"
         Width="1280" Height="800"
         MinWidth="900" MinHeight="600"
+        WindowState="Maximized"
         WindowStartupLocation="CenterScreen">
 
     <Design.DataContext>

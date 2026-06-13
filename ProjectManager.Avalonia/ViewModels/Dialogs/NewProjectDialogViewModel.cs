@@ -97,8 +97,8 @@ public partial class NewProjectDialogViewModel : ViewModelBase
         if (path != null)
         {
             ProjectPath = path;
-            if (string.IsNullOrEmpty(ProjectName))
-                ProjectName = Path.GetFileName(path);
+            // 始终用目录名称自动填入项目名称
+            ProjectName = Path.GetFileName(path);
         }
     }
 
