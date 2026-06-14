@@ -11,116 +11,104 @@
     <ScrollViewer HorizontalScrollBarVisibility="Disabled">
         <StackPanel Margin="24,12">
 
-            <!-- Header: Title + Status -->
+            <!-- Header: Title + Refresh -->
             <Grid Margin="0,16,0,16">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="0">
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <TextBlock Text="&#xE9D9;" FontSize="24" FontFamily="Segoe Fluent Icons" VerticalAlignment="Center"/>
-                        <TextBlock Text="{DynamicResource Performance_Title}" FontSize="24" FontWeight="Bold" VerticalAlignment="Center"/>
-                    </StackPanel>
-                    <TextBlock Text="{Binding StatusMessage}" FontSize="13" Opacity="0.6" Margin="0,4,0,0"/>
+                <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8">
+                    <TextBlock Text="&#xE9D9;" FontSize="24" FontFamily="Segoe Fluent Icons" VerticalAlignment="Center"/>
+                    <TextBlock Text="{DynamicResource Performance_Title}" FontSize="24" FontWeight="Bold" VerticalAlignment="Center"/>
                 </StackPanel>
 
-                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
-                    <TextBlock Text="{Binding LastUpdated, StringFormat='{}{0:HH:mm:ss}'}" FontSize="12" Opacity="0.5"
-                               VerticalAlignment="Center"/>
-                    <Button Command="{Binding RefreshNowCommand}">
-                        <StackPanel Orientation="Horizontal" Spacing="6">
-                            <TextBlock Text="&#xE72C;" FontFamily="Segoe Fluent Icons" VerticalAlignment="Center"/>
-                            <TextBlock Text="{DynamicResource Performance_Refresh}" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </Button>
-                </StackPanel>
+                <Button Grid.Column="1" Command="{Binding RefreshNowCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <TextBlock Text="&#xE72C;" FontFamily="Segoe Fluent Icons" VerticalAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource Performance_Refresh}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
             </Grid>
 
-            <!-- Summary Cards -->
-            <StackPanel Orientation="Horizontal" Spacing="12" Margin="0,0,0,20">
+            <!-- Summary Cards (4 columns, full width like Dashboard) -->
+            <Grid Margin="0,0,0,12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-                <!-- Total Projects -->
-                <Border Padding="16" MinWidth="150"
+                <!-- Card 1: Running Projects -->
+                <Border Grid.Column="0" Margin="0,0,8,0" Padding="16"
                         Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
                         BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
                         BorderThickness="1" CornerRadius="8">
                     <StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8" Spacing="8">
-                            <TextBlock Text="&#xE71D;" FontSize="22" Opacity="0.7" FontFamily="Segoe Fluent Icons"/>
-                            <TextBlock Text="{DynamicResource Dashboard_TotalProjects}" FontSize="13" Opacity="0.7" VerticalAlignment="Center"/>
-                        </StackPanel>
-                        <TextBlock Text="{Binding TotalProjects}" FontSize="26" FontWeight="Bold"/>
-                    </StackPanel>
-                </Border>
-
-                <!-- Running Projects -->
-                <Border Padding="16" MinWidth="150"
-                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
-                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
-                        BorderThickness="1" CornerRadius="8">
-                    <StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8" Spacing="8">
-                            <TextBlock Text="&#xE768;" FontSize="22" Foreground="#4CAF50" FontFamily="Segoe Fluent Icons"/>
-                            <TextBlock Text="{DynamicResource Dashboard_Running}" FontSize="13" Opacity="0.7" VerticalAlignment="Center"/>
-                        </StackPanel>
-                        <TextBlock Text="{Binding RunningProjects}" FontSize="26" FontWeight="Bold" Foreground="#4CAF50"/>
-                    </StackPanel>
-                </Border>
-
-                <!-- Total GPU (conditional) -->
-                <Border Padding="16" MinWidth="150"
-                        IsVisible="{Binding HasGpuData}"
-                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
-                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
-                        BorderThickness="1" CornerRadius="8">
-                    <StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8" Spacing="8">
-                            <TextBlock Text="&#xE9D9;" FontSize="22" Foreground="#FF9800" FontFamily="Segoe Fluent Icons"/>
-                            <TextBlock Text="{DynamicResource Performance_TotalGpu}" FontSize="13" Opacity="0.7" VerticalAlignment="Center"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Spacing="2">
-                            <TextBlock Text="{Binding TotalGpuUsage, StringFormat='{}{0:F1}'}" FontSize="26" FontWeight="Bold" Foreground="#FF9800"/>
-                            <TextBlock Text="%" FontSize="18" Foreground="#FF9800" VerticalAlignment="Bottom" Margin="0,0,0,3"/>
+                        <TextBlock Text="{DynamicResource Performance_RunningProjects}" FontSize="12" Opacity="0.7" Margin="0,0,0,8"/>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding RunningProjects}" FontSize="26" FontWeight="SemiBold"/>
+                            <TextBlock Text="{Binding TotalProjects, StringFormat='/{0}'}" FontSize="14" Opacity="0.6" Margin="6,0,0,0" VerticalAlignment="Bottom"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>
 
-                <!-- Total CPU -->
-                <Border Padding="16" MinWidth="150"
+                <!-- Card 2: Total CPU Usage -->
+                <Border Grid.Column="1" Margin="8,0,8,0" Padding="16"
                         Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
                         BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
                         BorderThickness="1" CornerRadius="8">
                     <StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8" Spacing="8">
-                            <TextBlock Text="&#xE964;" FontSize="22" Foreground="#2196F3" FontFamily="Segoe Fluent Icons"/>
-                            <TextBlock Text="{DynamicResource Performance_TotalCpuUsage}" FontSize="13" Opacity="0.7" VerticalAlignment="Center"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Spacing="2">
-                            <TextBlock Text="{Binding TotalCpuUsage, StringFormat='{}{0:F1}'}" FontSize="26" FontWeight="Bold" Foreground="#2196F3"/>
-                            <TextBlock Text="%" FontSize="18" Foreground="#2196F3" VerticalAlignment="Bottom" Margin="0,0,0,3"/>
+                        <TextBlock Text="{DynamicResource Performance_TotalCpuUsage}" FontSize="12" Opacity="0.7" Margin="0,0,0,8"/>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding TotalCpuUsage, StringFormat='{}{0:F1}'}" FontSize="26" FontWeight="SemiBold"/>
+                            <TextBlock Text="%" FontSize="18" Opacity="0.7" VerticalAlignment="Bottom" Margin="2,0,0,3"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>
 
-                <!-- Total Memory -->
-                <Border Padding="16" MinWidth="150"
+                <!-- Card 3: Total Memory Usage -->
+                <Border Grid.Column="2" Margin="8,0,8,0" Padding="16"
                         Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
                         BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
                         BorderThickness="1" CornerRadius="8">
                     <StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8" Spacing="8">
-                            <TextBlock Text="&#xE9F5;" FontSize="22" Foreground="#9C27B0" FontFamily="Segoe Fluent Icons"/>
-                            <TextBlock Text="{DynamicResource Performance_TotalMemoryUsage}" FontSize="13" Opacity="0.7" VerticalAlignment="Center"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Spacing="4">
-                            <TextBlock Text="{Binding TotalMemoryUsageMb, StringFormat='{}{0:F0}'}" FontSize="26" FontWeight="Bold" Foreground="#9C27B0"/>
-                            <TextBlock Text="MB" FontSize="14" Foreground="#9C27B0" VerticalAlignment="Bottom" Margin="0,0,0,4"/>
+                        <TextBlock Text="{DynamicResource Performance_TotalMemoryUsage}" FontSize="12" Opacity="0.7" Margin="0,0,0,8"/>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding TotalMemoryUsageMb, StringFormat='{}{0:F0}'}" FontSize="26" FontWeight="SemiBold"/>
+                            <TextBlock Text="MB" FontSize="14" Opacity="0.7" VerticalAlignment="Bottom" Margin="4,0,0,3"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>
-            </StackPanel>
+
+                <!-- Card 4: Last Update Time -->
+                <Border Grid.Column="3" Margin="8,0,0,0" Padding="16"
+                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1" CornerRadius="8">
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource Performance_LastUpdate}" FontSize="12" Opacity="0.7" Margin="0,0,0,8"/>
+                        <TextBlock Text="{Binding LastUpdated, StringFormat='{}{0:HH:mm:ss}'}" FontSize="26" FontWeight="SemiBold"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Heartbeat icon + Monitoring status + Progress bar -->
+            <Grid Margin="0,0,0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                    <TextBlock Text="&#xE9D9;" FontFamily="Segoe Fluent Icons" FontSize="18" Foreground="#4CAF50" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding StatusMessage}" FontSize="14" VerticalAlignment="Center"/>
+                    <ProgressBar Width="80" Height="4" IsIndeterminate="True"
+                                 IsVisible="{Binding IsMonitoringActive}"
+                                 VerticalAlignment="Center" Margin="4,0,0,0"/>
+                </StackPanel>
+            </Grid>
 
             <!-- Project Performance Cards -->
             <ItemsControl ItemsSource="{Binding ProjectMetrics}">
