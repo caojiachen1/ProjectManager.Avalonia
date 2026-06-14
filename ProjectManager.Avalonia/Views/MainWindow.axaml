@@ -20,16 +20,17 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <fa:FANavigationView x:Name="RootNavigation"
-                         IsBackButtonVisible="False"
-                         IsPaneToggleButtonVisible="True"
-                         IsSettingsVisible="False"
-                         OpenPaneLength="240"
-                         PaneDisplayMode="Left"
-                         SelectionChanged="OnNavigationSelectionChanged"
-                         MenuItemsSource="{Binding MenuItems}"
-                         FooterMenuItemsSource="{Binding FooterMenuItems}"
-                         PointerPressed="OnContentPointerPressed">
+        <fa:FANavigationView x:Name="RootNavigation"
+                             IsBackButtonVisible="False"
+                             IsPaneToggleButtonVisible="True"
+                             IsSettingsVisible="False"
+                             OpenPaneLength="240"
+                             PaneDisplayMode="Left"
+                             SelectionChanged="OnNavigationSelectionChanged"
+                             MenuItemsSource="{Binding MenuItems}"
+                             FooterMenuItemsSource="{Binding FooterMenuItems}"
+                             SelectedItem="{Binding SelectedItem}"
+                             PointerPressed="OnContentPointerPressed">
 
         <fa:FANavigationView.PaneCustomContent>
             <Grid Margin="8,4,8,4" Height="32">
