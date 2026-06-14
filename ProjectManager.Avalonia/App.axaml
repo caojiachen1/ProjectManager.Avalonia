@@ -58,6 +58,34 @@
         <!-- Custom DataGrid theme resource overrides -->
         <SolidColorBrush x:Key="DataGridGridLinesBrush" Color="Transparent" />
 
+        <!-- Override DataGrid selection colors and focus visuals (must use ThemeDictionaries to override Fluent theme) -->
+        <ResourceDictionary.ThemeDictionaries>
+            <ResourceDictionary x:Key="Dark">
+                <SolidColorBrush x:Key="DataGridRowSelectedBackgroundBrush" Color="#606060" />
+                <SolidColorBrush x:Key="DataGridRowSelectedHoveredBackgroundBrush" Color="#404040" />
+                <SolidColorBrush x:Key="DataGridRowSelectedUnfocusedBackgroundBrush" Color="#606060" />
+                <SolidColorBrush x:Key="DataGridRowSelectedHoveredUnfocusedBackgroundBrush" Color="#404040" />
+                <SolidColorBrush x:Key="DataGridCellFocusVisualPrimaryBrush" Color="Transparent" />
+                <SolidColorBrush x:Key="DataGridCellFocusVisualSecondaryBrush" Color="Transparent" />
+                <x:Double x:Key="DataGridRowSelectedBackgroundOpacity">1.0</x:Double>
+                <x:Double x:Key="DataGridRowSelectedHoveredBackgroundOpacity">1.0</x:Double>
+                <x:Double x:Key="DataGridRowSelectedUnfocusedBackgroundOpacity">1.0</x:Double>
+                <x:Double x:Key="DataGridRowSelectedHoveredUnfocusedBackgroundOpacity">1.0</x:Double>
+            </ResourceDictionary>
+            <ResourceDictionary x:Key="Default">
+                <SolidColorBrush x:Key="DataGridRowSelectedBackgroundBrush" Color="#606060" />
+                <SolidColorBrush x:Key="DataGridRowSelectedHoveredBackgroundBrush" Color="#404040" />
+                <SolidColorBrush x:Key="DataGridRowSelectedUnfocusedBackgroundBrush" Color="#606060" />
+                <SolidColorBrush x:Key="DataGridRowSelectedHoveredUnfocusedBackgroundBrush" Color="#404040" />
+                <SolidColorBrush x:Key="DataGridCellFocusVisualPrimaryBrush" Color="Transparent" />
+                <SolidColorBrush x:Key="DataGridCellFocusVisualSecondaryBrush" Color="Transparent" />
+                <x:Double x:Key="DataGridRowSelectedBackgroundOpacity">1.0</x:Double>
+                <x:Double x:Key="DataGridRowSelectedHoveredBackgroundOpacity">1.0</x:Double>
+                <x:Double x:Key="DataGridRowSelectedUnfocusedBackgroundOpacity">1.0</x:Double>
+                <x:Double x:Key="DataGridRowSelectedHoveredUnfocusedBackgroundOpacity">1.0</x:Double>
+            </ResourceDictionary>
+        </ResourceDictionary.ThemeDictionaries>
+
         <!-- FontAwesome font -->
         <FontFamily x:Key="FontAwesomeSolid">avares://ProjectManager.Avalonia/Assets/fa-solid-900.ttf#Font Awesome 6 Free Solid</FontFamily>
         </ResourceDictionary>
@@ -75,7 +103,7 @@
 
         <!-- Clean DataGrid style -->
         <Style Selector="DataGrid.clean">
-            <Setter Property="Background" Value="{DynamicResource CardBackgroundFillColorDefaultBrush}"/>
+            <Setter Property="Background" Value="#272727"/>
             <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="HeadersVisibility" Value="Column"/>
@@ -91,19 +119,35 @@
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}"/>
             <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="FocusAdorner" Value="{x:Null}"/>
         </Style>
 
         <Style Selector="DataGrid.clean DataGridRow:pointerover">
             <Setter Property="Background" Value="#2A2A2A"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
         </Style>
 
         <Style Selector="DataGrid.clean DataGridRow:selected">
             <Setter Property="Background" Value="#3A3A3A"/>
             <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
         </Style>
 
         <Style Selector="DataGrid.clean DataGridRow:selected:pointerover">
             <Setter Property="Background" Value="#454545"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="DataGrid.clean DataGridRow:selected:focus">
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
+        <Style Selector="DataGrid.clean DataGridRow:focus">
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="FocusAdorner" Value="{x:Null}"/>
         </Style>
 
         <!-- Cell styles: no border, no focus adorner -->
@@ -117,6 +161,15 @@
         <Style Selector="DataGrid.clean DataGridCell:selected">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="FocusAdorner" Value="{x:Null}"/>
+        </Style>
+
+        <Style Selector="DataGrid.clean DataGridCell:focus">
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FocusAdorner" Value="{x:Null}"/>
         </Style>
 
         <!-- Hide row header column completely -->

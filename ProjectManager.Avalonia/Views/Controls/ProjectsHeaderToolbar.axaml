@@ -24,6 +24,7 @@
             <!-- Status filter ComboBox -->
             <ComboBox ItemsSource="{Binding $parent[UserControl].DataContext.StatusFilters}"
                       SelectedItem="{Binding $parent[UserControl].DataContext.SelectedStatusFilter}"
+                      SelectedIndex="0"
                       MinWidth="80"/>
         </StackPanel>
 
