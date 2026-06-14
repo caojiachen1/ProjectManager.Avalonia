@@ -19,11 +19,8 @@
         </Grid.RowDefinitions>
 
         <!-- 页面标题 -->
-        <StackPanel Grid.Row="0" Margin="24,28,24,8">
-            <StackPanel Orientation="Horizontal" Spacing="8">
-                <TextBlock Text="&#xE8B7;" FontSize="24" FontFamily="Segoe Fluent Icons" VerticalAlignment="Center"/>
-                <TextBlock Text="{DynamicResource Nav_Projects}" FontSize="24" FontWeight="Bold" VerticalAlignment="Center"/>
-            </StackPanel>
+        <StackPanel Grid.Row="0" Margin="24,16,24,8">
+            <TextBlock Text="{DynamicResource Nav_Projects}" FontSize="24" FontWeight="Bold"/>
             <TextBlock Text="{DynamicResource Projects_Subtitle}" FontSize="13" Opacity="0.6" Margin="0,4,0,0"/>
         </StackPanel>
 

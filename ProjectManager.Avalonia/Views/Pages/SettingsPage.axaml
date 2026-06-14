@@ -5,14 +5,20 @@
              xmlns:services="using:ProjectManager.Avalonia.Services"
              x:CompileBindings="False">
 
-    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
-        <StackPanel Margin="24" Spacing="8">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-            <!-- 页面标题 -->
-            <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,16,0,16">
-                <TextBlock Text="&#xE713;" FontSize="24" FontFamily="Segoe Fluent Icons" VerticalAlignment="Center"/>
-                <TextBlock Text="{DynamicResource Settings_Title}" FontSize="24" FontWeight="Bold" VerticalAlignment="Center"/>
-            </StackPanel>
+        <!-- 页面标题（固定置顶） -->
+        <StackPanel Grid.Row="0" Margin="24,16,24,8">
+            <TextBlock Text="{DynamicResource Settings_Title}" FontSize="24" FontWeight="Bold"/>
+        </StackPanel>
+
+        <!-- 可滚动内容 -->
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="24,0,24,24" Spacing="8">
 
             <!-- 常规设置 -->
             <TextBlock Text="{DynamicResource Settings_General}" FontSize="14" FontWeight="Medium" Margin="0,0,0,4" Opacity="0.8"/>
@@ -376,5 +382,6 @@
                 </Grid>
             </Border>
         </StackPanel>
-    </ScrollViewer>
+        </ScrollViewer>
+    </Grid>
 </UserControl>
