@@ -1,0 +1,58 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ProjectManager.Avalonia.ViewModels.Dialogs"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="250"
+        x:Class="ProjectManager.Avalonia.Views.Dialogs.PathItemEditWindow"
+        x:CompileBindings="False"
+        Title="{DynamicResource PathEditor_ItemTitle}"
+        Width="500" Height="250"
+        MinWidth="400" MinHeight="150"
+        Background="#202020"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        CanResize="True">
+
+    <Design.DataContext>
+        <vm:PathItemEditViewModel/>
+    </Design.DataContext>
+
+    <Border Background="#202020" Padding="24">
+        <Grid RowDefinitions="Auto,Auto,Auto">
+
+            <!-- Path input -->
+            <StackPanel Grid.Row="0" Spacing="8" Margin="0,0,0,16">
+                <TextBlock Text="{DynamicResource PathEditor_PathLabel}" FontWeight="SemiBold"/>
+                <TextBox Text="{Binding Path, Mode=TwoWay}"
+                         PlaceholderText="{DynamicResource PathEditor_PathPlaceholder}"/>
+            </StackPanel>
+
+            <!-- Browse buttons -->
+            <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="8"
+                        HorizontalAlignment="Left" Margin="0,0,0,16">
+                <Button Content="{DynamicResource EnvVar_BrowseFolder}"
+                        Command="{Binding BrowseFolderCommand}"
+                        Padding="16,6"/>
+                <Button Content="{DynamicResource EnvVar_BrowseFile}"
+                        Command="{Binding BrowseFileCommand}"
+                        Padding="16,6"/>
+            </StackPanel>
+
+            <!-- Bottom buttons -->
+            <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="8"
+                        HorizontalAlignment="Right">
+                <Button Content="{DynamicResource Button_Cancel}"
+                        Click="OnCancelClick"
+                        MinWidth="80"
+                        Padding="20,8"/>
+                <Button Content="{DynamicResource Button_Confirm}"
+                        Click="OnSaveClick"
+                        Classes="accent"
+                        MinWidth="80"
+                        Padding="20,8"/>
+            </StackPanel>
+
+        </Grid>
+    </Border>
+</Window>

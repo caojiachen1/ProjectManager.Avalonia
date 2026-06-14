@@ -1,14 +1,15 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:ProjectManager.Avalonia.ViewModels.Dialogs"
+        xmlns:icons="using:Avalonia.FluentIcons"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="550"
+        mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="600"
         x:Class="ProjectManager.Avalonia.Views.Dialogs.PathEditorWindow"
-        x:DataType="vm:PathEditorViewModel"
+        x:CompileBindings="False"
         Title="{DynamicResource PathEditor_Title}"
-        Width="700" Height="550"
-        MinWidth="550" MinHeight="400"
+        Width="700" Height="600"
+        MinWidth="600" MinHeight="450"
         Background="#202020"
         WindowStartupLocation="CenterOwner"
         ShowInTaskbar="False"
@@ -18,103 +19,199 @@
         <vm:PathEditorViewModel/>
     </Design.DataContext>
 
-    <Border Padding="24">
-        <Grid RowDefinitions="Auto,*,Auto">
-
-            <!-- Header -->
-            <StackPanel Grid.Row="0" Spacing="4" Margin="0,0,0,16">
-                <TextBlock Text="{DynamicResource PathEditor_HeaderTitle}" FontSize="20" FontWeight="SemiBold"/>
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <TextBlock FontSize="13" Opacity="0.6" Text="{DynamicResource PathEditor_VariableLabel}"/>
-                    <TextBlock FontSize="13" Opacity="0.8" Text="{Binding VariableName}" FontWeight="SemiBold"/>
-                    <Border Background="#30FF9800" CornerRadius="4" Padding="6,2"
-                            IsVisible="{Binding IsSystemVariable}">
-                        <TextBlock Text="{DynamicResource EnvVar_SystemVar}" FontSize="11" Foreground="#FF9800"/>
+    <Window.Styles>
+        <Style Selector="DataGridColumnHeader">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="8,6">
+                        <ContentPresenter Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          FontWeight="{TemplateBinding FontWeight}"
+                                          Foreground="{TemplateBinding Foreground}"
+                                          VerticalAlignment="Center"/>
                     </Border>
-                    <Border Background="#304CAF50" CornerRadius="4" Padding="6,2"
-                            IsVisible="{Binding !IsSystemVariable}">
-                        <TextBlock Text="{DynamicResource EnvVar_UserVar}" FontSize="11" Foreground="#4CAF50"/>
-                    </Border>
-                </StackPanel>
-                <TextBlock Text="{DynamicResource PathEditor_Description}"
-                           FontSize="12" Opacity="0.5" Margin="0,4,0,0" TextWrapping="Wrap"/>
-            </StackPanel>
+                </ControlTemplate>
+            </Setter>
+        </Style>
+    </Window.Styles>
 
-            <!-- Path List and Buttons -->
-            <Grid Grid.Row="1">
+    <Border Background="#202020" Padding="24">
+        <Grid RowDefinitions="*,Auto">
+
+            <!-- Main content: DataGrid + Right buttons -->
+            <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="12"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Path ListBox with editable TextBoxes -->
-                <Border Grid.Column="0"
-                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
-                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
-                        BorderThickness="1" CornerRadius="8">
-                    <ListBox ItemsSource="{Binding Paths}"
-                             SelectedItem="{Binding SelectedPath, Mode=TwoWay}"
-                             SelectionMode="Single"
-                             Background="Transparent">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate DataType="x:String">
-                                <TextBox Text="{Binding}" 
-                                         Background="Transparent" 
-                                         BorderThickness="0"
-                                         Padding="8,6"
-                                         FontFamily="Consolas,Courier New,monospace"
-                                         FontSize="13"/>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </Border>
+                <!-- Left: Path list (DataGrid) or Text edit mode -->
+                <Grid Grid.Column="0" Margin="0,0,16,0">
 
-                <!-- Action Buttons (vertical) -->
-                <StackPanel Grid.Column="2" Spacing="6" VerticalAlignment="Top">
-                    <Button Content="&#xE8E5; 浏览添加" FontFamily="Segoe Fluent Icons" FontSize="12"
-                            Command="{Binding BrowseAddFolderCommand}"
-                            HorizontalAlignment="Stretch" MinWidth="110"/>
-                    <Button Content="&#xE710; 新增空行" FontFamily="Segoe Fluent Icons" FontSize="12"
-                            Command="{Binding AddEmptyPathCommand}"
-                            HorizontalAlignment="Stretch"/>
-                    <Button Content="&#xE74D; 删除" FontFamily="Segoe Fluent Icons" FontSize="12"
-                            Command="{Binding RemovePathCommand}"
-                            Classes="caution"
+                    <!-- List mode: DataGrid -->
+                    <Border IsVisible="{Binding IsListMode}"
+                            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                            BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="1" CornerRadius="8">
+                        <DataGrid Classes="clean"
+                                  Name="PathDataGrid"
+                                  ItemsSource="{Binding PathItems}"
+                                  SelectedItem="{Binding SelectedPathItem, Mode=TwoWay}"
+                                  AutoGenerateColumns="False"
+                                  CanUserResizeColumns="True"
+                                  GridLinesVisibility="None"
+                                  HeadersVisibility="Column"
+                                  IsReadOnly="True"
+                                  SelectionMode="Single"
+                                  DoubleTapped="PathDataGrid_DoubleTapped"
+                                  KeyDown="PathDataGrid_KeyDown"
+                                  Padding="0,0,4,0">
+                            <DataGrid.Columns>
+                                <!-- Path column -->
+                                <DataGridTemplateColumn Header="{DynamicResource PathEditor_Directory}" Width="*" MinWidth="200">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="vm:PathItem">
+                                            <TextBlock Text="{Binding Path}"
+                                                       TextTrimming="CharacterEllipsis"
+                                                       VerticalAlignment="Center"
+                                                       Margin="8,4"
+                                                       ToolTip.Tip="{Binding Path}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <!-- Status column -->
+                                <DataGridTemplateColumn Header="{DynamicResource PathEditor_Available}" Width="40" MinWidth="40" CanUserResize="False">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="vm:PathItem">
+                                            <icons:SymbolIcon Symbol="{Binding StatusIcon}"
+                                                              FontSize="16"
+                                                              Foreground="{Binding StatusColor}"
+                                                              VerticalAlignment="Center"
+                                                              Margin="8,0,0,0"
+                                                              ToolTip.Tip="{Binding StatusText}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                            <DataGrid.ContextFlyout>
+                                <MenuFlyout>
+                                    <MenuItem Header="{DynamicResource PathEditor_Edit}"
+                                              Command="{Binding $parent[Window].DataContext.EditCommand}">
+                                        <MenuItem.Icon>
+                                            <icons:SymbolIcon Symbol="Edit24" FontSize="12"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="{DynamicResource PathEditor_Browse}"
+                                              Command="{Binding $parent[Window].DataContext.BrowseCommand}">
+                                        <MenuItem.Icon>
+                                            <icons:SymbolIcon Symbol="FolderOpen24" FontSize="12"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <Separator/>
+                                    <MenuItem Header="{DynamicResource PathEditor_Delete}"
+                                              Command="{Binding $parent[Window].DataContext.DeleteCommand}">
+                                        <MenuItem.Icon>
+                                            <icons:SymbolIcon Symbol="Delete24" FontSize="12"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </MenuFlyout>
+                            </DataGrid.ContextFlyout>
+                        </DataGrid>
+                    </Border>
+
+                    <!-- Text edit mode -->
+                    <TextBox Text="{Binding EditText, Mode=TwoWay}"
+                             IsVisible="{Binding !IsListMode}"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"
+                             FontFamily="Consolas,Courier New,monospace"
+                             FontSize="12"
+                             PlaceholderText="C:\Windows;C:\Windows\System32;D:\MyTools"/>
+                </Grid>
+
+                <!-- Right: Vertical button group (only in list mode) -->
+                <StackPanel Grid.Column="1" Spacing="8"
+                            IsVisible="{Binding IsListMode}"
+                            VerticalAlignment="Top">
+
+                    <Button Content="{DynamicResource PathEditor_New}"
+                            Command="{Binding NewCommand}"
+                            Classes="accent"
+                            HorizontalAlignment="Stretch" MinWidth="100"
+                            Padding="20,8"/>
+
+                    <Button Content="{DynamicResource PathEditor_Edit}"
+                            Command="{Binding EditCommand}"
                             IsEnabled="{Binding HasSelection}"
-                            HorizontalAlignment="Stretch"/>
+                            HorizontalAlignment="Stretch"
+                            Padding="20,8"/>
+
+                    <Button Content="{DynamicResource PathEditor_Browse}"
+                            Command="{Binding BrowseCommand}"
+                            IsEnabled="{Binding HasSelection}"
+                            HorizontalAlignment="Stretch"
+                            Padding="20,8"/>
+
+                    <Button Content="{DynamicResource PathEditor_Delete}"
+                            Command="{Binding DeleteCommand}"
+                            IsEnabled="{Binding HasSelection}"
+                            Classes="caution"
+                            HorizontalAlignment="Stretch"
+                            Padding="20,8"/>
 
                     <Border Height="1" Background="{DynamicResource CardStrokeColorDefaultBrush}"
-                            Margin="0,6"/>
+                            Margin="0,8"/>
 
-                    <Button Content="&#xE74A; 上移" FontFamily="Segoe Fluent Icons" FontSize="12"
+                    <Button Content="{DynamicResource PathEditor_MoveUp}"
                             Command="{Binding MoveUpCommand}"
-                            IsEnabled="{Binding CanMoveUp}"
-                            HorizontalAlignment="Stretch"/>
-                    <Button Content="&#xE74B; 下移" FontFamily="Segoe Fluent Icons" FontSize="12"
+                            HorizontalAlignment="Stretch"
+                            Padding="20,8"/>
+
+                    <Button Content="{DynamicResource PathEditor_MoveDown}"
                             Command="{Binding MoveDownCommand}"
-                            IsEnabled="{Binding CanMoveDown}"
-                            HorizontalAlignment="Stretch"/>
+                            HorizontalAlignment="Stretch"
+                            Padding="20,8"/>
                 </StackPanel>
             </Grid>
 
-            <!-- Action Buttons -->
-            <StackPanel Grid.Row="2" Orientation="Horizontal"
-                        HorizontalAlignment="Right"
-                        Spacing="8" Margin="0,20,0,0">
-                <TextBlock VerticalAlignment="Center" Opacity="0.5" FontSize="12" Margin="0,0,12,0">
-                    <TextBlock.Text>
-                        <Binding Path="Paths.Count" StringFormat="共 {0} 个路径"/>
-                    </TextBlock.Text>
-                </TextBlock>
-                <Button Content="{DynamicResource Button_Cancel}"
-                        Click="OnCancelClick"
-                        MinWidth="80"/>
-                <Button Content="{DynamicResource Button_Save}"
-                        Click="OnSaveClick"
-                        MinWidth="80"
-                        Classes="accent"/>
-            </StackPanel>
+            <!-- Bottom: Toggle mode + Confirm/Cancel -->
+            <Grid Grid.Row="1" Margin="0,16,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Left: Edit as Text button -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                    <Button Content="{DynamicResource PathEditor_EditAsText}"
+                            Command="{Binding ToggleEditModeCommand}"
+                            IsVisible="{Binding IsListMode}"
+                            Padding="16,6"/>
+                </StackPanel>
+
+                <!-- Right: Confirm/Cancel -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8"
+                            HorizontalAlignment="Right">
+                    <TextBlock VerticalAlignment="Center" Opacity="0.5" FontSize="12" Margin="0,0,12,0">
+                        <TextBlock.Text>
+                            <Binding Path="PathItems.Count" StringFormat="共 {0} 个路径"/>
+                        </TextBlock.Text>
+                    </TextBlock>
+                    <Button Content="{DynamicResource Button_Confirm}"
+                            Click="OnSaveClick"
+                            Classes="accent"
+                            MinWidth="80"
+                            Padding="24,8"/>
+                    <Button Content="{DynamicResource Button_Cancel}"
+                            Click="OnCancelClick"
+                            MinWidth="80"
+                            Padding="24,8"/>
+                </StackPanel>
+            </Grid>
 
         </Grid>
     </Border>
