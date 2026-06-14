@@ -4,7 +4,7 @@
         x:Class="ProjectManager.Avalonia.Views.Dialogs.GenericProjectSettingsWindow"
         x:CompileBindings="False"
         Title="{DynamicResource Generic_SettingsTitle}"
-        Width="600" Height="680"
+        Width="600" Height="720"
         MinWidth="500" MinHeight="550"
         Background="#202020"
         WindowStartupLocation="CenterOwner"
