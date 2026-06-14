@@ -217,5 +217,14 @@
         <Style Selector="Button.statusButton:disabled">
             <Setter Property="Opacity" Value="0.5"/>
         </Style>
+
+        <!-- Collapsed search icon button style -->
+        <Style Selector="Button.collapsed-search-button">
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}"/>
+        </Style>
+        <Style Selector="Button.collapsed-search-button:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}"/>
+        </Style>
     </Application.Styles>
 </Application>

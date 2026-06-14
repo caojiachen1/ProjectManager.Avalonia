@@ -20,7 +20,6 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <!-- 使用 FluentAvalonia FANavigationView 替代 WPF-UI NavigationView -->
     <fa:FANavigationView x:Name="RootNavigation"
                          IsBackButtonVisible="False"
                          IsPaneToggleButtonVisible="True"
@@ -33,17 +32,29 @@
                          PointerPressed="OnContentPointerPressed">
 
         <fa:FANavigationView.PaneCustomContent>
-            <Grid Margin="12,8,12,4">
-                <TextBlock Text="&#xE721;" FontFamily="Segoe Fluent Icons" FontSize="14"
-                           Opacity="0.5" VerticalAlignment="Center" Margin="10,0,0,0"
-                           IsHitTestVisible="False"/>
-                <TextBox Name="NavSearchBox" Text="{Binding NavSearchText, Mode=TwoWay}"
-                         PlaceholderText="{DynamicResource Nav_SearchPlaceholder}"
-                         Padding="32,6,8,6"/>
+            <Grid Margin="8,4,8,4" Height="32">
+                <!-- 展开时：搜索框 -->
+                <Grid IsVisible="{Binding IsPaneOpen}">
+                    <TextBlock Text="&#xE721;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                               Opacity="0.5" VerticalAlignment="Center" Margin="10,0,0,0"
+                               IsHitTestVisible="False"/>
+                    <TextBox Name="NavSearchBox" Text="{Binding NavSearchText, Mode=TwoWay}"
+                             PlaceholderText="{DynamicResource Nav_SearchPlaceholder}"
+                             Padding="32,6,8,6"/>
+                </Grid>
+                <!-- 折叠时：搜索图标 -->
+                <Button IsVisible="{Binding IsPaneOpen, Converter={x:Static BoolConverters.Not}}"
+                        Click="OnCollapsedSearchClick"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        Padding="8,0"
+                        Background="Transparent" BorderThickness="0" CornerRadius="4"
+                        ToolTip.Tip="{DynamicResource Nav_SearchPlaceholder}">
+                    <TextBlock Text="&#xE721;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Button>
             </Grid>
         </fa:FANavigationView.PaneCustomContent>
 
-        <!-- 页面内容区域 -->
         <fa:FANavigationView.Content>
             <ContentControl Content="{Binding CurrentPage}"
                             HorizontalContentAlignment="Stretch"

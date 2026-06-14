@@ -17,11 +17,13 @@ public partial class MainWindow : Window
     {
         base.OnLoaded(e);
 
-        // 初始导航到默认启动页面（根据设置）
         if (DataContext is MainWindowViewModel vm)
         {
             _ = vm.NavigateToDefaultAsync();
         }
+
+        RootNavigation.PaneOpened += OnPaneOpened;
+        RootNavigation.PaneClosed += OnPaneClosed;
     }
 
     private void OnNavigationSelectionChanged(object? sender, FANavigationViewSelectionChangedEventArgs e)
@@ -48,5 +50,27 @@ public partial class MainWindow : Window
         }
 
         RootNavigation.Focus();
+    }
+
+    private void OnPaneOpened(FANavigationView sender, EventArgs e)
+    {
+        if (DataContext is MainWindowViewModel vm)
+            vm.IsPaneOpen = true;
+    }
+
+    private void OnPaneClosed(FANavigationView sender, EventArgs e)
+    {
+        if (DataContext is MainWindowViewModel vm)
+            vm.IsPaneOpen = false;
+    }
+
+    private void OnCollapsedSearchClick(object? sender, RoutedEventArgs e)
+    {
+        RootNavigation.IsPaneOpen = true;
+        if (DataContext is MainWindowViewModel vm)
+            vm.IsPaneOpen = true;
+
+        var searchBox = this.FindControl<TextBox>("NavSearchBox");
+        searchBox?.Focus();
     }
 }

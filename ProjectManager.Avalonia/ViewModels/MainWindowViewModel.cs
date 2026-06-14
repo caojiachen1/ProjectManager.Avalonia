@@ -27,6 +27,9 @@ public partial class MainWindowViewModel : ViewModelBase
     [ObservableProperty]
     private string _navSearchText = string.Empty;
 
+    [ObservableProperty]
+    private bool _isPaneOpen = true;
+
     public ObservableCollection<FANavigationViewItem> MenuItems { get; } = new();
     public ObservableCollection<FANavigationViewItem> FooterMenuItems { get; } = new();
 
