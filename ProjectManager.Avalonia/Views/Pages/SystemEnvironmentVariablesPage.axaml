@@ -8,7 +8,7 @@
              x:Class="ProjectManager.Avalonia.Views.Pages.SystemEnvironmentVariablesPage"
              x:CompileBindings="False">
 
-    <Grid>
+    <Grid Name="RootGrid" PointerPressed="OnRootPointerPressed">
         <!-- Main Content -->
         <Grid Margin="24,12" IsVisible="{Binding IsLoading, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
             <Grid.RowDefinitions>
@@ -17,56 +17,50 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <!-- 页面标题 -->
+            <!-- Page Title -->
             <StackPanel Grid.Row="0" Margin="0,4,0,8">
                 <TextBlock Text="{DynamicResource EnvVar_Title}" FontSize="24" FontWeight="Bold"/>
                 <TextBlock Text="{DynamicResource EnvVar_Subtitle}" FontSize="13" Opacity="0.6" Margin="0,4,0,0"/>
             </StackPanel>
 
             <!-- Top Toolbar: Search + Filter + Refresh -->
-            <Border Grid.Row="1" Padding="12" Margin="0,0,0,16"
-                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1" CornerRadius="8">
-                <StackPanel Orientation="Horizontal" Spacing="12">
-                    <!-- Search -->
-                    <Grid Width="300">
-                        <TextBlock Text="&#xE721;" FontFamily="Segoe Fluent Icons" FontSize="14"
-                                   Opacity="0.5" VerticalAlignment="Center" Margin="10,0,0,0"
-                                   IsHitTestVisible="False"/>
-                        <TextBox Text="{Binding SearchText}" PlaceholderText="{DynamicResource EnvVars_SearchPlaceholder}"
-                                 Padding="30,6,8,6"/>
-                    </Grid>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="12" Margin="0,0,0,16">
+                <!-- Search -->
+                <Grid Width="300">
+                    <TextBlock Text="&#xE721;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                               Opacity="0.5" VerticalAlignment="Center" Margin="10,0,0,0"
+                               IsHitTestVisible="False"/>
+                    <TextBox Name="SearchTextBox" Text="{Binding SearchText}"
+                             PlaceholderText="{DynamicResource EnvVars_SearchPlaceholder}"
+                             Padding="30,6,8,6"/>
+                </Grid>
 
-                    <!-- Filter ComboBox -->
-                    <ComboBox SelectedIndex="{Binding SelectedFilterIndex}" Width="140">
-                        <ComboBoxItem Content="{DynamicResource EnvVars_FilterAll}"/>
-                        <ComboBoxItem Content="{DynamicResource EnvVars_FilterUser}"/>
-                        <ComboBoxItem Content="{DynamicResource EnvVars_FilterSystem}"/>
-                    </ComboBox>
+                <!-- Filter ComboBox -->
+                <ComboBox Name="FilterComboBox" SelectedIndex="{Binding SelectedFilterIndex}" Width="140">
+                    <ComboBoxItem Content="{DynamicResource EnvVars_FilterAll}"/>
+                    <ComboBoxItem Content="{DynamicResource EnvVars_FilterUser}"/>
+                    <ComboBoxItem Content="{DynamicResource EnvVars_FilterSystem}"/>
+                </ComboBox>
 
-                    <!-- Refresh -->
-                    <Button Command="{Binding RefreshCommand}">
-                        <StackPanel Orientation="Horizontal" Spacing="6">
-                            <TextBlock Text="&#xE72C;" FontFamily="Segoe Fluent Icons" VerticalAlignment="Center"/>
-                            <TextBlock Text="{DynamicResource EnvVar_Refresh}" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </Button>
-                </StackPanel>
-            </Border>
+                <!-- Refresh -->
+                <Button Command="{Binding RefreshCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <TextBlock Text="&#xE72C;" FontFamily="Segoe Fluent Icons" VerticalAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource EnvVar_Refresh}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
 
-            <!-- Two side-by-side sections -->
-            <Grid Grid.Row="2">
+            <!-- Sections Grid -->
+            <Grid Name="SectionsGrid" Grid.Row="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="12"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- ======================== -->
-                <!-- User Variables Section  -->
-                <!-- ======================== -->
-                <Border Grid.Column="0"
+                <!-- User Variables Section -->
+                <Border Name="UserSection" Grid.Column="0"
                         Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
                         BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
                         BorderThickness="1" CornerRadius="8">
@@ -90,7 +84,7 @@
                                         VerticalAlignment="Center">
                                     <TextBlock FontSize="12" Foreground="#4CAF50">
                                         <TextBlock.Text>
-                                            <Binding Path="UserVariablesCount" StringFormat="{}{0} 项"/>
+                                            <Binding Path="UserVariablesCount" StringFormat="{}{0}"/>
                                         </TextBlock.Text>
                                     </TextBlock>
                                 </Border>
@@ -103,7 +97,7 @@
                                 BorderThickness="1"
                                 CornerRadius="4"
                                 Margin="8,8,8,0">
-                        <DataGrid Grid.Row="1"
+                        <DataGrid
                                   Name="UserDataGrid"
                                   Classes="clean"
                                   ItemsSource="{Binding FilteredUserVariables}"
@@ -172,10 +166,8 @@
                     </Grid>
                 </Border>
 
-                <!-- ========================== -->
-                <!-- System Variables Section   -->
-                <!-- ========================== -->
-                <Border Grid.Column="2"
+                <!-- System Variables Section -->
+                <Border Name="SystemSection" Grid.Column="2"
                         Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
                         BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
                         BorderThickness="1" CornerRadius="8">
@@ -199,7 +191,7 @@
                                         VerticalAlignment="Center">
                                     <TextBlock FontSize="12" Foreground="#FF9800">
                                         <TextBlock.Text>
-                                            <Binding Path="SystemVariablesCount" StringFormat="{}{0} 项"/>
+                                            <Binding Path="SystemVariablesCount" StringFormat="{}{0}"/>
                                         </TextBlock.Text>
                                     </TextBlock>
                                 </Border>
@@ -212,7 +204,7 @@
                                 BorderThickness="1"
                                 CornerRadius="4"
                                 Margin="8,8,8,0">
-                        <DataGrid Grid.Row="1"
+                        <DataGrid
                                   Name="SystemDataGrid"
                                   Classes="clean"
                                   ItemsSource="{Binding FilteredSystemVariables}"
