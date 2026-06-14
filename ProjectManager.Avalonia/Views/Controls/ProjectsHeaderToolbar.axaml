@@ -1,5 +1,6 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:icons="using:Avalonia.FluentIcons"
              x:Class="ProjectManager.Avalonia.Views.Controls.ProjectsHeaderToolbar"
              x:CompileBindings="False">
 
@@ -22,9 +23,9 @@
             </Grid>
 
             <!-- Status filter ComboBox -->
-            <ComboBox ItemsSource="{Binding $parent[UserControl].DataContext.StatusFilters}"
-                      SelectedItem="{Binding $parent[UserControl].DataContext.SelectedStatusFilter}"
-                      SelectedIndex="0"
+            <ComboBox Name="StatusFilterComboBox"
+                      ItemsSource="{Binding $parent[UserControl].DataContext.StatusFilters}"
+                      SelectedItem="{Binding $parent[UserControl].DataContext.SelectedStatusFilter, Mode=TwoWay}"
                       MinWidth="80"/>
         </StackPanel>
 
@@ -44,8 +45,7 @@
             <!-- Clone from Git button -->
             <Button Command="{Binding $parent[UserControl].DataContext.CloneFromGitCommand}">
                 <StackPanel Orientation="Horizontal" Spacing="6">
-                    <TextBlock Text="&#xf126;" FontFamily="{StaticResource FontAwesomeSolid}" FontSize="14"
-                               VerticalAlignment="Center"/>
+                    <icons:SymbolIcon Symbol="Branch24" FontSize="14" VerticalAlignment="Center"/>
                     <TextBlock Text="{DynamicResource AddProject_CloneFrom}" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>

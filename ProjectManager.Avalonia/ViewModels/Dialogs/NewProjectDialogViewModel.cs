@@ -19,6 +19,17 @@ public partial class NewProjectDialogViewModel : ViewModelBase
     [ObservableProperty]
     private string _projectPath = string.Empty;
 
+    partial void OnProjectPathChanged(string value)
+    {
+        // 当路径变化时，如果项目名称为空，自动用文件夹名称填入
+        if (string.IsNullOrWhiteSpace(ProjectName) && !string.IsNullOrWhiteSpace(value))
+        {
+            var folderName = Path.GetFileName(value.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
+            if (!string.IsNullOrWhiteSpace(folderName))
+                ProjectName = folderName;
+        }
+    }
+
     [ObservableProperty]
     private string _projectDescription = string.Empty;
 
@@ -98,7 +109,9 @@ public partial class NewProjectDialogViewModel : ViewModelBase
         {
             ProjectPath = path;
             // 始终用目录名称自动填入项目名称
-            ProjectName = Path.GetFileName(path);
+            var folderName = Path.GetFileName(path.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
+            if (!string.IsNullOrWhiteSpace(folderName))
+                ProjectName = folderName;
         }
     }
 
