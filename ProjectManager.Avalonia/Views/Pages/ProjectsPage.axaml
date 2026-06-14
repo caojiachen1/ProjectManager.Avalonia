@@ -92,21 +92,21 @@
                                             Width="32" Height="32" Padding="0"
                                             Background="Transparent" BorderThickness="0"
                                             Click="MenuButton_Click">
-                                        <TextBlock Text="&#xf142;" FontFamily="{StaticResource FontAwesomeSolid}" FontSize="18"
-                                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <icons:SymbolIcon Symbol="MoreVertical20" FontSize="20"
+                                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                         <Button.Flyout>
                                             <MenuFlyout Placement="RightEdgeAlignedTop">
                                                 <MenuItem Header="{DynamicResource Projects_OpenInExplorer}"
                                                           Click="MenuOpenInExplorer_Click">
                                                     <MenuItem.Icon>
-                                                        <TextBlock Text="&#xE838;" FontFamily="Segoe Fluent Icons" FontSize="14"/>
+                                                        <icons:SymbolIcon Symbol="Folder24" FontSize="16"/>
                                                     </MenuItem.Icon>
                                                 </MenuItem>
                                                 <Separator/>
                                                 <MenuItem Header="{DynamicResource Projects_DeleteProject}"
                                                           Click="MenuDeleteProject_Click">
                                                     <MenuItem.Icon>
-                                                        <TextBlock Text="&#xE74D;" FontFamily="Segoe Fluent Icons" FontSize="14" Foreground="Red"/>
+                                                        <icons:SymbolIcon Symbol="Delete24" FontSize="16" Foreground="Red"/>
                                                     </MenuItem.Icon>
                                                 </MenuItem>
                                             </MenuFlyout>
@@ -131,8 +131,8 @@
                                     <!-- Git info (visible when project has Git repo) -->
                                     <StackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center"
                                                 IsVisible="{Binding GitInfo.IsGitRepository}">
-                                        <TextBlock Text="&#xf126;" FontFamily="{StaticResource FontAwesomeSolid}" FontSize="12"
-                                                   Foreground="Green" VerticalAlignment="Center"/>
+                                        <icons:SymbolIcon Symbol="Branch24" FontSize="12" Foreground="Green"
+                                                           VerticalAlignment="Center"/>
                                         <TextBlock Text="{Binding GitInfo.CurrentBranch}" FontSize="11"
                                                    Opacity="0.7" VerticalAlignment="Center"/>
                                     </StackPanel>
@@ -148,8 +148,8 @@
                                             Command="{Binding $parent[UserControl].DataContext.ManageComfyUIPluginsCommand}"
                                             CommandParameter="{Binding}"
                                             IsVisible="{Binding Framework, Converter={StaticResource ComfyUIFrameworkToVisibilityConverter}}">
-                                        <TextBlock Text="&#xEA86;" FontFamily="Segoe Fluent Icons" FontSize="16"
-                                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <icons:SymbolIcon Symbol="PuzzlePiece24" FontSize="16"
+                                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Button>
                                 </StackPanel>
 
@@ -174,32 +174,56 @@
                                     <!-- Toggle (Start/Stop) button -->
                                     <Button Margin="0,0,4,4"
                                             Classes="statusButton"
-                                            Content="{Binding Status, Converter={StaticResource StatusToToggleButtonTextConverter}}"
                                             Background="{Binding Status, Converter={StaticResource StatusToToggleButtonAppearanceConverter}}"
                                             Command="{Binding $parent[UserControl].DataContext.ToggleProjectCommand}"
                                             CommandParameter="{Binding}"
-                                            IsEnabled="{Binding Status, Converter={StaticResource StatusToToggleButtonEnabledConverter}}"/>
+                                            IsEnabled="{Binding Status, Converter={StaticResource StatusToToggleButtonEnabledConverter}}">
+                                        <StackPanel Orientation="Horizontal" Spacing="4">
+                                            <icons:SymbolIcon Symbol="{Binding Status, Converter={StaticResource StatusToToggleButtonIconConverter}}" FontSize="14" Foreground="White" VerticalAlignment="Center"/>
+                                            <TextBlock Text="{Binding Status, Converter={StaticResource StatusToToggleButtonTextConverter}}" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Button>
 
                                     <!-- Git button -->
-                                    <Button Content="Git" Margin="0,0,4,4"
+                                    <Button Margin="0,0,4,4"
                                             Command="{Binding $parent[UserControl].DataContext.ManageGitCommand}"
                                             CommandParameter="{Binding}"
-                                            IsVisible="{Binding ., Converter={StaticResource HasGitRepositoryToVisibilityConverter}}"/>
+                                            IsVisible="{Binding ., Converter={StaticResource HasGitRepositoryToVisibilityConverter}}">
+                                        <StackPanel Orientation="Horizontal" Spacing="4">
+                                            <icons:SymbolIcon Symbol="Branch24" FontSize="14" VerticalAlignment="Center"/>
+                                            <TextBlock Text="Git" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Button>
 
                                     <!-- Environment Variables button -->
-                                    <Button Content="{DynamicResource Projects_EnvVars}" Margin="0,0,4,4"
+                                    <Button Margin="0,0,4,4"
                                             Command="{Binding $parent[UserControl].DataContext.ManageEnvironmentVariablesCommand}"
-                                            CommandParameter="{Binding}"/>
+                                            CommandParameter="{Binding}">
+                                        <StackPanel Orientation="Horizontal" Spacing="4">
+                                            <icons:SymbolIcon Symbol="Settings24" FontSize="14" VerticalAlignment="Center"/>
+                                            <TextBlock Text="{DynamicResource Projects_EnvVars}" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Button>
 
                                     <!-- Settings button -->
-                                    <Button Content="{DynamicResource Projects_Settings}" Margin="0,0,4,4"
+                                    <Button Margin="0,0,4,4"
                                             Command="{Binding $parent[UserControl].DataContext.EditProjectCommand}"
-                                            CommandParameter="{Binding}"/>
+                                            CommandParameter="{Binding}">
+                                        <StackPanel Orientation="Horizontal" Spacing="4">
+                                            <icons:SymbolIcon Symbol="Options24" FontSize="14" VerticalAlignment="Center"/>
+                                            <TextBlock Text="{DynamicResource Projects_Settings}" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Button>
 
                                     <!-- Terminal button -->
-                                    <Button Content="{DynamicResource Projects_Terminal}" Margin="0,0,0,4"
+                                    <Button Margin="0,0,0,4"
                                             Command="{Binding $parent[UserControl].DataContext.ViewLogsCommand}"
-                                            CommandParameter="{Binding}"/>
+                                            CommandParameter="{Binding}">
+                                        <StackPanel Orientation="Horizontal" Spacing="4">
+                                            <icons:SymbolIcon Symbol="WindowConsole20" FontSize="14" VerticalAlignment="Center"/>
+                                            <TextBlock Text="{DynamicResource Projects_Terminal}" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Button>
                                 </WrapPanel>
                             </Grid>
                         </Border>

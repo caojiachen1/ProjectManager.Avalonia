@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using Avalonia;
 using Avalonia.Data.Converters;
+using Avalonia.FluentIcons;
 using Avalonia.Media;
 using ProjectManager.Avalonia.Models;
 
@@ -204,18 +205,17 @@ public class StatusToToggleButtonIconConverter : IValueConverter
     {
         if (value is ProjectStatus status)
         {
-            // Return Segoe Fluent Icons unicode glyph
             return status switch
             {
-                ProjectStatus.Running => "\uE71A",   // Stop
-                ProjectStatus.Starting => "\uE768",   // Play
-                ProjectStatus.Stopping => "\uE71A",   // Stop
-                ProjectStatus.Stopped => "\uE768",    // Play
-                ProjectStatus.Error => "\uE768",      // Play
-                _ => "\uE768"
+                ProjectStatus.Running => SymbolRegular.Stop24,
+                ProjectStatus.Starting => SymbolRegular.Play24,
+                ProjectStatus.Stopping => SymbolRegular.Stop24,
+                ProjectStatus.Stopped => SymbolRegular.Play24,
+                ProjectStatus.Error => SymbolRegular.Play24,
+                _ => SymbolRegular.Play24
             };
         }
-        return "\uE768";
+        return SymbolRegular.Play24;
     }
 
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
