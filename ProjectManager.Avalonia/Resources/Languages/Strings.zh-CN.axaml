@@ -37,6 +37,11 @@
     <system:String x:Key="Status_Starting">启动中</system:String>
     <system:String x:Key="Status_Stopping">停止中</system:String>
     <system:String x:Key="Status_Unknown">未知</system:String>
+    <system:String x:Key="TerminalStatus_Running">运行中</system:String>
+    <system:String x:Key="TerminalStatus_Stopped">已停止</system:String>
+    <system:String x:Key="TerminalStatus_Starting">启动中</system:String>
+    <system:String x:Key="TerminalStatus_StartFailed">启动失败</system:String>
+    <system:String x:Key="Git_NoCommit">无提交</system:String>
 
     <!-- 过滤器 -->
     <system:String x:Key="Filter_All">全部</system:String>

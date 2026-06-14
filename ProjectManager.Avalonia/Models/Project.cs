@@ -1,12 +1,18 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
+using Avalonia;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace ProjectManager.Avalonia.Models
 {
     public partial class Project : ObservableObject
     {
+        private static string R(string key, string fallback)
+        {
+            var app = Application.Current;
+            return (app?.Resources.TryGetResource(key, null, out var res) == true && res is string s) ? s : fallback;
+        }
         [ObservableProperty]
         private string _id = Guid.NewGuid().ToString();
 
@@ -76,17 +82,21 @@ namespace ProjectManager.Avalonia.Models
         [ObservableProperty]
         private DotNetSettings? _dotNetSettings;
 
-        // StatusDisplay uses hardcoded strings for now (Phase 8 will add i18n)
         [JsonIgnore]
         public string StatusDisplay => Status switch
         {
-            ProjectStatus.Running => "Running",
-            ProjectStatus.Stopped => "Stopped",
-            ProjectStatus.Starting => "Starting",
-            ProjectStatus.Stopping => "Stopping",
-            ProjectStatus.Error => "Error",
-            _ => "Unknown"
+            ProjectStatus.Running => R("Status_Running", "Running"),
+            ProjectStatus.Stopped => R("Status_Stopped", "Stopped"),
+            ProjectStatus.Starting => R("Status_Starting", "Starting"),
+            ProjectStatus.Stopping => R("Status_Stopping", "Stopping"),
+            ProjectStatus.Error => R("Status_Error", "Error"),
+            _ => R("Status_Unknown", "Unknown")
         };
+
+        public void RefreshStatus()
+        {
+            OnPropertyChanged(nameof(StatusDisplay));
+        }
 
         [JsonIgnore]
         public string LastModifiedDisplay => LastModified.ToString("yyyy-MM-dd HH:mm:ss");

@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
+using Avalonia;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -11,6 +12,12 @@ namespace ProjectManager.Avalonia.Models
     /// </summary>
     public partial class TerminalSession : ObservableObject
     {
+        private static string R(string key, string fallback)
+        {
+            var app = Application.Current;
+            return (app?.Resources.TryGetResource(key, null, out var res) == true && res is string s) ? s : fallback;
+        }
+
         [ObservableProperty]
         private string _sessionId = Guid.NewGuid().ToString();
 
@@ -39,15 +46,14 @@ namespace ProjectManager.Avalonia.Models
         [NotifyPropertyChangedFor(nameof(StatusDisplay))]
         private TerminalStatus _status = TerminalStatus.Stopped;
 
-        // StatusDisplay uses hardcoded strings for now (Phase 8 will add i18n)
         [JsonIgnore]
         public string StatusDisplay => Status switch
         {
-            TerminalStatus.Running => "Running",
-            TerminalStatus.Stopped => "Stopped",
-            TerminalStatus.Starting => "Starting",
-            TerminalStatus.StartFailed => "Start Failed",
-            _ => "Stopped"
+            TerminalStatus.Running => R("TerminalStatus_Running", "Running"),
+            TerminalStatus.Stopped => R("TerminalStatus_Stopped", "Stopped"),
+            TerminalStatus.Starting => R("TerminalStatus_Starting", "Starting"),
+            TerminalStatus.StartFailed => R("TerminalStatus_StartFailed", "Start Failed"),
+            _ => R("TerminalStatus_Stopped", "Stopped")
         };
 
         [ObservableProperty]

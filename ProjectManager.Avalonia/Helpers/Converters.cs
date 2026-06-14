@@ -41,9 +41,25 @@ public class ProjectStatusToStringConverter : IValueConverter
 {
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
+        var app = Application.Current;
+        object? res = null;
+
+        string GetResource(string key, string fallback)
+            => (app?.Resources.TryGetResource(key, null, out res) == true && res is string s) ? s : fallback;
+
         if (value is ProjectStatus status)
-            return status.ToString().ToLowerInvariant();
-        return "unknown";
+        {
+            return status switch
+            {
+                ProjectStatus.Running => GetResource("Status_Running", "Running"),
+                ProjectStatus.Stopped => GetResource("Status_Stopped", "Stopped"),
+                ProjectStatus.Starting => GetResource("Status_Starting", "Starting"),
+                ProjectStatus.Stopping => GetResource("Status_Stopping", "Stopping"),
+                ProjectStatus.Error => GetResource("Status_Error", "Error"),
+                _ => GetResource("Status_Unknown", "Unknown")
+            };
+        }
+        return GetResource("Status_Unknown", "Unknown");
     }
 
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

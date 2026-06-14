@@ -59,7 +59,15 @@ public partial class ProjectsViewModel : ViewModelBase
         try
         {
             UpdateStatusFilters();
-            _languageService.LanguageChanged += (s, e) => UpdateStatusFilters();
+            _languageService.LanguageChanged += (s, e) =>
+            {
+                UpdateStatusFilters();
+                foreach (var project in Projects)
+                {
+                    project.RefreshStatus();
+                    project.GitInfo?.RefreshStatus();
+                }
+            };
 
             _projectService.ProjectPropertyChanged += OnProjectPropertyChanged;
 

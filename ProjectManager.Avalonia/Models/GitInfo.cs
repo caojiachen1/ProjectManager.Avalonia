@@ -1,12 +1,16 @@
+using Avalonia;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace ProjectManager.Avalonia.Models
 {
-    /// <summary>
-    /// Git信息模型
-    /// </summary>
     public partial class GitInfo : ObservableObject
     {
+        private static string R(string key, string fallback)
+        {
+            var app = Application.Current;
+            return (app?.Resources.TryGetResource(key, null, out var res) == true && res is string s) ? s : fallback;
+        }
+
         [ObservableProperty]
         private bool _isGitRepository = false;
 
@@ -37,20 +41,25 @@ namespace ProjectManager.Avalonia.Models
         [ObservableProperty]
         private GitStatus _status = GitStatus.Clean;
 
-        // StatusDisplay uses hardcoded strings for now (Phase 8 will add i18n)
         public string StatusDisplay => Status switch
         {
-            GitStatus.Clean => "Clean",
-            GitStatus.Modified => "Modified",
-            GitStatus.Staged => "Staged",
-            GitStatus.Conflicted => "Conflicted",
-            GitStatus.Untracked => "Untracked",
-            _ => "Unknown"
+            GitStatus.Clean => R("GitStatus_Clean", "Clean"),
+            GitStatus.Modified => R("GitStatus_Modified", "Modified"),
+            GitStatus.Staged => R("GitStatus_Staged", "Staged"),
+            GitStatus.Conflicted => R("GitStatus_Conflicted", "Conflicted"),
+            GitStatus.Untracked => R("GitStatus_Untracked", "Untracked"),
+            _ => R("Status_Unknown", "Unknown")
         };
 
         public string LastCommitDateDisplay => LastCommitDate == DateTime.MinValue 
-            ? "无提交" 
+            ? R("Git_NoCommit", "No commits") 
             : LastCommitDate.ToString("yyyy-MM-dd HH:mm:ss");
+
+        public void RefreshStatus()
+        {
+            OnPropertyChanged(nameof(StatusDisplay));
+            OnPropertyChanged(nameof(LastCommitDateDisplay));
+        }
     }
 
     public enum GitStatus

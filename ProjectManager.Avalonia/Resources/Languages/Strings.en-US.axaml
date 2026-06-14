@@ -37,6 +37,11 @@
     <system:String x:Key="Status_Starting">Starting</system:String>
     <system:String x:Key="Status_Stopping">Stopping</system:String>
     <system:String x:Key="Status_Unknown">Unknown</system:String>
+    <system:String x:Key="TerminalStatus_Running">Running</system:String>
+    <system:String x:Key="TerminalStatus_Stopped">Stopped</system:String>
+    <system:String x:Key="TerminalStatus_Starting">Starting</system:String>
+    <system:String x:Key="TerminalStatus_StartFailed">Start Failed</system:String>
+    <system:String x:Key="Git_NoCommit">No commits</system:String>
 
     <!-- Filters -->
     <system:String x:Key="Filter_All">All</system:String>
