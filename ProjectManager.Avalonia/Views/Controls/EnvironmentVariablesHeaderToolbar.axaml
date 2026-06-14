@@ -14,13 +14,13 @@
                 <TextBlock Text="&#xE721;" FontFamily="Segoe Fluent Icons" FontSize="14"
                            Opacity="0.5" VerticalAlignment="Center" Margin="10,0,0,0"
                            IsHitTestVisible="False"/>
-                <TextBox Text="{Binding $parent[UserControl].DataContext.SearchText, Mode=TwoWay}"
+                <TextBox Text="{Binding SearchText, Mode=TwoWay}"
                          PlaceholderText="{DynamicResource EnvVars_SearchPlaceholder}"
                          Padding="32,6,8,6"/>
             </Grid>
 
             <!-- Filter ComboBox -->
-            <ComboBox SelectedIndex="{Binding $parent[UserControl].DataContext.SelectedFilterIndex, Mode=TwoWay}"
+            <ComboBox SelectedIndex="{Binding SelectedFilterIndex, Mode=TwoWay}"
                       Width="140" VerticalAlignment="Center">
                 <ComboBoxItem Content="{DynamicResource EnvVars_FilterAll}"/>
                 <ComboBoxItem Content="{DynamicResource EnvVars_FilterUser}"/>
@@ -33,7 +33,7 @@
                     Margin="4,0"/>
 
             <!-- Add User Variable button -->
-            <Button Command="{Binding $parent[UserControl].DataContext.AddUserVariableCommand}"
+            <Button Command="{Binding AddUserVariableCommand}"
                     ToolTip.Tip="{DynamicResource EnvVars_AddUserTooltip}">
                 <StackPanel Orientation="Horizontal" Spacing="6">
                     <TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons" FontSize="14"
@@ -43,7 +43,7 @@
             </Button>
 
             <!-- Add System Variable button -->
-            <Button Command="{Binding $parent[UserControl].DataContext.AddSystemVariableCommand}"
+            <Button Command="{Binding AddSystemVariableCommand}"
                     ToolTip.Tip="{DynamicResource EnvVars_AddSystemTooltip}">
                 <StackPanel Orientation="Horizontal" Spacing="6">
                     <TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons" FontSize="14"
@@ -53,7 +53,7 @@
             </Button>
 
             <!-- Refresh button -->
-            <Button Command="{Binding $parent[UserControl].DataContext.RefreshCommand}"
+            <Button Command="{Binding RefreshCommand}"
                     ToolTip.Tip="{DynamicResource EnvVars_RefreshTooltip}">
                 <TextBlock Text="&#xE72C;" FontFamily="Segoe Fluent Icons" FontSize="14"
                            VerticalAlignment="Center"/>

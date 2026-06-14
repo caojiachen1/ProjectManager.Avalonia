@@ -9,7 +9,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ProjectManager.Avalonia.Views.Pages.ProjectsPage"
-             x:CompileBindings="False">
+             x:CompileBindings="False"
+             x:Name="PageRoot">
 
     <Grid PointerPressed="OnRootPointerPressed">
         <Grid.RowDefinitions>
@@ -143,7 +144,7 @@
                                     <Button Width="28" Height="28" Padding="0"
                                             Background="Transparent" BorderThickness="0"
                                             ToolTip.Tip="{DynamicResource Projects_ManageComfyUIPlugins}"
-                                            Command="{Binding $parent[UserControl].DataContext.ManageComfyUIPluginsCommand}"
+                                             Command="{Binding DataContext.ManageComfyUIPluginsCommand, ElementName=PageRoot}"
                                             CommandParameter="{Binding}"
                                             IsVisible="{Binding Framework, Converter={StaticResource ComfyUIFrameworkToVisibilityConverter}}">
                                         <icons:SymbolIcon Symbol="PuzzlePiece24" FontSize="16"
@@ -173,7 +174,7 @@
                                     <Button Margin="0,0,4,4"
                                             Classes="statusButton"
                                             Background="{Binding Status, Converter={StaticResource StatusToToggleButtonAppearanceConverter}}"
-                                            Command="{Binding $parent[UserControl].DataContext.ToggleProjectCommand}"
+                                             Command="{Binding DataContext.ToggleProjectCommand, ElementName=PageRoot}"
                                             CommandParameter="{Binding}"
                                             IsEnabled="{Binding Status, Converter={StaticResource StatusToToggleButtonEnabledConverter}}">
                                         <StackPanel Orientation="Horizontal" Spacing="4">
@@ -184,7 +185,7 @@
 
                                     <!-- Git button -->
                                     <Button Margin="0,0,4,4"
-                                            Command="{Binding $parent[UserControl].DataContext.ManageGitCommand}"
+                                             Command="{Binding DataContext.ManageGitCommand, ElementName=PageRoot}"
                                             CommandParameter="{Binding}"
                                             IsVisible="{Binding ., Converter={StaticResource HasGitRepositoryToVisibilityConverter}}">
                                         <StackPanel Orientation="Horizontal" Spacing="4">
@@ -195,7 +196,7 @@
 
                                     <!-- Environment Variables button -->
                                     <Button Margin="0,0,4,4"
-                                            Command="{Binding $parent[UserControl].DataContext.ManageEnvironmentVariablesCommand}"
+                                             Command="{Binding DataContext.ManageEnvironmentVariablesCommand, ElementName=PageRoot}"
                                             CommandParameter="{Binding}">
                                         <StackPanel Orientation="Horizontal" Spacing="4">
                                             <icons:SymbolIcon Symbol="Settings24" FontSize="14" VerticalAlignment="Center"/>
@@ -205,7 +206,7 @@
 
                                     <!-- Settings button -->
                                     <Button Margin="0,0,4,4"
-                                            Command="{Binding $parent[UserControl].DataContext.EditProjectCommand}"
+                                             Command="{Binding DataContext.EditProjectCommand, ElementName=PageRoot}"
                                             CommandParameter="{Binding}">
                                         <StackPanel Orientation="Horizontal" Spacing="4">
                                             <icons:SymbolIcon Symbol="Options24" FontSize="14" VerticalAlignment="Center"/>
@@ -215,7 +216,7 @@
 
                                     <!-- Terminal button -->
                                     <Button Margin="0,0,0,4"
-                                            Command="{Binding $parent[UserControl].DataContext.ViewLogsCommand}"
+                                             Command="{Binding DataContext.ViewLogsCommand, ElementName=PageRoot}"
                                             CommandParameter="{Binding}">
                                         <StackPanel Orientation="Horizontal" Spacing="4">
                                             <icons:SymbolIcon Symbol="WindowConsole20" FontSize="14" VerticalAlignment="Center"/>

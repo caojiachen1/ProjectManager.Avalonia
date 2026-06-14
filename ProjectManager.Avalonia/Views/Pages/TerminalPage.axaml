@@ -8,7 +8,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ProjectManager.Avalonia.Views.Pages.TerminalPage"
-             x:CompileBindings="False">
+             x:CompileBindings="False"
+             x:Name="PageRoot">
 
     <UserControl.Resources>
         <helpers:BoolToTabBackgroundConverter x:Key="BoolToTabBackgroundConverter"/>
@@ -124,7 +125,7 @@
                             <DataTemplate>
                                 <Button Margin="2,0" Padding="0"
                                         HorizontalContentAlignment="Stretch"
-                                        Command="{Binding $parent[UserControl].DataContext.SelectSessionCommand}"
+                                         Command="{Binding DataContext.SelectSessionCommand, ElementName=PageRoot}"
                                         CommandParameter="{Binding}">
                                     <Button.Theme>
                                         <ControlTheme TargetType="Button">
@@ -158,7 +159,7 @@
                                                 Width="18" Height="18"
                                                 Padding="0"
                                                 VerticalAlignment="Center"
-                                                Command="{Binding $parent[UserControl].DataContext.CloseSessionCommand}"
+                                                 Command="{Binding DataContext.CloseSessionCommand, ElementName=PageRoot}"
                                                 CommandParameter="{Binding}"
                                                 ToolTip.Tip="{DynamicResource Terminal_CloseSession}">
                                             <Button.Theme>

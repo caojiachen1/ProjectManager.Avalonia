@@ -17,15 +17,15 @@
                 <TextBlock Text="&#xE721;" FontFamily="Segoe Fluent Icons" FontSize="14"
                            Opacity="0.5" VerticalAlignment="Center" Margin="10,0,0,0"
                            IsHitTestVisible="False"/>
-                <TextBox Name="SearchTextBox" Text="{Binding $parent[UserControl].DataContext.SearchText, Mode=TwoWay}"
+                <TextBox Name="SearchTextBox" Text="{Binding SearchText, Mode=TwoWay}"
                          PlaceholderText="{DynamicResource Toolbar_SearchProjects}"
                          Padding="32,6,8,6"/>
             </Grid>
 
             <!-- Status filter ComboBox -->
             <ComboBox Name="StatusFilterComboBox"
-                      ItemsSource="{Binding $parent[UserControl].DataContext.StatusFilters}"
-                      SelectedItem="{Binding $parent[UserControl].DataContext.SelectedStatusFilter, Mode=TwoWay}"
+                      ItemsSource="{Binding StatusFilters}"
+                      SelectedItem="{Binding SelectedStatusFilter, Mode=TwoWay}"
                       MinWidth="80"/>
         </StackPanel>
 
@@ -34,7 +34,7 @@
             <!-- New Project button (primary blue, matches statusButton style) -->
             <Button Classes="statusButton"
                     Background="#005FB8"
-                    Command="{Binding $parent[UserControl].DataContext.CreateProjectCommand}">
+                    Command="{Binding CreateProjectCommand}">
                 <StackPanel Orientation="Horizontal" Spacing="6">
                     <TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons" FontSize="14"
                                VerticalAlignment="Center"/>
@@ -43,7 +43,7 @@
             </Button>
 
             <!-- Clone from Git button -->
-            <Button Command="{Binding $parent[UserControl].DataContext.CloneFromGitCommand}">
+            <Button Command="{Binding CloneFromGitCommand}">
                 <StackPanel Orientation="Horizontal" Spacing="6">
                     <icons:SymbolIcon Symbol="Branch24" FontSize="14" VerticalAlignment="Center"/>
                     <TextBlock Text="{DynamicResource AddProject_CloneFrom}" VerticalAlignment="Center"/>
@@ -51,9 +51,9 @@
             </Button>
 
             <!-- Refresh button -->
-            <Button Command="{Binding $parent[UserControl].DataContext.RefreshCommand}"
+            <Button Command="{Binding RefreshCommand}"
                     ToolTip.Tip="{DynamicResource Toolbar_RefreshTooltip}"
-                    IsEnabled="{Binding $parent[UserControl].DataContext.IsRefreshing, Converter={StaticResource InverseBooleanConverter}}">
+                    IsEnabled="{Binding IsRefreshing, Converter={StaticResource InverseBooleanConverter}}">
                 <StackPanel Orientation="Horizontal" Spacing="6">
                     <TextBlock Text="&#xE72C;" FontFamily="Segoe Fluent Icons" FontSize="14"
                                VerticalAlignment="Center"/>

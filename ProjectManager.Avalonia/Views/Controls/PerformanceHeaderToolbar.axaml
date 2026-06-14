@@ -16,7 +16,7 @@
 
             <!-- Refresh button -->
             <Button Grid.Column="0"
-                    Command="{Binding $parent[UserControl].DataContext.RefreshNowCommand}"
+                    Command="{Binding RefreshNowCommand}"
                     ToolTip.Tip="{DynamicResource Performance_Refresh}">
                 <StackPanel Orientation="Horizontal" Spacing="6">
                     <TextBlock Text="&#xE72C;" FontFamily="Segoe Fluent Icons" FontSize="14"
@@ -27,7 +27,7 @@
 
             <!-- Status message -->
             <TextBlock Grid.Column="1"
-                       Text="{Binding $parent[UserControl].DataContext.StatusMessage}"
+                       Text="{Binding StatusMessage}"
                        FontSize="13" Opacity="0.6"
                        VerticalAlignment="Center"
                        Margin="16,0,16,0"
@@ -38,7 +38,7 @@
                         VerticalAlignment="Center">
                 <TextBlock Text="&#xE823;" FontFamily="Segoe Fluent Icons" FontSize="12"
                            Opacity="0.5" VerticalAlignment="Center"/>
-                <TextBlock Text="{Binding $parent[UserControl].DataContext.LastUpdated, StringFormat='{}{0:HH:mm:ss}'}"
+                <TextBlock Text="{Binding LastUpdated, StringFormat='{}{0:HH:mm:ss}'}"
                            FontSize="12" Opacity="0.5"
                            VerticalAlignment="Center"/>
             </StackPanel>
