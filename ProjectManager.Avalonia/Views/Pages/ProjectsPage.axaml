@@ -11,7 +11,7 @@
              x:Class="ProjectManager.Avalonia.Views.Pages.ProjectsPage"
              x:CompileBindings="False">
 
-    <Grid>
+    <Grid PointerPressed="OnRootPointerPressed">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -25,7 +25,7 @@
         </StackPanel>
 
         <!-- 工具栏：搜索、状态过滤、新建/克隆/刷新按钮 -->
-        <controls:ProjectsHeaderToolbar Grid.Row="1" DataContext="{Binding}"/>
+        <controls:ProjectsHeaderToolbar x:Name="ProjectsHeaderToolbar" Grid.Row="1" DataContext="{Binding}"/>
 
         <!-- Project cards list -->
         <ScrollViewer Grid.Row="2" HorizontalScrollBarVisibility="Disabled"
@@ -45,7 +45,7 @@
                                 Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
                                 BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
                                 BorderThickness="1" CornerRadius="12">
-                            <Grid>
+                                <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>

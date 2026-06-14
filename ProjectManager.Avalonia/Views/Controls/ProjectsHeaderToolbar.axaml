@@ -17,7 +17,7 @@
                 <TextBlock Text="&#xE721;" FontFamily="Segoe Fluent Icons" FontSize="14"
                            Opacity="0.5" VerticalAlignment="Center" Margin="10,0,0,0"
                            IsHitTestVisible="False"/>
-                <TextBox Text="{Binding $parent[UserControl].DataContext.SearchText, Mode=TwoWay}"
+                <TextBox Name="SearchTextBox" Text="{Binding $parent[UserControl].DataContext.SearchText, Mode=TwoWay}"
                          PlaceholderText="{DynamicResource Toolbar_SearchProjects}"
                          Padding="32,6,8,6"/>
             </Grid>

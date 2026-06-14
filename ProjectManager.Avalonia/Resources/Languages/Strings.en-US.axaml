@@ -5,6 +5,7 @@
     <!-- Application Title -->
     <system:String x:Key="AppTitle">Universal Project Manager</system:String>
     <system:String x:Key="Search">Search</system:String>
+    <system:String x:Key="Nav_SearchPlaceholder">Search navigation...</system:String>
 
     <!-- Navigation Menu -->
     <system:String x:Key="Nav_Dashboard">Dashboard</system:String>

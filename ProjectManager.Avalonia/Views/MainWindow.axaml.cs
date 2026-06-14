@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using FluentAvalonia.UI.Controls;
 using ProjectManager.Avalonia.ViewModels;
@@ -29,5 +30,23 @@ public partial class MainWindow : Window
         {
             vm.HandleNavigationSelectionChanged(e);
         }
+    }
+
+    private void OnContentPointerPressed(object? sender, PointerPressedEventArgs e)
+    {
+        var searchBox = this.FindControl<TextBox>("NavSearchBox");
+        if (searchBox == null || !searchBox.IsFocused) return;
+
+        var pos = e.GetCurrentPoint(this).Position;
+        var hit = this.InputHitTest(pos) as Control;
+
+        Control? current = hit;
+        while (current != null)
+        {
+            if (current == searchBox) return;
+            current = current.Parent as Control;
+        }
+
+        RootNavigation.Focus();
     }
 }

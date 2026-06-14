@@ -29,7 +29,19 @@
                          PaneDisplayMode="Left"
                          SelectionChanged="OnNavigationSelectionChanged"
                          MenuItemsSource="{Binding MenuItems}"
-                         FooterMenuItemsSource="{Binding FooterMenuItems}">
+                         FooterMenuItemsSource="{Binding FooterMenuItems}"
+                         PointerPressed="OnContentPointerPressed">
+
+        <fa:FANavigationView.PaneCustomContent>
+            <Grid Margin="12,8,12,4">
+                <TextBlock Text="&#xE721;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                           Opacity="0.5" VerticalAlignment="Center" Margin="10,0,0,0"
+                           IsHitTestVisible="False"/>
+                <TextBox Name="NavSearchBox" Text="{Binding NavSearchText, Mode=TwoWay}"
+                         PlaceholderText="{DynamicResource Nav_SearchPlaceholder}"
+                         Padding="32,6,8,6"/>
+            </Grid>
+        </fa:FANavigationView.PaneCustomContent>
 
         <!-- 页面内容区域 -->
         <fa:FANavigationView.Content>

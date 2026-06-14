@@ -24,8 +24,14 @@ public partial class MainWindowViewModel : ViewModelBase
     [ObservableProperty]
     private FANavigationViewItem? _selectedItem;
 
+    [ObservableProperty]
+    private string _navSearchText = string.Empty;
+
     public ObservableCollection<FANavigationViewItem> MenuItems { get; } = new();
     public ObservableCollection<FANavigationViewItem> FooterMenuItems { get; } = new();
+
+    private List<FANavigationViewItem> _allMenuItems = new();
+    private List<FANavigationViewItem> _allFooterMenuItems = new();
 
     public MainWindowViewModel(
         INavigationService navigationService,
@@ -43,48 +49,91 @@ public partial class MainWindowViewModel : ViewModelBase
         _languageService.LanguageChanged += OnLanguageChanged;
     }
 
+    partial void OnNavSearchTextChanged(string value)
+    {
+        FilterNavigationItems();
+    }
+
     private void BuildNavigationItems()
     {
         MenuItems.Clear();
         FooterMenuItems.Clear();
+        _allMenuItems.Clear();
+        _allFooterMenuItems.Clear();
 
-        MenuItems.Add(new FANavigationViewItem
+        _allMenuItems.Add(new FANavigationViewItem
         {
             Content = _languageService.GetString("Nav_Dashboard"),
             IconSource = new FASymbolIconSource { Symbol = FASymbol.Home },
             Tag = typeof(DashboardViewModel)
         });
-        MenuItems.Add(new FANavigationViewItem
+        _allMenuItems.Add(new FANavigationViewItem
         {
             Content = _languageService.GetString("Nav_Projects"),
             IconSource = new FASymbolIconSource { Symbol = FASymbol.Folder },
             Tag = typeof(ProjectsViewModel)
         });
-        MenuItems.Add(new FANavigationViewItem
+        _allMenuItems.Add(new FANavigationViewItem
         {
             Content = _languageService.GetString("Nav_Terminal"),
             IconSource = new FASymbolIconSource { Symbol = FASymbol.Code },
             Tag = typeof(TerminalViewModel)
         });
-        MenuItems.Add(new FANavigationViewItem
+        _allMenuItems.Add(new FANavigationViewItem
         {
             Content = _languageService.GetString("Nav_Performance"),
             IconSource = new FASymbolIconSource { Symbol = FASymbol.List },
             Tag = typeof(PerformanceViewModel)
         });
-        MenuItems.Add(new FANavigationViewItem
+        _allMenuItems.Add(new FANavigationViewItem
         {
             Content = _languageService.GetString("Nav_Environment"),
             IconSource = new FASymbolIconSource { Symbol = (FASymbol)0xE8A5 },
             Tag = typeof(SystemEnvironmentVariablesViewModel)
         });
 
-        FooterMenuItems.Add(new FANavigationViewItem
+        _allFooterMenuItems.Add(new FANavigationViewItem
         {
             Content = _languageService.GetString("Nav_Settings"),
             IconSource = new FASymbolIconSource { Symbol = FASymbol.Settings },
             Tag = typeof(SettingsViewModel)
         });
+
+        FilterNavigationItems();
+    }
+
+    private void FilterNavigationItems()
+    {
+        var searchText = NavSearchText?.Trim() ?? string.Empty;
+
+        MenuItems.Clear();
+        foreach (var item in _allMenuItems)
+        {
+            if (string.IsNullOrEmpty(searchText) ||
+                (item.Content?.ToString()?.Contains(searchText, StringComparison.OrdinalIgnoreCase) == true))
+            {
+                MenuItems.Add(item);
+            }
+        }
+
+        FooterMenuItems.Clear();
+        foreach (var item in _allFooterMenuItems)
+        {
+            if (string.IsNullOrEmpty(searchText) ||
+                (item.Content?.ToString()?.Contains(searchText, StringComparison.OrdinalIgnoreCase) == true))
+            {
+                FooterMenuItems.Add(item);
+            }
+        }
+
+        if (!string.IsNullOrEmpty(searchText) && MenuItems.Count == 0 && FooterMenuItems.Count == 0)
+        {
+            SelectedItem = null;
+        }
+        else if (SelectedItem != null && !MenuItems.Contains(SelectedItem) && !FooterMenuItems.Contains(SelectedItem))
+        {
+            SelectedItem = MenuItems.FirstOrDefault() ?? FooterMenuItems.FirstOrDefault();
+        }
     }
 
     private void OnLanguageChanged(object? sender, string languageCode)
@@ -96,14 +145,15 @@ public partial class MainWindowViewModel : ViewModelBase
     private void UpdateNavigationLabels()
     {
         var keys = new[] { "Nav_Dashboard", "Nav_Projects", "Nav_Terminal", "Nav_Performance", "Nav_Environment" };
-        for (int i = 0; i < MenuItems.Count && i < keys.Length; i++)
+        for (int i = 0; i < _allMenuItems.Count && i < keys.Length; i++)
         {
-            MenuItems[i].Content = _languageService.GetString(keys[i]);
+            _allMenuItems[i].Content = _languageService.GetString(keys[i]);
         }
-        if (FooterMenuItems.Count > 0)
+        if (_allFooterMenuItems.Count > 0)
         {
-            FooterMenuItems[0].Content = _languageService.GetString("Nav_Settings");
+            _allFooterMenuItems[0].Content = _languageService.GetString("Nav_Settings");
         }
+        FilterNavigationItems();
     }
 
     public async Task NavigateToDefaultAsync()

@@ -5,6 +5,7 @@
     <!-- 应用程序标题 -->
     <system:String x:Key="AppTitle">通用项目管理器</system:String>
     <system:String x:Key="Search">搜索</system:String>
+    <system:String x:Key="Nav_SearchPlaceholder">搜索导航...</system:String>
 
     <!-- 导航菜单 -->
     <system:String x:Key="Nav_Dashboard">仪表板</system:String>
