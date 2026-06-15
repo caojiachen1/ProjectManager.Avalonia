@@ -1,7 +1,7 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:ProjectManager.Avalonia.ViewModels.Dialogs"
-        xmlns:icons="using:Avalonia.FluentIcons"
+        xmlns:icons="using:FluentIcons.Avalonia"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="600"
@@ -100,20 +100,20 @@
                                     <MenuItem Header="{DynamicResource PathEditor_Edit}"
                                               Command="{Binding $parent[Window].DataContext.EditCommand}">
                                         <MenuItem.Icon>
-                                            <icons:SymbolIcon Symbol="Edit24" FontSize="12"/>
+                                            <icons:SymbolIcon Symbol="Edit" FontSize="12"/>
                                         </MenuItem.Icon>
                                     </MenuItem>
                                     <MenuItem Header="{DynamicResource PathEditor_Browse}"
                                               Command="{Binding $parent[Window].DataContext.BrowseCommand}">
                                         <MenuItem.Icon>
-                                            <icons:SymbolIcon Symbol="FolderOpen24" FontSize="12"/>
+                                            <icons:SymbolIcon Symbol="FolderOpen" FontSize="12"/>
                                         </MenuItem.Icon>
                                     </MenuItem>
                                     <Separator/>
                                     <MenuItem Header="{DynamicResource PathEditor_Delete}"
                                               Command="{Binding $parent[Window].DataContext.DeleteCommand}">
                                         <MenuItem.Icon>
-                                            <icons:SymbolIcon Symbol="Delete24" FontSize="12"/>
+                                            <icons:SymbolIcon Symbol="Delete" FontSize="12"/>
                                         </MenuItem.Icon>
                                     </MenuItem>
                                 </MenuFlyout>

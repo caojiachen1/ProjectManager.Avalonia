@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using FluentAvalonia.UI.Controls;
 using ProjectManager.Avalonia.Services;
@@ -36,6 +37,19 @@ public partial class MainWindowViewModel : ViewModelBase
     private List<FANavigationViewItem> _allMenuItems = new();
     private List<FANavigationViewItem> _allFooterMenuItems = new();
 
+    // Segoe Fluent Icons 字体，与 WPF 项目图标风格一致
+    private static readonly FontFamily SegoeFluentIcons = new("Segoe Fluent Icons");
+
+    // 创建与 WPF SymbolRegular 图标对应的 FontIconSource
+    // WPF: Home24 → Segoe Fluent Icons Home (U+E80F)
+    // WPF: Apps24 → Segoe Fluent Icons AllApps (U+E71D)
+    // WPF: WindowConsole20 → Segoe Fluent Icons Console (U+E756)
+    // WPF: Pulse24 → Segoe Fluent Icons Pulse (U+E977)
+    // WPF: BracesVariable24 → Segoe Fluent Icons Code (U+E943)
+    // WPF: Settings24 → Segoe Fluent Icons Settings (U+E713)
+    private static FAFontIconSource CreateNavIcon(string glyph) =>
+        new() { Glyph = glyph, FontFamily = SegoeFluentIcons, FontSize = 16 };
+
     public MainWindowViewModel(
         INavigationService navigationService,
         IThemeService themeService,
@@ -67,38 +81,38 @@ public partial class MainWindowViewModel : ViewModelBase
         _allMenuItems.Add(new FANavigationViewItem
         {
             Content = _languageService.GetString("Nav_Dashboard"),
-            IconSource = new FASymbolIconSource { Symbol = FASymbol.Home },
+            IconSource = CreateNavIcon("\uE80F"), // Home (WPF: Home24)
             Tag = typeof(DashboardViewModel)
         });
         _allMenuItems.Add(new FANavigationViewItem
         {
             Content = _languageService.GetString("Nav_Projects"),
-            IconSource = new FASymbolIconSource { Symbol = FASymbol.Folder },
+            IconSource = CreateNavIcon("\uE71D"), // AllApps (WPF: Apps24)
             Tag = typeof(ProjectsViewModel)
         });
         _allMenuItems.Add(new FANavigationViewItem
         {
             Content = _languageService.GetString("Nav_Terminal"),
-            IconSource = new FASymbolIconSource { Symbol = FASymbol.Code },
+            IconSource = CreateNavIcon("\uE756"), // Console (WPF: WindowConsole20)
             Tag = typeof(TerminalViewModel)
         });
         _allMenuItems.Add(new FANavigationViewItem
         {
             Content = _languageService.GetString("Nav_Performance"),
-            IconSource = new FASymbolIconSource { Symbol = FASymbol.List },
+            IconSource = CreateNavIcon("\uE977"), // Pulse (WPF: Pulse24)
             Tag = typeof(PerformanceViewModel)
         });
         _allMenuItems.Add(new FANavigationViewItem
         {
             Content = _languageService.GetString("Nav_Environment"),
-            IconSource = new FASymbolIconSource { Symbol = (FASymbol)0xE8A5 },
+            IconSource = CreateNavIcon("\uE943"), // Code/Braces (WPF: BracesVariable24)
             Tag = typeof(SystemEnvironmentVariablesViewModel)
         });
 
         _allFooterMenuItems.Add(new FANavigationViewItem
         {
             Content = _languageService.GetString("Nav_Settings"),
-            IconSource = new FASymbolIconSource { Symbol = FASymbol.Settings },
+            IconSource = CreateNavIcon("\uE713"), // Settings (WPF: Settings24)
             Tag = typeof(SettingsViewModel)
         });
 

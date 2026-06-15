@@ -1,6 +1,6 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:icons="using:Avalonia.FluentIcons"
+             xmlns:icons="using:FluentIcons.Avalonia"
              x:Class="ProjectManager.Avalonia.Views.Controls.ProjectsHeaderToolbar"
              x:CompileBindings="False">
 
@@ -45,7 +45,7 @@
             <!-- Clone from Git button -->
             <Button Command="{Binding CloneFromGitCommand}">
                 <StackPanel Orientation="Horizontal" Spacing="6">
-                    <icons:SymbolIcon Symbol="Branch24" FontSize="14" VerticalAlignment="Center"/>
+                    <icons:SymbolIcon Symbol="Branch" FontSize="14" VerticalAlignment="Center"/>
                     <TextBlock Text="{DynamicResource AddProject_CloneFrom}" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>

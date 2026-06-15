@@ -2,7 +2,8 @@ using System;
 using System.Globalization;
 using Avalonia;
 using Avalonia.Data.Converters;
-using Avalonia.FluentIcons;
+using FluentIcons.Avalonia;
+using FluentIcons.Common;
 using Avalonia.Media;
 using ProjectManager.Avalonia.Models;
 
@@ -223,15 +224,15 @@ public class StatusToToggleButtonIconConverter : IValueConverter
         {
             return status switch
             {
-                ProjectStatus.Running => SymbolRegular.Stop24,
-                ProjectStatus.Starting => SymbolRegular.Play24,
-                ProjectStatus.Stopping => SymbolRegular.Stop24,
-                ProjectStatus.Stopped => SymbolRegular.Play24,
-                ProjectStatus.Error => SymbolRegular.Play24,
-                _ => SymbolRegular.Play24
+                ProjectStatus.Running => Symbol.Stop,
+                ProjectStatus.Starting => Symbol.Play,
+                ProjectStatus.Stopping => Symbol.Stop,
+                ProjectStatus.Stopped => Symbol.Play,
+                ProjectStatus.Error => Symbol.Play,
+                _ => Symbol.Play
             };
         }
-        return SymbolRegular.Play24;
+        return Symbol.Play;
     }
 
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

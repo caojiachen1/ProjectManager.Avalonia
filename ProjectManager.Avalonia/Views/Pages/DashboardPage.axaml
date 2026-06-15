@@ -3,7 +3,7 @@
              x:Class="ProjectManager.Avalonia.Views.Pages.DashboardPage"
              xmlns:vm="using:ProjectManager.Avalonia.ViewModels.Pages"
              xmlns:models="using:ProjectManager.Avalonia.Models"
-             xmlns:icons="using:Avalonia.FluentIcons"
+             xmlns:icons="using:FluentIcons.Avalonia"
              x:DataType="vm:DashboardViewModel">
 
     <Grid>
@@ -106,26 +106,26 @@
                                 Classes="statusButton"
                                 Background="#005FB8">
                             <StackPanel Orientation="Horizontal" Spacing="6">
-                                <icons:SymbolIcon Symbol="Add24" FontSize="14" VerticalAlignment="Center"/>
+                                <icons:SymbolIcon Symbol="Add" FontSize="14" VerticalAlignment="Center"/>
                                 <TextBlock Text="{DynamicResource Dashboard_NewProject}" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
                         <Button Command="{Binding GitCloneCommand}">
                             <StackPanel Orientation="Horizontal" Spacing="6">
-                                <icons:SymbolIcon Symbol="Branch24" FontSize="14" VerticalAlignment="Center"/>
+                                <icons:SymbolIcon Symbol="Branch" FontSize="14" VerticalAlignment="Center"/>
                                 <TextBlock Text="{DynamicResource Dashboard_GitClone}" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
                         <Button Command="{Binding ViewAllProjectsCommand}">
                             <StackPanel Orientation="Horizontal" Spacing="6">
-                                <icons:SymbolIcon Symbol="Apps24" FontSize="14" VerticalAlignment="Center"/>
+                                <icons:SymbolIcon Symbol="Apps" FontSize="14" VerticalAlignment="Center"/>
                                 <TextBlock Text="{DynamicResource Dashboard_ViewAllProjects}" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
                         <Button Command="{Binding StopAllProjectsCommand}"
                                 Classes="caution">
                             <StackPanel Orientation="Horizontal" Spacing="6">
-                                <icons:SymbolIcon Symbol="Stop24" FontSize="14" VerticalAlignment="Center"/>
+                                <icons:SymbolIcon Symbol="Stop" FontSize="14" VerticalAlignment="Center"/>
                                 <TextBlock Text="{DynamicResource Dashboard_StopAllProjects}" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>

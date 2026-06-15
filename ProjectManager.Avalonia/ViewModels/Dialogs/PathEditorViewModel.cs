@@ -1,7 +1,8 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
-using Avalonia.FluentIcons;
+using FluentIcons.Avalonia;
+using FluentIcons.Common;
 using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -303,12 +304,12 @@ public partial class PathItem : ObservableObject
     [ObservableProperty]
     private PathStatus _status;
 
-    public SymbolRegular StatusIcon => Status switch
+    public Symbol StatusIcon => Status switch
     {
-        PathStatus.Valid => SymbolRegular.CheckmarkCircle24,
-        PathStatus.NotFound => SymbolRegular.Warning24,
-        PathStatus.Invalid => SymbolRegular.ErrorCircle24,
-        _ => SymbolRegular.QuestionCircle24
+        PathStatus.Valid => Symbol.CheckmarkCircle,
+        PathStatus.NotFound => Symbol.Warning,
+        PathStatus.Invalid => Symbol.ErrorCircle,
+        _ => Symbol.QuestionCircle
     };
 
     public string StatusText => Status switch

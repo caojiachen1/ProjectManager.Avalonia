@@ -1,6 +1,6 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:icons="using:Avalonia.FluentIcons"
+             xmlns:icons="using:FluentIcons.Avalonia"
              xmlns:vm="using:ProjectManager.Avalonia.ViewModels.Pages"
              xmlns:models="using:ProjectManager.Avalonia.Models"
              xmlns:controls="using:ProjectManager.Avalonia.Views.Controls"
@@ -72,7 +72,7 @@
                                             ToolTip.Tip="{DynamicResource Projects_DragToSort}"
                                             Cursor="SizeAll"
                                             behaviors:DragDropReorder.IsDragHandle="True">
-                                        <icons:SymbolIcon Symbol="ReOrderDotsVertical24" FontSize="22"
+                                        <icons:SymbolIcon Symbol="ReOrderDotsVertical" FontSize="22"
                                                    Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Border>
 
@@ -91,21 +91,21 @@
                                             Width="32" Height="32" Padding="0"
                                             Background="Transparent" BorderThickness="0"
                                             Click="MenuButton_Click">
-                                        <icons:SymbolIcon Symbol="MoreVertical20" FontSize="20"
+                                        <icons:SymbolIcon Symbol="MoreVertical" FontSize="20"
                                                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                         <Button.Flyout>
                                             <MenuFlyout Placement="RightEdgeAlignedTop">
                                                 <MenuItem Header="{DynamicResource Projects_OpenInExplorer}"
                                                           Click="MenuOpenInExplorer_Click">
                                                     <MenuItem.Icon>
-                                                        <icons:SymbolIcon Symbol="Folder24" FontSize="16"/>
+                                                        <icons:SymbolIcon Symbol="Folder" FontSize="16"/>
                                                     </MenuItem.Icon>
                                                 </MenuItem>
                                                 <Separator/>
                                                 <MenuItem Header="{DynamicResource Projects_DeleteProject}"
                                                           Click="MenuDeleteProject_Click">
                                                     <MenuItem.Icon>
-                                                        <icons:SymbolIcon Symbol="Delete24" FontSize="16" Foreground="Red"/>
+                                                        <icons:SymbolIcon Symbol="Delete" FontSize="16" Foreground="Red"/>
                                                     </MenuItem.Icon>
                                                 </MenuItem>
                                             </MenuFlyout>
@@ -130,7 +130,7 @@
                                     <!-- Git info (visible when project has Git repo) -->
                                     <StackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center"
                                                 IsVisible="{Binding GitInfo.IsGitRepository}">
-                                        <icons:SymbolIcon Symbol="Branch24" FontSize="12" Foreground="Green"
+                                        <icons:SymbolIcon Symbol="Branch" FontSize="12" Foreground="Green"
                                                            VerticalAlignment="Center"/>
                                         <TextBlock Text="{Binding GitInfo.CurrentBranch}" FontSize="11"
                                                    Opacity="0.7" VerticalAlignment="Center"/>
@@ -147,7 +147,7 @@
                                              Command="{Binding DataContext.ManageComfyUIPluginsCommand, ElementName=PageRoot}"
                                             CommandParameter="{Binding}"
                                             IsVisible="{Binding Framework, Converter={StaticResource ComfyUIFrameworkToVisibilityConverter}}">
-                                        <icons:SymbolIcon Symbol="PuzzlePiece24" FontSize="16"
+                                        <icons:SymbolIcon Symbol="PuzzlePiece" FontSize="16"
                                                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Button>
                                 </StackPanel>
@@ -189,7 +189,7 @@
                                             CommandParameter="{Binding}"
                                             IsVisible="{Binding ., Converter={StaticResource HasGitRepositoryToVisibilityConverter}}">
                                         <StackPanel Orientation="Horizontal" Spacing="4">
-                                            <icons:SymbolIcon Symbol="Branch24" FontSize="14" VerticalAlignment="Center"/>
+                                            <icons:SymbolIcon Symbol="Branch" FontSize="14" VerticalAlignment="Center"/>
                                             <TextBlock Text="Git" VerticalAlignment="Center"/>
                                         </StackPanel>
                                     </Button>
@@ -199,7 +199,7 @@
                                              Command="{Binding DataContext.ManageEnvironmentVariablesCommand, ElementName=PageRoot}"
                                             CommandParameter="{Binding}">
                                         <StackPanel Orientation="Horizontal" Spacing="4">
-                                            <icons:SymbolIcon Symbol="Settings24" FontSize="14" VerticalAlignment="Center"/>
+                                            <icons:SymbolIcon Symbol="Settings" FontSize="14" VerticalAlignment="Center"/>
                                             <TextBlock Text="{DynamicResource Projects_EnvVars}" VerticalAlignment="Center"/>
                                         </StackPanel>
                                     </Button>
@@ -209,7 +209,7 @@
                                              Command="{Binding DataContext.EditProjectCommand, ElementName=PageRoot}"
                                             CommandParameter="{Binding}">
                                         <StackPanel Orientation="Horizontal" Spacing="4">
-                                            <icons:SymbolIcon Symbol="Options24" FontSize="14" VerticalAlignment="Center"/>
+                                            <icons:SymbolIcon Symbol="Options" FontSize="14" VerticalAlignment="Center"/>
                                             <TextBlock Text="{DynamicResource Projects_Settings}" VerticalAlignment="Center"/>
                                         </StackPanel>
                                     </Button>
@@ -219,7 +219,7 @@
                                              Command="{Binding DataContext.ViewLogsCommand, ElementName=PageRoot}"
                                             CommandParameter="{Binding}">
                                         <StackPanel Orientation="Horizontal" Spacing="4">
-                                            <icons:SymbolIcon Symbol="WindowConsole20" FontSize="14" VerticalAlignment="Center"/>
+                                            <icons:SymbolIcon Symbol="WindowConsole" FontSize="14" VerticalAlignment="Center"/>
                                             <TextBlock Text="{DynamicResource Projects_Terminal}" VerticalAlignment="Center"/>
                                         </StackPanel>
                                     </Button>
