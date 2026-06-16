@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using Avalonia.Threading;
+using ProjectManager.Avalonia.Helpers;
 using ProjectManager.Avalonia.Models;
 using ProjectManager.Avalonia.Services;
 
@@ -98,12 +99,7 @@ public partial class PerformanceViewModel : ViewModelBase
 
         try
         {
-            Process.Start(new ProcessStartInfo
-            {
-                FileName = snapshot.LocalPath,
-                UseShellExecute = true,
-                Verb = "open"
-            });
+            ProcessInterop.OpenInFileManager(snapshot.LocalPath);
         }
         catch (Exception ex)
         {

@@ -229,7 +229,59 @@ public partial class TerminalViewModel : ViewModelBase
             }
             else
             {
-                psi.FileName = "x-terminal-emulator";
+                // Linux: 尝试常见的终端模拟器
+                var terminalEmulators = new[]
+                {
+                    ("gnome-terminal", $"--working-directory={dir}"),
+                    ("konsole", $"--workdir {dir}"),
+                    ("xfce4-terminal", $"--working-directory={dir}"),
+                    ("mate-terminal", $"--working-directory={dir}"),
+                    ("lxterminal", $"--working-directory={dir}"),
+                    ("alacritty", $"--working-directory {dir}"),
+                    ("kitty", $"--directory {dir}"),
+                    ("xterm", $"-e bash -c 'cd {dir}; exec bash'"),
+                };
+
+                string? foundTerminal = null;
+                string? foundArgs = null;
+                foreach (var (name, args) in terminalEmulators)
+                {
+                    try
+                    {
+                        var whichPsi = new ProcessStartInfo
+                        {
+                            FileName = "which",
+                            Arguments = name,
+                            UseShellExecute = false,
+                            RedirectStandardOutput = true,
+                            CreateNoWindow = true
+                        };
+                        using var whichProc = Process.Start(whichPsi);
+                        if (whichProc != null)
+                        {
+                            whichProc.WaitForExit(2000);
+                            if (whichProc.ExitCode == 0)
+                            {
+                                foundTerminal = name;
+                                foundArgs = args;
+                                break;
+                            }
+                        }
+                    }
+                    catch { }
+                }
+
+                if (foundTerminal != null)
+                {
+                    psi.FileName = foundTerminal;
+                    psi.Arguments = foundArgs ?? string.Empty;
+                }
+                else
+                {
+                    // 回退方案：使用 x-terminal-emulator（Debian/Ubuntu 默认）
+                    psi.FileName = "x-terminal-emulator";
+                    psi.Arguments = string.Empty;
+                }
             }
 
             Process.Start(psi);

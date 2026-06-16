@@ -30,6 +30,7 @@
 
     <!-- Icons -->
     <PackageReference Include="FluentIcons.Avalonia" />
+    <PackageReference Include="FluentIcons.Resources.Avalonia" />
 
     <!-- MVVM -->
     <PackageReference Include="CommunityToolkit.Mvvm" />

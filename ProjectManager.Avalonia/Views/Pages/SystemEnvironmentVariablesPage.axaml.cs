@@ -72,30 +72,6 @@ public partial class SystemEnvironmentVariablesPage : UserControl
         }
     }
 
-    private void OnRootPointerPressed(object? sender, PointerPressedEventArgs e)
-    {
-        var searchBox = this.FindControl<TextBox>("SearchTextBox");
-        if (searchBox == null || !searchBox.IsFocused) return;
-
-        var pos = e.GetCurrentPoint(this).Position;
-        var hit = this.InputHitTest(pos) as Control;
-
-        Control? current = hit;
-        while (current != null)
-        {
-            if (current == searchBox) return;
-            current = current.Parent as Control;
-        }
-
-        var root = this.FindControl<Grid>("RootGrid");
-        if (root != null)
-        {
-            root.Focusable = true;
-            root.Focus();
-            root.Focusable = false;
-        }
-    }
-
     private void OnDataGridPointerPressed(object? sender, PointerPressedEventArgs e)
     {
         if (sender is DataGrid dataGrid)

@@ -87,22 +87,16 @@ public partial class SystemEnvironmentVariablesViewModel : ViewModelBase
                 var userVars = new List<SystemEnvironmentVariable>();
                 var systemVars = new List<SystemEnvironmentVariable>();
 
-                var userEnvVars = Environment.GetEnvironmentVariables(EnvironmentVariableTarget.User);
-                foreach (System.Collections.DictionaryEntry entry in userEnvVars)
+                var userEnvVars = _envService.GetUserVariables();
+                foreach (var kv in userEnvVars)
                 {
-                    userVars.Add(new SystemEnvironmentVariable(
-                        entry.Key.ToString() ?? string.Empty,
-                        entry.Value?.ToString() ?? string.Empty,
-                        false));
+                    userVars.Add(new SystemEnvironmentVariable(kv.Key, kv.Value, false));
                 }
 
-                var sysEnvVars = Environment.GetEnvironmentVariables(EnvironmentVariableTarget.Machine);
-                foreach (System.Collections.DictionaryEntry entry in sysEnvVars)
+                var sysEnvVars = _envService.GetSystemVariables();
+                foreach (var kv in sysEnvVars)
                 {
-                    systemVars.Add(new SystemEnvironmentVariable(
-                        entry.Key.ToString() ?? string.Empty,
-                        entry.Value?.ToString() ?? string.Empty,
-                        true));
+                    systemVars.Add(new SystemEnvironmentVariable(kv.Key, kv.Value, true));
                 }
 
                 userVars.Sort((a, b) =>

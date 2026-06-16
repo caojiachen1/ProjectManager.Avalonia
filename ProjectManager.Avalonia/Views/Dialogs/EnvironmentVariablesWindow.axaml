@@ -2,6 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:ProjectManager.Avalonia.ViewModels.Dialogs"
         xmlns:models="using:ProjectManager.Avalonia.Models"
+        xmlns:icons="using:FluentIcons.Avalonia"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="650" d:DesignHeight="500"
@@ -11,6 +12,7 @@
         Width="650" Height="620"
         MinWidth="550" MinHeight="500"
         Background="#202020"
+        FontFamily="{StaticResource NotoSansSC}"
         WindowStartupLocation="CenterOwner"
         ShowInTaskbar="False"
         CanResize="True">
@@ -38,15 +40,15 @@
                     Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
                     BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
                     BorderThickness="1" CornerRadius="8">
-                <Grid ColumnDefinitions="Auto,*">
-                    <TextBlock Grid.Column="0"
-                               Text="&#xE721;" FontFamily="Segoe Fluent Icons" FontSize="14"
-                               Opacity="0.5" VerticalAlignment="Center" Margin="4,0,8,0"
-                               IsHitTestVisible="False"/>
-                    <TextBox Grid.Column="1"
+                <Grid ColumnDefinitions="*,Auto">
+                    <TextBox Grid.Column="0"
                              Text="{Binding SearchText, Mode=TwoWay}"
                              PlaceholderText="{DynamicResource EnvVarDialog_Search}"
                              Background="Transparent" BorderThickness="0"/>
+                    <icons:SymbolIcon Grid.Column="1"
+                               Symbol="Search" FontSize="14" IconVariant="Regular"
+                               Opacity="0.5" VerticalAlignment="Center" Margin="4,0,4,0"
+                               IsHitTestVisible="False"/>
                 </Grid>
             </Border>
 

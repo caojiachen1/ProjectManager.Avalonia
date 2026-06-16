@@ -454,7 +454,7 @@
     <system:String x:Key="ComfyUI_ListenAddress">Listen Address</system:String>
     <system:String x:Key="ComfyUI_PythonPath">Python Path (Optional)</system:String>
     <system:String x:Key="ComfyUI_PythonPathPlaceholder">Leave blank to use system default Python</system:String>
-    <system:String x:Key="ComfyUI_PythonPathInvalid">⚠ Please enter a valid Python executable path (python.exe)</system:String>
+    <system:String x:Key="ComfyUI_PythonPathInvalid">⚠ Please enter a valid Python executable path (e.g. python.exe, python3)</system:String>
     <system:String x:Key="ComfyUI_ListenAll">Listen on all network interfaces at startup (--listen)</system:String>
     <system:String x:Key="ComfyUI_BrowserLaunchMode">Browser Launch Mode</system:String>
     <system:String x:Key="ComfyUI_BrowserLaunch_Default">Default Behavior</system:String>
@@ -812,6 +812,6 @@
     <system:String x:Key="ComfyUI_SelectTLSCertFile">Select TLS Certificate File</system:String>
     <system:String x:Key="ComfyUI_SelectFrontendRoot">Select Frontend Root Directory</system:String>
     <system:String x:Key="ComfyUI_SelectFolder">Select Folder</system:String>
-    <system:String x:Key="ComfyUI_OnlyPythonExeAllowed">Only python.exe files are allowed</system:String>
+    <system:String x:Key="ComfyUI_OnlyPythonExeAllowed">Only Python executable files are allowed</system:String>
 
 </ResourceDictionary>

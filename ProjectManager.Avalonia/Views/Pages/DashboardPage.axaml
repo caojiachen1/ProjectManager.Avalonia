@@ -44,7 +44,7 @@
                         BorderThickness="1" CornerRadius="8">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,8" Spacing="8">
-                            <TextBlock Text="&#xE71D;" FontSize="24" Opacity="0.7" FontFamily="Segoe Fluent Icons"/>
+                            <icons:SymbolIcon Symbol="AppsListDetail" FontSize="24" Opacity="0.7"/>
                             <TextBlock Text="{DynamicResource Dashboard_TotalProjects}" FontSize="14" Opacity="0.7" VerticalAlignment="Center"/>
                         </StackPanel>
                         <TextBlock Text="{Binding TotalProjects}" FontSize="28" FontWeight="Bold"/>
@@ -58,7 +58,7 @@
                         BorderThickness="1" CornerRadius="8">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,8" Spacing="8">
-                            <TextBlock Text="&#xE768;" FontSize="24" Foreground="Green" FontFamily="Segoe Fluent Icons"/>
+                            <icons:SymbolIcon Symbol="Play" FontSize="24" Foreground="Green" IconVariant="Filled"/>
                             <TextBlock Text="{DynamicResource Dashboard_Running}" FontSize="14" Opacity="0.7" VerticalAlignment="Center"/>
                         </StackPanel>
                         <TextBlock Text="{Binding RunningProjects}" FontSize="28" FontWeight="Bold" Foreground="Green"/>
@@ -72,7 +72,7 @@
                         BorderThickness="1" CornerRadius="8">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,8" Spacing="8">
-                            <TextBlock Text="&#xE71A;" FontSize="24" Opacity="0.7" FontFamily="Segoe Fluent Icons"/>
+                            <icons:SymbolIcon Symbol="Stop" FontSize="24" Opacity="0.7" IconVariant="Filled"/>
                             <TextBlock Text="{DynamicResource Dashboard_Stopped}" FontSize="14" Opacity="0.7" VerticalAlignment="Center"/>
                         </StackPanel>
                         <TextBlock Text="{Binding StoppedProjects}" FontSize="28" FontWeight="Bold"/>
@@ -86,7 +86,7 @@
                         BorderThickness="1" CornerRadius="8">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,8" Spacing="8">
-                            <TextBlock Text="&#xEA39;" FontSize="24" Foreground="Red" FontFamily="Segoe Fluent Icons"/>
+                            <icons:SymbolIcon Symbol="ErrorCircle" FontSize="24" Foreground="Red"/>
                             <TextBlock Text="{DynamicResource Dashboard_Error}" FontSize="14" Opacity="0.7" VerticalAlignment="Center"/>
                         </StackPanel>
                         <TextBlock Text="{Binding ErrorProjects}" FontSize="28" FontWeight="Bold" Foreground="Red"/>
@@ -118,7 +118,7 @@
                         </Button>
                         <Button Command="{Binding ViewAllProjectsCommand}">
                             <StackPanel Orientation="Horizontal" Spacing="6">
-                                <icons:SymbolIcon Symbol="Apps" FontSize="14" VerticalAlignment="Center"/>
+                                <icons:SymbolIcon Symbol="AppsListDetail" FontSize="14" VerticalAlignment="Center"/>
                                 <TextBlock Text="{DynamicResource Dashboard_ViewAllProjects}" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
@@ -169,16 +169,18 @@
                                         </Border>
 
                                         <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="4">
-                                            <Button Content="&#xE768;" FontFamily="Segoe Fluent Icons" FontSize="14"
-                                                    Command="{Binding $parent[ItemsControl].((vm:DashboardViewModel)DataContext).StartProjectCommand}"
+                                            <Button Command="{Binding $parent[ItemsControl].((vm:DashboardViewModel)DataContext).StartProjectCommand}"
                                                     CommandParameter="{Binding}"
                                                     IsEnabled="{Binding Status, Converter={StaticResource StatusToStartEnabledConverter}}"
-                                                    ToolTip.Tip="{DynamicResource Dashboard_StartProject}"/>
-                                            <Button Content="&#xE71A;" FontFamily="Segoe Fluent Icons" FontSize="14"
-                                                    Command="{Binding $parent[ItemsControl].((vm:DashboardViewModel)DataContext).StopProjectCommand}"
+                                                    ToolTip.Tip="{DynamicResource Dashboard_StartProject}">
+                                                <icons:SymbolIcon Symbol="Play" FontSize="14" IconVariant="Filled"/>
+                                            </Button>
+                                            <Button Command="{Binding $parent[ItemsControl].((vm:DashboardViewModel)DataContext).StopProjectCommand}"
                                                     CommandParameter="{Binding}"
                                                     IsEnabled="{Binding Status, Converter={StaticResource StatusToStopEnabledConverter}}"
-                                                    ToolTip.Tip="{DynamicResource Dashboard_StopProject}"/>
+                                                    ToolTip.Tip="{DynamicResource Dashboard_StopProject}">
+                                                <icons:SymbolIcon Symbol="Stop" FontSize="14" IconVariant="Filled"/>
+                                            </Button>
                                         </StackPanel>
                                     </Grid>
                                 </Border>

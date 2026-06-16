@@ -10,6 +10,7 @@
         Width="500" Height="250"
         MinWidth="400" MinHeight="150"
         Background="#202020"
+        FontFamily="{StaticResource NotoSansSC}"
         WindowStartupLocation="CenterOwner"
         ShowInTaskbar="False"
         CanResize="True">

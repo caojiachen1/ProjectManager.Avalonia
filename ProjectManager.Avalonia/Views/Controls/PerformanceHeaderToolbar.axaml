@@ -1,5 +1,6 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:icons="using:FluentIcons.Avalonia"
              x:Class="ProjectManager.Avalonia.Views.Controls.PerformanceHeaderToolbar"
              x:CompileBindings="False">
 
@@ -19,7 +20,7 @@
                     Command="{Binding RefreshNowCommand}"
                     ToolTip.Tip="{DynamicResource Performance_Refresh}">
                 <StackPanel Orientation="Horizontal" Spacing="6">
-                    <TextBlock Text="&#xE72C;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                    <icons:SymbolIcon Symbol="ArrowClockwise" FontSize="14"
                                VerticalAlignment="Center"/>
                     <TextBlock Text="{DynamicResource Performance_Refresh}" VerticalAlignment="Center"/>
                 </StackPanel>
@@ -36,7 +37,7 @@
             <!-- Last updated time -->
             <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6"
                         VerticalAlignment="Center">
-                <TextBlock Text="&#xE823;" FontFamily="Segoe Fluent Icons" FontSize="12"
+                <icons:SymbolIcon Symbol="Pulse" FontSize="12"
                            Opacity="0.5" VerticalAlignment="Center"/>
                 <TextBlock Text="{Binding LastUpdated, StringFormat='{}{0:HH:mm:ss}'}"
                            FontSize="12" Opacity="0.5"

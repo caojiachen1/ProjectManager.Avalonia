@@ -5,6 +5,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Platform.Storage;
 using ProjectManager.Avalonia.Models;
 using ProjectManager.Avalonia.Services;
+using System.Runtime.InteropServices;
 
 namespace ProjectManager.Avalonia.ViewModels.Pages;
 
@@ -89,7 +90,59 @@ public partial class SettingsViewModel : ViewModelBase
     private ObservableCollection<LanguageInfo> _availableLanguages = new();
 
     [ObservableProperty]
-    private ObservableCollection<string> _terminalOptions = new() { "PowerShell", "CMD", "Git Bash" };
+    private ObservableCollection<string> _terminalOptions = CreatePlatformTerminalOptions();
+
+    /// <summary>
+    /// 根据操作系统生成可用的终端选项列表
+    /// </summary>
+    private static ObservableCollection<string> CreatePlatformTerminalOptions()
+    {
+        var options = new ObservableCollection<string>();
+
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            options.Add("PowerShell");
+            options.Add("CMD");
+            options.Add("Git Bash");
+        }
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            // Linux: 按常见程度排序，检测实际可用的 shell
+            var linuxShells = new[] { "Bash", "Zsh", "Fish", "Sh" };
+            var shellMap = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+            {
+                ["Bash"] = "/bin/bash",
+                ["Zsh"] = "/bin/zsh",
+                ["Fish"] = "/usr/bin/fish",
+                ["Sh"] = "/bin/sh"
+            };
+
+            foreach (var shell in linuxShells)
+            {
+                if (shellMap.TryGetValue(shell, out var path) && File.Exists(path))
+                    options.Add(shell);
+            }
+
+            // 如果没检测到任何 shell，至少添加 Bash 和 Sh
+            if (options.Count == 0)
+            {
+                options.Add("Bash");
+                options.Add("Sh");
+            }
+        }
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            options.Add("Zsh");
+            options.Add("Bash");
+        }
+
+        return options;
+    }
+
+    /// <summary>
+    /// 当前平台是否为 Windows（用于 UI 条件显示，如 CMD UTF8 编码设置）
+    /// </summary>
+    public bool IsWindowsPlatform => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 
     [ObservableProperty]
     private ObservableCollection<StartupPageOption> _startupPageOptions = new();
@@ -268,14 +321,23 @@ public partial class SettingsViewModel : ViewModelBase
         var topLevel = GetTopLevel();
         if (topLevel == null) return;
 
+        var fileTypeFilter = new List<FilePickerFileType>();
+
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            fileTypeFilter.Add(new FilePickerFileType("可执行文件") { Patterns = new[] { "*.exe" } });
+        }
+        else
+        {
+            // Linux/macOS: 可执行文件通常无扩展名，使用通配符
+            fileTypeFilter.Add(new FilePickerFileType("可执行文件") { Patterns = new[] { "*" } });
+        }
+        fileTypeFilter.Add(FilePickerFileTypes.All);
+
         var result = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "选择Git可执行文件",
-            FileTypeFilter = new[]
-            {
-                new FilePickerFileType("可执行文件") { Patterns = new[] { "*.exe" } },
-                FilePickerFileTypes.All
-            },
+            FileTypeFilter = fileTypeFilter,
             AllowMultiple = false
         });
 
@@ -294,9 +356,16 @@ public partial class SettingsViewModel : ViewModelBase
     [RelayCommand]
     private async Task ResetSettings()
     {
+        var myDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        var defaultPath = !string.IsNullOrEmpty(myDocuments)
+            ? Path.Combine(myDocuments, "Projects")
+            : Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) ?? "/",
+                "Projects");
+
         var settings = new AppSettings
         {
-            DefaultProjectPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Projects"),
+            DefaultProjectPath = defaultPath,
             DefaultStartupPage = "Dashboard",
             Language = "zh-CN"
         };

@@ -454,7 +454,7 @@
     <system:String x:Key="ComfyUI_ListenAddress">监听地址</system:String>
     <system:String x:Key="ComfyUI_PythonPath">Python环境路径（可选）</system:String>
     <system:String x:Key="ComfyUI_PythonPathPlaceholder">留空使用系统默认Python</system:String>
-    <system:String x:Key="ComfyUI_PythonPathInvalid">⚠ 请输入有效的Python可执行文件路径 (python.exe)</system:String>
+    <system:String x:Key="ComfyUI_PythonPathInvalid">⚠ 请输入有效的Python可执行文件路径（如 python.exe、python3）</system:String>
     <system:String x:Key="ComfyUI_ListenAll">启动时监听所有网络接口 (--listen)</system:String>
     <system:String x:Key="ComfyUI_BrowserLaunchMode">浏览器启动模式</system:String>
     <system:String x:Key="ComfyUI_BrowserLaunch_Default">默认行为</system:String>
@@ -812,6 +812,6 @@
     <system:String x:Key="ComfyUI_SelectTLSCertFile">选择TLS证书文件</system:String>
     <system:String x:Key="ComfyUI_SelectFrontendRoot">选择前端根目录</system:String>
     <system:String x:Key="ComfyUI_SelectFolder">选择文件夹</system:String>
-    <system:String x:Key="ComfyUI_OnlyPythonExeAllowed">只能选择python.exe文件</system:String>
+    <system:String x:Key="ComfyUI_OnlyPythonExeAllowed">只能选择Python可执行文件</system:String>
 
 </ResourceDictionary>

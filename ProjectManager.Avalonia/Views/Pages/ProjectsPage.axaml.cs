@@ -60,26 +60,4 @@ public partial class ProjectsPage : UserControl
         if (sender is Control { DataContext: Project project })
             ViewModel?.DeleteProjectCommand.Execute(project);
     }
-
-    private void OnRootPointerPressed(object? sender, PointerPressedEventArgs e)
-    {
-        var toolbar = this.FindControl<Controls.ProjectsHeaderToolbar>("ProjectsHeaderToolbar");
-        var searchBox = toolbar?.GetVisualDescendants().OfType<TextBox>().FirstOrDefault(t => t.Name == "SearchTextBox");
-        if (searchBox == null || !searchBox.IsFocused) return;
-
-        var pos = e.GetCurrentPoint(this).Position;
-        var hit = this.InputHitTest(pos) as Control;
-
-        Control? current = hit;
-        while (current != null)
-        {
-            if (current == searchBox) return;
-            current = current.Parent as Control;
-        }
-
-        if (sender is Control root)
-        {
-            root.Focus();
-        }
-    }
 }

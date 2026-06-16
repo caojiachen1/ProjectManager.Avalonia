@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Runtime.Versioning;
 using Microsoft.Win32;
@@ -15,7 +16,7 @@ namespace ProjectManager.Avalonia.Services;
 /// <summary>
 /// Cross-platform environment variable service.
 /// Windows: Registry + EnvironmentVariableTarget + WM_SETTINGCHANGE broadcast.
-/// Linux/macOS: ~/.profile, ~/.bashrc, /etc/environment (with limited system-level support).
+/// Linux/macOS: ~/.profile, /etc/environment.
 /// </summary>
 public class EnvironmentVariableService
 {
@@ -28,8 +29,15 @@ public class EnvironmentVariableService
     {
         try
         {
-            Environment.SetEnvironmentVariable(name, value, EnvironmentVariableTarget.User);
-            return true;
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                Environment.SetEnvironmentVariable(name, value, EnvironmentVariableTarget.User);
+                return true;
+            }
+            else
+            {
+                return SetUserVariableUnix(name, value);
+            }
         }
         catch (Exception ex)
         {
@@ -171,8 +179,15 @@ public class EnvironmentVariableService
             }
             else
             {
-                Environment.SetEnvironmentVariable(name, null, EnvironmentVariableTarget.User);
-                return true;
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    Environment.SetEnvironmentVariable(name, null, EnvironmentVariableTarget.User);
+                    return true;
+                }
+                else
+                {
+                    return DeleteUserVariableUnix(name);
+                }
             }
         }
         catch (Exception ex)
@@ -244,14 +259,21 @@ public class EnvironmentVariableService
         var variables = new Dictionary<string, string>();
         try
         {
-            var envVars = Environment.GetEnvironmentVariables(EnvironmentVariableTarget.User);
-            foreach (System.Collections.DictionaryEntry entry in envVars)
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                string key = entry.Key.ToString() ?? string.Empty;
-                if (!string.IsNullOrEmpty(key))
+                var envVars = Environment.GetEnvironmentVariables(EnvironmentVariableTarget.User);
+                foreach (System.Collections.DictionaryEntry entry in envVars)
                 {
-                    variables[key] = entry.Value?.ToString() ?? "";
+                    string key = entry.Key.ToString() ?? string.Empty;
+                    if (!string.IsNullOrEmpty(key))
+                    {
+                        variables[key] = entry.Value?.ToString() ?? "";
+                    }
                 }
+            }
+            else
+            {
+                variables = GetUserVariablesUnix();
             }
         }
         catch (Exception ex)
@@ -269,14 +291,21 @@ public class EnvironmentVariableService
         var variables = new Dictionary<string, string>();
         try
         {
-            var envVars = Environment.GetEnvironmentVariables(EnvironmentVariableTarget.Machine);
-            foreach (System.Collections.DictionaryEntry entry in envVars)
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                string key = entry.Key.ToString() ?? string.Empty;
-                if (!string.IsNullOrEmpty(key))
+                var envVars = Environment.GetEnvironmentVariables(EnvironmentVariableTarget.Machine);
+                foreach (System.Collections.DictionaryEntry entry in envVars)
                 {
-                    variables[key] = entry.Value?.ToString() ?? "";
+                    string key = entry.Key.ToString() ?? string.Empty;
+                    if (!string.IsNullOrEmpty(key))
+                    {
+                        variables[key] = entry.Value?.ToString() ?? "";
+                    }
                 }
+            }
+            else
+            {
+                variables = GetSystemVariablesUnix();
             }
         }
         catch (Exception ex)
@@ -318,21 +347,188 @@ public class EnvironmentVariableService
         {
             return await Task.Run(() =>
             {
-                var target = isSystemVariables ? EnvironmentVariableTarget.Machine : EnvironmentVariableTarget.User;
                 foreach (var variable in variables)
                 {
-                    try
+                    if (!isSystemVariables)
                     {
-                        Environment.SetEnvironmentVariable(variable.Name, variable.Value, target);
+                        if (!SetUserVariable(variable.Name, variable.Value))
+                            return false;
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        Debug.WriteLine($"Failed to set environment variable {variable.Name}: {ex.Message}");
-                        return false;
+                        if (!SetSystemVariable(variable.Name, variable.Value))
+                            return false;
                     }
                 }
                 return true;
             });
+        }
+    }
+
+    // ==================== Linux/macOS User Variable Implementation ====================
+
+    /// <summary>
+    /// Get the path to the user's shell profile for persisting environment variables.
+    /// Tries ~/.profile first (most universal), falls back to ~/.bashrc on Linux.
+    /// </summary>
+    private static string GetUserProfilePath()
+    {
+        var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        if (string.IsNullOrEmpty(home))
+            home = Environment.GetEnvironmentVariable("HOME") ?? "/tmp";
+
+        // Prefer ~/.profile as it's read by most shells on login
+        var profilePath = Path.Combine(home, ".profile");
+        return profilePath;
+    }
+
+    /// <summary>
+    /// Parse export statements from a shell profile file to extract environment variables.
+    /// Matches: export NAME="value", export NAME='value', export NAME=value
+    /// Also matches: NAME="value" (without export, as used in /etc/environment)
+    /// </summary>
+    private static Dictionary<string, string> ParseEnvFile(string filePath, bool requireExport = true)
+    {
+        var variables = new Dictionary<string, string>();
+        if (!File.Exists(filePath))
+            return variables;
+
+        try
+        {
+            var lines = File.ReadAllLines(filePath);
+            // Pattern: optional 'export', NAME, '=', value (optionally quoted)
+            var pattern = requireExport
+                ? new Regex(@"^\s*export\s+([A-Za-z_][A-Za-z0-9_]*)=(?:""([^""]*)""|'([^']*)'|(\S*))\s*(?:#.*)?$")
+                : new Regex(@"^\s*([A-Za-z_][A-Za-z0-9_]*)=(?:""([^""]*)""|'([^']*)'|(\S*))\s*(?:#.*)?$");
+
+            foreach (var line in lines)
+            {
+                var match = pattern.Match(line);
+                if (match.Success)
+                {
+                    var name = match.Groups[1].Value;
+                    // Value is in group 2 (double-quoted), 3 (single-quoted), or 4 (unquoted)
+                    var value = match.Groups[2].Success ? match.Groups[2].Value
+                              : match.Groups[3].Success ? match.Groups[3].Value
+                              : match.Groups[4].Value;
+                    variables[name] = value;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Failed to parse env file {filePath}: {ex.Message}");
+        }
+
+        return variables;
+    }
+
+    /// <summary>
+    /// Read user environment variables from ~/.profile on Linux/macOS.
+    /// </summary>
+    private Dictionary<string, string> GetUserVariablesUnix()
+    {
+        var variables = new Dictionary<string, string>();
+
+        // Read from ~/.profile
+        var profilePath = GetUserProfilePath();
+        var profileVars = ParseEnvFile(profilePath, requireExport: true);
+        foreach (var kv in profileVars)
+            variables[kv.Key] = kv.Value;
+
+        // Also check ~/.bashrc for bash-specific variables (Linux)
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            if (string.IsNullOrEmpty(home))
+                home = Environment.GetEnvironmentVariable("HOME") ?? "/tmp";
+
+            var bashrcPath = Path.Combine(home, ".bashrc");
+            var bashrcVars = ParseEnvFile(bashrcPath, requireExport: true);
+            foreach (var kv in bashrcVars)
+                variables.TryAdd(kv.Key, kv.Value); // Don't override profile values
+        }
+
+        return variables;
+    }
+
+    /// <summary>
+    /// Read system environment variables from /etc/environment on Linux/macOS.
+    /// </summary>
+    private Dictionary<string, string> GetSystemVariablesUnix()
+    {
+        // /etc/environment uses NAME=value format (no 'export' keyword)
+        return ParseEnvFile("/etc/environment", requireExport: false);
+    }
+
+    /// <summary>
+    /// Set a user environment variable by writing an export line to ~/.profile.
+    /// Updates existing entry or appends new one.
+    /// </summary>
+    private bool SetUserVariableUnix(string name, string value)
+    {
+        try
+        {
+            var profilePath = GetUserProfilePath();
+            var escapedValue = value.Replace("\"", "\\\"");
+            var exportLine = $"export {name}=\"{escapedValue}\"";
+
+            if (File.Exists(profilePath))
+            {
+                var content = File.ReadAllText(profilePath);
+                // Try to find and replace existing export line for this variable
+                var pattern = new Regex($@"^\s*export\s+{Regex.Escape(name)}=.*$", RegexOptions.Multiline);
+                if (pattern.IsMatch(content))
+                {
+                    content = pattern.Replace(content, exportLine);
+                    File.WriteAllText(profilePath, content);
+                }
+                else
+                {
+                    // Append new export line
+                    File.AppendAllText(profilePath, $"\n{exportLine}\n");
+                }
+            }
+            else
+            {
+                File.WriteAllText(profilePath, $"# Environment variables managed by ProjectManager\n{exportLine}\n");
+            }
+
+            // Also set in current process so child processes see it
+            Environment.SetEnvironmentVariable(name, value);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Failed to set user variable on Unix: {ex.Message}");
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Delete a user environment variable by removing the export line from ~/.profile.
+    /// </summary>
+    private bool DeleteUserVariableUnix(string name)
+    {
+        try
+        {
+            var profilePath = GetUserProfilePath();
+            if (File.Exists(profilePath))
+            {
+                var content = File.ReadAllText(profilePath);
+                var pattern = new Regex($@"^\s*export\s+{Regex.Escape(name)}=.*\n?", RegexOptions.Multiline);
+                content = pattern.Replace(content, "");
+                File.WriteAllText(profilePath, content);
+            }
+
+            // Also remove from current process
+            Environment.SetEnvironmentVariable(name, null);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Failed to delete user variable on Unix: {ex.Message}");
+            return false;
         }
     }
 

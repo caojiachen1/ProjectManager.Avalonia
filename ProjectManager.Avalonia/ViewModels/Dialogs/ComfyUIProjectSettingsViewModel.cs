@@ -1,10 +1,12 @@
 using Avalonia.Platform.Storage;
+using ProjectManager.Avalonia.Helpers;
 using ProjectManager.Avalonia.Models;
 using ProjectManager.Avalonia.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.IO;
 using System.Collections.ObjectModel;
+using System.Runtime.InteropServices;
 
 namespace ProjectManager.Avalonia.ViewModels.Dialogs;
 
@@ -177,11 +179,19 @@ public partial class ComfyUIProjectSettingsViewModel : ViewModelBase
                 return false;
             }
 
-            // 检查文件名是否为python.exe（不区分大小写）
+            // 检查文件名是否为python可执行文件
             var fileName = Path.GetFileName(fullPath);
-            if (!fileName.Equals("python.exe", StringComparison.OrdinalIgnoreCase))
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                return false;
+                if (!fileName.Equals("python.exe", StringComparison.OrdinalIgnoreCase))
+                    return false;
+            }
+            else
+            {
+                // Linux/macOS: python, python3, python3.x 等
+                var nameLower = fileName.ToLowerInvariant();
+                if (!nameLower.StartsWith("python"))
+                    return false;
             }
 
             return true;
@@ -2805,13 +2815,19 @@ public partial class ComfyUIProjectSettingsViewModel : ViewModelBase
 
         if (string.IsNullOrEmpty(initialDir))
         {
-            initialDir = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+            initialDir = ProcessInterop.GetDefaultFilePickerDirectory();
         }
 
-        var fileTypes = new List<FilePickerFileType>
+        var fileTypes = new List<FilePickerFileType>();
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            new FilePickerFileType("Python executable (python.exe)") { Patterns = new[] { "python.exe" } }
-        };
+            fileTypes.Add(new FilePickerFileType("Python executable (python.exe)") { Patterns = new[] { "python.exe" } });
+        }
+        else
+        {
+            fileTypes.Add(new FilePickerFileType("Python executable") { Patterns = new[] { "python*" } });
+        }
+        fileTypes.Add(new FilePickerFileType("All files") { Patterns = new[] { "*" } });
 
         var result = await BrowseFileAsync(
             _languageService.GetString("ComfyUI_SelectPythonExecutable"),
@@ -2820,8 +2836,19 @@ public partial class ComfyUIProjectSettingsViewModel : ViewModelBase
 
         if (result != null)
         {
-            // 验证选择的文件是否为python.exe
-            if (Path.GetFileName(result).Equals("python.exe", StringComparison.OrdinalIgnoreCase))
+            // 验证选择的文件是否为python可执行文件
+            var selectedFileName = Path.GetFileName(result);
+            bool isValidPython = false;
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                isValidPython = selectedFileName.Equals("python.exe", StringComparison.OrdinalIgnoreCase);
+            }
+            else
+            {
+                isValidPython = selectedFileName.ToLowerInvariant().StartsWith("python");
+            }
+
+            if (isValidPython)
             {
                 PythonPath = result;
             }

@@ -286,6 +286,65 @@ internal static class ProcessInterop
     [DllImport("kernel32.dll", SetLastError = true)]
     private static extern bool CloseHandle(IntPtr hObject);
 
+    // ==================== Open in File Manager ====================
+
+    /// <summary>
+    /// Open a folder in the platform's default file manager.
+    /// Windows: explorer.exe, Linux: xdg-open, macOS: open.
+    /// </summary>
+    public static void OpenInFileManager(string path)
+    {
+        if (string.IsNullOrWhiteSpace(path) || !Directory.Exists(path))
+            return;
+
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = path,
+                UseShellExecute = true,
+                Verb = "open"
+            });
+        }
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "xdg-open",
+                Arguments = $"\"{path}\"",
+                UseShellExecute = false,
+                CreateNoWindow = true
+            });
+        }
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "open",
+                Arguments = $"\"{path}\"",
+                UseShellExecute = false,
+                CreateNoWindow = true
+            });
+        }
+    }
+
+    /// <summary>
+    /// Get the default initial directory for file pickers (e.g., Python executable).
+    /// Falls back to UserProfile when ProgramFiles is empty (common on Linux).
+    /// </summary>
+    public static string GetDefaultFilePickerDirectory()
+    {
+        var programFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+        if (!string.IsNullOrEmpty(programFiles))
+            return programFiles;
+
+        var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        if (!string.IsNullOrEmpty(userProfile))
+            return userProfile;
+
+        return "/";
+    }
+
     // ==================== Unix (Linux + macOS) Implementation ====================
 
     private static IReadOnlyList<int> EnumerateChildProcessIdsUnix(int parentPid)

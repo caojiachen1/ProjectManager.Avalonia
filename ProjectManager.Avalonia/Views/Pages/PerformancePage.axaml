@@ -4,6 +4,7 @@
              xmlns:models="using:ProjectManager.Avalonia.Models"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:icons="using:FluentIcons.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ProjectManager.Avalonia.Views.Pages.PerformancePage"
              x:CompileBindings="False">
@@ -27,7 +28,7 @@
 
             <Button Grid.Column="1" Command="{Binding RefreshNowCommand}">
                 <StackPanel Orientation="Horizontal" Spacing="6">
-                    <TextBlock Text="&#xE72C;" FontFamily="Segoe Fluent Icons" VerticalAlignment="Center"/>
+                    <icons:SymbolIcon Symbol="ArrowClockwise" FontSize="14" VerticalAlignment="Center"/>
                     <TextBlock Text="{DynamicResource Performance_Refresh}" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>
@@ -104,7 +105,7 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
-                <TextBlock Text="&#xE9D9;" FontFamily="Segoe Fluent Icons" FontSize="18" Foreground="#4CAF50" VerticalAlignment="Center"/>
+                <icons:SymbolIcon Symbol="Pulse" FontSize="18" Foreground="#4CAF50" VerticalAlignment="Center"/>
                 <TextBlock Text="{Binding StatusMessage}" FontSize="14" VerticalAlignment="Center"/>
                 <ProgressBar Width="80" Height="4" IsIndeterminate="True"
                              IsVisible="{Binding IsMonitoringActive}"
@@ -148,7 +149,7 @@
                                             Command="{Binding $parent[ItemsControl].DataContext.OpenInExplorerCommand}"
                                             CommandParameter="{Binding}">
                                         <StackPanel Orientation="Horizontal" Spacing="4">
-                                            <TextBlock Text="&#xE838;" FontFamily="Segoe Fluent Icons" FontSize="12" VerticalAlignment="Center"/>
+                                            <icons:SymbolIcon Symbol="FolderOpen" FontSize="12" VerticalAlignment="Center"/>
                                             <TextBlock Text="{DynamicResource Performance_OpenFolder}" FontSize="12" VerticalAlignment="Center"/>
                                         </StackPanel>
                                     </Button>
@@ -224,21 +225,21 @@
                                         <StackPanel Grid.Column="0">
                                             <TextBlock Text="{DynamicResource Performance_PID}" Opacity="0.5" FontSize="11" Margin="0,0,0,2"/>
                                             <TextBlock Text="{Binding ProcessId, TargetNullValue='--'}"
-                                                       FontWeight="SemiBold" FontFamily="Consolas"/>
+                                                       FontWeight="SemiBold" FontFamily="{StaticResource CascadiaCode},Consolas,Courier New,monospace"/>
                                         </StackPanel>
 
                                         <!-- Start Time -->
                                         <StackPanel Grid.Column="1">
                                             <TextBlock Text="{DynamicResource Performance_StartTime}" Opacity="0.5" FontSize="11" Margin="0,0,0,2"/>
                                             <TextBlock Text="{Binding ProcessStartTime, StringFormat='{}{0:MM-dd HH:mm}', TargetNullValue='--'}"
-                                                       FontWeight="SemiBold" FontFamily="Consolas"/>
+                                                       FontWeight="SemiBold" FontFamily="{StaticResource CascadiaCode},Consolas,Courier New,monospace"/>
                                         </StackPanel>
 
                                         <!-- Uptime -->
                                         <StackPanel Grid.Column="2">
                                             <TextBlock Text="{DynamicResource Performance_Uptime}" Opacity="0.5" FontSize="11" Margin="0,0,0,2"/>
                                             <TextBlock Text="{Binding Uptime, Converter={StaticResource TimeSpanToStringConverter}}"
-                                                       FontWeight="SemiBold" FontFamily="Consolas"/>
+                                                       FontWeight="SemiBold" FontFamily="{StaticResource CascadiaCode},Consolas,Courier New,monospace"/>
                                         </StackPanel>
                                     </Grid>
                                 </Border>

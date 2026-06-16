@@ -3,6 +3,7 @@
              x:Class="ProjectManager.Avalonia.Views.Pages.SettingsPage"
              xmlns:vm="using:ProjectManager.Avalonia.ViewModels.Pages"
              xmlns:services="using:ProjectManager.Avalonia.Services"
+             xmlns:icons="using:FluentIcons.Avalonia"
              x:CompileBindings="False">
 
     <Grid>
@@ -247,9 +248,10 @@
                 </Grid>
             </Border>
 
-            <!-- UTF8编码 -->
+            <!-- UTF8编码（仅 Windows 下显示） -->
             <Border Padding="16" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8">
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8"
+                    IsVisible="{Binding IsWindowsPlatform}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -378,7 +380,7 @@
                         <TextBlock Text="{DynamicResource AppTitle}" FontSize="12" Opacity="0.7"/>
                     </StackPanel>
                     <TextBlock Grid.Column="1" Text="{Binding AppVersion}" VerticalAlignment="Center"
-                              FontFamily="Consolas" Opacity="0.7"/>
+                              FontFamily="{StaticResource CascadiaCode},Consolas,Courier New,monospace" Opacity="0.7"/>
                 </Grid>
             </Border>
         </StackPanel>

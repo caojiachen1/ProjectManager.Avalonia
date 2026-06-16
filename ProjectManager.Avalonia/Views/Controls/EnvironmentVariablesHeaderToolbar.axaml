@@ -1,5 +1,6 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:icons="using:FluentIcons.Avalonia"
              x:Class="ProjectManager.Avalonia.Views.Controls.EnvironmentVariablesHeaderToolbar"
              x:CompileBindings="False">
 
@@ -11,12 +12,13 @@
 
             <!-- Search TextBox -->
             <Grid Width="260" VerticalAlignment="Center">
-                <TextBlock Text="&#xE721;" FontFamily="Segoe Fluent Icons" FontSize="14"
-                           Opacity="0.5" VerticalAlignment="Center" Margin="10,0,0,0"
-                           IsHitTestVisible="False"/>
                 <TextBox Text="{Binding SearchText, Mode=TwoWay}"
                          PlaceholderText="{DynamicResource EnvVars_SearchPlaceholder}"
-                         Padding="32,6,8,6"/>
+                         Padding="8,6,32,6"/>
+                <icons:SymbolIcon Symbol="Search" FontSize="14" IconVariant="Regular"
+                           Opacity="0.5" VerticalAlignment="Center" HorizontalAlignment="Right"
+                           Margin="0,0,10,0"
+                           IsHitTestVisible="False"/>
             </Grid>
 
             <!-- Filter ComboBox -->
@@ -36,7 +38,7 @@
             <Button Command="{Binding AddUserVariableCommand}"
                     ToolTip.Tip="{DynamicResource EnvVars_AddUserTooltip}">
                 <StackPanel Orientation="Horizontal" Spacing="6">
-                    <TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                    <icons:SymbolIcon Symbol="People" FontSize="14"
                                VerticalAlignment="Center"/>
                     <TextBlock Text="{DynamicResource EnvVars_AddUser}" VerticalAlignment="Center"/>
                 </StackPanel>
@@ -46,7 +48,7 @@
             <Button Command="{Binding AddSystemVariableCommand}"
                     ToolTip.Tip="{DynamicResource EnvVars_AddSystemTooltip}">
                 <StackPanel Orientation="Horizontal" Spacing="6">
-                    <TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                    <icons:SymbolIcon Symbol="Shield" FontSize="14"
                                VerticalAlignment="Center"/>
                     <TextBlock Text="{DynamicResource EnvVars_AddSystem}" VerticalAlignment="Center"/>
                 </StackPanel>
@@ -55,7 +57,7 @@
             <!-- Refresh button -->
             <Button Command="{Binding RefreshCommand}"
                     ToolTip.Tip="{DynamicResource EnvVars_RefreshTooltip}">
-                <TextBlock Text="&#xE72C;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                <icons:SymbolIcon Symbol="ArrowClockwise" FontSize="14"
                            VerticalAlignment="Center"/>
             </Button>
 

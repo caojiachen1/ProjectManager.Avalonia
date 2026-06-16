@@ -5,6 +5,7 @@ using Avalonia.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using ProjectManager.Avalonia.Models;
 using ProjectManager.Avalonia.Services;
+using ProjectManager.Avalonia.Helpers;
 using ProjectManager.Avalonia.ViewModels.Dialogs;
 
 namespace ProjectManager.Avalonia.ViewModels.Pages;
@@ -408,12 +409,7 @@ public partial class ProjectsViewModel : ViewModelBase
         {
             try
             {
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = project.LocalPath,
-                    UseShellExecute = true,
-                    Verb = "open"
-                });
+                ProcessInterop.OpenInFileManager(project.LocalPath);
             }
             catch (Exception ex)
             {

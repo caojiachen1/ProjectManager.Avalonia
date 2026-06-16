@@ -4,13 +4,15 @@
         xmlns:pg="using:ProjectManager.Avalonia.ViewModels.Pages"
         xmlns:pages="using:ProjectManager.Avalonia.Views.Pages"
         xmlns:fa="using:FluentAvalonia.UI.Controls"
+        xmlns:icons="using:FluentIcons.Avalonia"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="800"
         x:Class="ProjectManager.Avalonia.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Assets/Icon.png"
         Title="{Binding AppTitle}"
+        FontFamily="avares://ProjectManager.Avalonia/Assets/Fonts/NotoSansSC-Regular.otf#Noto Sans SC"
         Width="1280" Height="800"
         MinWidth="900" MinHeight="600"
         WindowState="Maximized"
@@ -29,19 +31,19 @@
                              SelectionChanged="OnNavigationSelectionChanged"
                              MenuItemsSource="{Binding MenuItems}"
                              FooterMenuItemsSource="{Binding FooterMenuItems}"
-                             SelectedItem="{Binding SelectedItem}"
-                             PointerPressed="OnContentPointerPressed">
+                             SelectedItem="{Binding SelectedItem}">
 
         <fa:FANavigationView.PaneCustomContent>
-            <Grid Margin="8,4,8,4" Height="32">
+            <Grid x:Name="SearchGrid" Margin="8,4,8,4" Height="32">
                 <!-- 展开时：搜索框 -->
                 <Grid IsVisible="{Binding IsPaneOpen}">
-                    <TextBlock Text="&#xE721;" FontFamily="Segoe Fluent Icons" FontSize="14"
-                               Opacity="0.5" VerticalAlignment="Center" Margin="10,0,0,0"
-                               IsHitTestVisible="False"/>
                     <TextBox Name="NavSearchBox" Text="{Binding NavSearchText, Mode=TwoWay}"
                              PlaceholderText="{DynamicResource Nav_SearchPlaceholder}"
-                             Padding="32,6,8,6"/>
+                             Padding="8,6,32,6"/>
+                    <icons:SymbolIcon Symbol="Search" FontSize="14" IconVariant="Regular"
+                               Opacity="0.5" VerticalAlignment="Center" HorizontalAlignment="Right"
+                               Margin="0,0,10,0"
+                               IsHitTestVisible="False"/>
                 </Grid>
                 <!-- 折叠时：搜索图标 -->
                 <Button IsVisible="{Binding IsPaneOpen, Converter={x:Static BoolConverters.Not}}"
@@ -50,7 +52,7 @@
                         Padding="8,0"
                         Background="Transparent" BorderThickness="0" CornerRadius="4"
                         ToolTip.Tip="{DynamicResource Nav_SearchPlaceholder}">
-                    <TextBlock Text="&#xE721;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                    <icons:SymbolIcon Symbol="Search" FontSize="14" IconVariant="Regular"
                                HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Button>
             </Grid>

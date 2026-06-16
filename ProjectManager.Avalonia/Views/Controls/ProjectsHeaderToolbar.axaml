@@ -14,12 +14,13 @@
         <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
             <!-- Search TextBox with icon -->
             <Grid Width="280" VerticalAlignment="Center">
-                <TextBlock Text="&#xE721;" FontFamily="Segoe Fluent Icons" FontSize="14"
-                           Opacity="0.5" VerticalAlignment="Center" Margin="10,0,0,0"
-                           IsHitTestVisible="False"/>
                 <TextBox Name="SearchTextBox" Text="{Binding SearchText, Mode=TwoWay}"
                          PlaceholderText="{DynamicResource Toolbar_SearchProjects}"
-                         Padding="32,6,8,6"/>
+                         Padding="8,6,32,6"/>
+                <icons:SymbolIcon Symbol="Search" FontSize="14" IconVariant="Regular"
+                           Opacity="0.5" VerticalAlignment="Center" HorizontalAlignment="Right"
+                           Margin="0,0,10,0"
+                           IsHitTestVisible="False"/>
             </Grid>
 
             <!-- Status filter ComboBox -->
@@ -36,7 +37,7 @@
                     Background="#005FB8"
                     Command="{Binding CreateProjectCommand}">
                 <StackPanel Orientation="Horizontal" Spacing="6">
-                    <TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                    <icons:SymbolIcon Symbol="Add" FontSize="14"
                                VerticalAlignment="Center"/>
                     <TextBlock Text="{DynamicResource Toolbar_NewProject}" VerticalAlignment="Center"/>
                 </StackPanel>
@@ -55,7 +56,7 @@
                     ToolTip.Tip="{DynamicResource Toolbar_RefreshTooltip}"
                     IsEnabled="{Binding IsRefreshing, Converter={StaticResource InverseBooleanConverter}}">
                 <StackPanel Orientation="Horizontal" Spacing="6">
-                    <TextBlock Text="&#xE72C;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                    <icons:SymbolIcon Symbol="ArrowClockwise" FontSize="14"
                                VerticalAlignment="Center"/>
                     <TextBlock Text="{DynamicResource Toolbar_Refresh}" VerticalAlignment="Center"/>
                 </StackPanel>

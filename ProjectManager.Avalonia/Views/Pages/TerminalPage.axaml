@@ -4,6 +4,7 @@
              xmlns:models="using:ProjectManager.Avalonia.Models"
              xmlns:behaviors="using:ProjectManager.Avalonia.Behaviors"
              xmlns:helpers="using:ProjectManager.Avalonia.Helpers"
+             xmlns:icons="using:FluentIcons.Avalonia"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
@@ -48,7 +49,7 @@
                     <Button Command="{Binding StartTerminalCommand}"
                             ToolTip.Tip="{DynamicResource Terminal_StartTooltip}">
                         <StackPanel Orientation="Horizontal" Spacing="6">
-                            <TextBlock Text="&#xE768;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                            <icons:SymbolIcon Symbol="Play" FontSize="14"
                                        VerticalAlignment="Center"/>
                             <TextBlock Text="{DynamicResource Terminal_Start}" VerticalAlignment="Center"/>
                         </StackPanel>
@@ -57,7 +58,7 @@
                     <Button Command="{Binding StopTerminalCommand}"
                             ToolTip.Tip="{DynamicResource Terminal_StopTooltip}">
                         <StackPanel Orientation="Horizontal" Spacing="6">
-                            <TextBlock Text="&#xE71A;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                            <icons:SymbolIcon Symbol="Stop" FontSize="14"
                                        VerticalAlignment="Center"/>
                             <TextBlock Text="{DynamicResource Terminal_Stop}" VerticalAlignment="Center"/>
                         </StackPanel>
@@ -66,7 +67,7 @@
                     <Button Command="{Binding ClearOutputCommand}"
                             ToolTip.Tip="{DynamicResource Terminal_ClearTooltip}">
                         <StackPanel Orientation="Horizontal" Spacing="6">
-                            <TextBlock Text="&#xE74D;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                            <icons:SymbolIcon Symbol="Delete" FontSize="14"
                                        VerticalAlignment="Center"/>
                             <TextBlock Text="{DynamicResource Terminal_Clear}" VerticalAlignment="Center"/>
                         </StackPanel>
@@ -75,7 +76,7 @@
                     <Button Command="{Binding RefreshSessionsCommand}"
                             ToolTip.Tip="{DynamicResource Terminal_RefreshTooltip}">
                         <StackPanel Orientation="Horizontal" Spacing="6">
-                            <TextBlock Text="&#xE72C;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                            <icons:SymbolIcon Symbol="ArrowSync" FontSize="14"
                                        VerticalAlignment="Center"/>
                             <TextBlock Text="{DynamicResource Terminal_Refresh}" VerticalAlignment="Center"/>
                         </StackPanel>
@@ -84,7 +85,7 @@
                     <Button Command="{Binding OpenCmdCommand}"
                             ToolTip.Tip="{DynamicResource Terminal_OpenCmdTooltip}">
                         <StackPanel Orientation="Horizontal" Spacing="6">
-                            <TextBlock Text="&#xE756;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                            <icons:SymbolIcon Symbol="WindowConsole" FontSize="14"
                                        VerticalAlignment="Center"/>
                             <TextBlock Text="{DynamicResource Terminal_OpenCmd}" VerticalAlignment="Center"/>
                         </StackPanel>
@@ -149,19 +150,18 @@
                                         </ControlTheme>
                                     </Button.Theme>
                                     <StackPanel Orientation="Horizontal" Spacing="8" Margin="12,6">
-                                        <TextBlock Text="&#xE756;" FontFamily="Segoe Fluent Icons" FontSize="13"
+                                        <icons:SymbolIcon Symbol="WindowConsole" FontSize="13" IconVariant="Filled"
                                                    Foreground="{Binding IsRunning, Converter={StaticResource BooleanToColorConverter}}"
                                                    VerticalAlignment="Center"/>
                                         <TextBlock Text="{Binding ProjectName}" FontSize="12"
                                                    Foreground="#FFFFFF" VerticalAlignment="Center"/>
-                                        <Button Content="&#xE711;"
-                                                FontFamily="Segoe Fluent Icons" FontSize="9"
-                                                Width="18" Height="18"
+                                        <Button Width="18" Height="18"
                                                 Padding="0"
                                                 VerticalAlignment="Center"
                                                  Command="{Binding DataContext.CloseSessionCommand, ElementName=PageRoot}"
                                                 CommandParameter="{Binding}"
                                                 ToolTip.Tip="{DynamicResource Terminal_CloseSession}">
+                                            <icons:SymbolIcon Symbol="Dismiss" FontSize="9" Foreground="#666666"/>
                                             <Button.Theme>
                                                 <ControlTheme TargetType="Button">
                                                     <Setter Property="Template">
@@ -200,7 +200,7 @@
                                   HorizontalScrollBarVisibility="Disabled"
                                   VerticalScrollBarVisibility="Auto">
                         <SelectableTextBlock Padding="8,8,16,24"
-                                             FontFamily="Consolas,Courier New,monospace"
+                                             FontFamily="{StaticResource CascadiaCode},Consolas,Courier New,monospace"
                                              FontSize="18"
                                              TextWrapping="Wrap"
                                              Foreground="#CCCCCC"
@@ -212,12 +212,12 @@
                                 <MenuFlyout>
                                     <MenuItem Header="{DynamicResource Terminal_CopyAll}" Click="CopyAll_Click">
                                         <MenuItem.Icon>
-                                            <TextBlock Text="&#xE8C8;" FontFamily="Segoe Fluent Icons" FontSize="14"/>
+                                            <icons:SymbolIcon Symbol="Copy" FontSize="14"/>
                                         </MenuItem.Icon>
                                     </MenuItem>
                                     <MenuItem Header="{DynamicResource Terminal_Clear}" Click="ClearOutput_Click">
                                         <MenuItem.Icon>
-                                            <TextBlock Text="&#xE74D;" FontFamily="Segoe Fluent Icons" FontSize="14"/>
+                                            <icons:SymbolIcon Symbol="Delete" FontSize="14"/>
                                         </MenuItem.Icon>
                                     </MenuItem>
                                 </MenuFlyout>
@@ -232,8 +232,7 @@
                     IsVisible="{Binding TerminalSessions.Count, Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=Invert}">
                 <Panel HorizontalAlignment="Center" VerticalAlignment="Center">
                     <StackPanel Opacity="0.6">
-                    <TextBlock Text="&#xE756;"
-                               FontFamily="Segoe Fluent Icons" FontSize="48"
+                    <icons:SymbolIcon Symbol="WindowConsole" FontSize="48" IconVariant="Regular"
                                Foreground="#666666" HorizontalAlignment="Center"
                                Margin="0,0,0,16"/>
                     <TextBlock Text="{DynamicResource Terminal_NoSession}"
@@ -264,13 +263,13 @@
                         Padding="8" Opacity="0.8"
                         ToolTip.Tip="{DynamicResource Terminal_ScrollTop}"
                         Background="#40000000" BorderThickness="0">
-                    <TextBlock Text="&#xE74A;" FontFamily="Segoe Fluent Icons" FontSize="14" Foreground="#CCCCCC"/>
+                    <icons:SymbolIcon Symbol="ChevronUp" FontSize="14" Foreground="#CCCCCC"/>
                 </Button>
                 <Button Click="ScrollToBottom_Click"
                         Padding="8" Opacity="0.8"
                         ToolTip.Tip="{DynamicResource Terminal_ScrollBottom}"
                         Background="#40000000" BorderThickness="0">
-                    <TextBlock Text="&#xE74B;" FontFamily="Segoe Fluent Icons" FontSize="14" Foreground="#CCCCCC"/>
+                    <icons:SymbolIcon Symbol="ChevronDown" FontSize="14" Foreground="#CCCCCC"/>
                 </Button>
             </StackPanel>
         </Grid>
@@ -290,7 +289,7 @@
                     <TextBlock Text="{DynamicResource Terminal_WorkingDir}" Foreground="#CCCCCC"
                                VerticalAlignment="Center"/>
                     <TextBlock Text="{Binding SelectedSession.ProjectPath, FallbackValue='--'}"
-                               Foreground="#FFFFFF" FontFamily="Consolas,Courier New,monospace"
+                               Foreground="#FFFFFF" FontFamily="{StaticResource CascadiaCode},Consolas,Courier New,monospace"
                                FontSize="12" VerticalAlignment="Center"
                                TextTrimming="CharacterEllipsis" MaxWidth="400"/>
                 </StackPanel>

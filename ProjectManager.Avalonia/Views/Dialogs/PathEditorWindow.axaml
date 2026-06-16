@@ -11,6 +11,7 @@
         Width="700" Height="600"
         MinWidth="600" MinHeight="450"
         Background="#202020"
+        FontFamily="{StaticResource NotoSansSC}"
         WindowStartupLocation="CenterOwner"
         ShowInTaskbar="False"
         CanResize="True">
@@ -126,7 +127,7 @@
                              IsVisible="{Binding !IsListMode}"
                              AcceptsReturn="True"
                              TextWrapping="Wrap"
-                             FontFamily="Consolas,Courier New,monospace"
+                             FontFamily="{StaticResource CascadiaCode},Consolas,Courier New,monospace"
                              FontSize="12"
                              PlaceholderText="C:\Windows;C:\Windows\System32;D:\MyTools"/>
                 </Grid>

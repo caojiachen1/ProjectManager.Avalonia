@@ -10,6 +10,7 @@
         Width="600" Height="400"
         MinWidth="500" MinHeight="300"
         Background="#202020"
+        FontFamily="{StaticResource NotoSansSC}"
         WindowStartupLocation="CenterOwner"
         ShowInTaskbar="False"
         CanResize="True">
@@ -33,7 +34,7 @@
                      Text="{Binding PathText, Mode=TwoWay}"
                      AcceptsReturn="True"
                      TextWrapping="Wrap"
-                     FontFamily="Consolas,Courier New,monospace"
+                     FontFamily="{StaticResource CascadiaCode},Consolas,Courier New,monospace"
                      FontSize="12"
                      PlaceholderText="C:\Windows&#x0a;C:\Windows\System32&#x0a;D:\MyTools"/>
 

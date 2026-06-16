@@ -86,6 +86,12 @@
             </ResourceDictionary>
         </ResourceDictionary.ThemeDictionaries>
 
+        <!-- Embedded fonts for cross-platform support -->
+        <FontFamily x:Key="NotoSansSC">avares://ProjectManager.Avalonia/Assets/Fonts/NotoSansSC-Regular.otf#Noto Sans SC</FontFamily>
+        <FontFamily x:Key="NotoSansSC-Bold">avares://ProjectManager.Avalonia/Assets/Fonts/NotoSansSC-Bold.otf#Noto Sans SC</FontFamily>
+        <FontFamily x:Key="CascadiaCode">avares://ProjectManager.Avalonia/Assets/Fonts/CascadiaCode-Regular.ttf#Cascadia Code</FontFamily>
+        <FontFamily x:Key="CascadiaCode-Bold">avares://ProjectManager.Avalonia/Assets/Fonts/CascadiaCode-Bold.ttf#Cascadia Code</FontFamily>
+
         <!-- FontAwesome font -->
         <FontFamily x:Key="FontAwesomeSolid">avares://ProjectManager.Avalonia/Assets/fa-solid-900.ttf#Font Awesome 6 Free Solid</FontFamily>
         </ResourceDictionary>

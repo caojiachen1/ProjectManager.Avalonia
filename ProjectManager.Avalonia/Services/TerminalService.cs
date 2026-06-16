@@ -404,9 +404,47 @@ public class TerminalService
             "git bash" when isWindows =>
                 ("bash.exe", $"-c \"export LANG=en_US.UTF-8; export LC_ALL=en_US.UTF-8; export TERM=xterm-256color; {string.Join(" && ", commandSequence)}\""),
 
+            // Linux/macOS 终端类型
+            "bash" =>
+                (FindShellPath("bash"), $"-c \"{JoinBashCommands(commandSequence)}\""),
+
+            "zsh" =>
+                (FindShellPath("zsh"), $"-c \"{JoinBashCommands(commandSequence)}\""),
+
+            "fish" =>
+                (FindShellPath("fish"), $"-c \"{string.Join("; ", commandSequence)}\""),
+
+            "sh" =>
+                (FindShellPath("sh"), $"-c \"{JoinBashCommands(commandSequence)}\""),
+
             _ => // Cross-platform default
                 GetDefaultTerminalCommand(commandSequence, isWindows)
         };
+    }
+
+    /// <summary>
+    /// 查找 shell 的实际路径，优先使用 /bin/ 下的路径
+    /// </summary>
+    private static string FindShellPath(string shellName)
+    {
+        // 优先检查常见路径
+        var candidates = new[] { $"/bin/{shellName}", $"/usr/bin/{shellName}", $"/usr/local/bin/{shellName}" };
+        foreach (var candidate in candidates)
+        {
+            if (File.Exists(candidate))
+                return candidate;
+        }
+
+        // 回退到 PATH 查找
+        return shellName;
+    }
+
+    /// <summary>
+    /// 将多个命令用 && 连接（适用于 bash/zsh/sh）
+    /// </summary>
+    private static string JoinBashCommands(List<string> commands)
+    {
+        return string.Join(" && ", commands.Select(c => c.Replace("\"", "\\\"")));
     }
 
     private static (string fileName, string arguments) GetDefaultTerminalCommand(List<string> commandSequence, bool isWindows)
@@ -461,11 +499,24 @@ public class TerminalService
                 break;
 
             case "git bash":
+            case "bash":
+            case "zsh":
+            case "sh":
                 foreach (var kv in env)
                 {
                     var key = EscapeBash(kv.Key);
                     var val = EscapeBash(kv.Value ?? string.Empty);
                     yield return $"export {key}=\"{val}\"";
+                }
+                break;
+
+            case "fish":
+                // fish shell 使用 set -gx 设置环境变量
+                foreach (var kv in env)
+                {
+                    var key = EscapeFish(kv.Key);
+                    var val = EscapeFish(kv.Value ?? string.Empty);
+                    yield return $"set -gx {key} \"{val}\"";
                 }
                 break;
 
@@ -498,12 +549,20 @@ public class TerminalService
         static string EscapeCmd(string s) => s.Replace("\"", "\\\"");
         static string EscapeBash(string s) => s.Replace("\\", "\\\\").Replace("\"", "\\\"");
         static string EscapePwsh(string s) => s.Replace("'", "''");
+        static string EscapeFish(string s) => s.Replace("\\", "\\\\").Replace("\"", "\\\"");
     }
 
     // ==================== Encoding Helpers ====================
 
+    /// <summary>
+    /// 尝试修复 Windows 上的 GBK 编码问题。Linux/macOS 默认 UTF-8，不需要此处理。
+    /// </summary>
     private string FixEncodingIssues(string input)
     {
+        // 仅在 Windows 上需要 GBK 编码修复
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            return input;
+
         try
         {
             if (input.Contains("\uFFFD") || HasGarbledCharacters(input))

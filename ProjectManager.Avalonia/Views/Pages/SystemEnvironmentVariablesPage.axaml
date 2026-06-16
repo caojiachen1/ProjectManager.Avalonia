@@ -5,10 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="700"
+             xmlns:icons="using:FluentIcons.Avalonia"
              x:Class="ProjectManager.Avalonia.Views.Pages.SystemEnvironmentVariablesPage"
              x:CompileBindings="False">
 
-    <Grid Name="RootGrid" PointerPressed="OnRootPointerPressed">
+    <Grid Name="RootGrid">
         <!-- Main Content -->
         <Grid Margin="24,12" IsVisible="{Binding IsLoading, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
             <Grid.RowDefinitions>
@@ -27,12 +28,13 @@
             <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="12" Margin="0,0,0,16">
                 <!-- Search -->
                 <Grid Width="300">
-                    <TextBlock Text="&#xE721;" FontFamily="Segoe Fluent Icons" FontSize="14"
-                               Opacity="0.5" VerticalAlignment="Center" Margin="10,0,0,0"
-                               IsHitTestVisible="False"/>
                     <TextBox Name="SearchTextBox" Text="{Binding SearchText}"
                              PlaceholderText="{DynamicResource EnvVars_SearchPlaceholder}"
-                             Padding="30,6,8,6"/>
+                             Padding="8,6,32,6"/>
+                    <icons:SymbolIcon Symbol="Search" FontSize="14" IconVariant="Regular"
+                               Opacity="0.5" VerticalAlignment="Center" HorizontalAlignment="Right"
+                               Margin="0,0,10,0"
+                               IsHitTestVisible="False"/>
                 </Grid>
 
                 <!-- Filter ComboBox -->
@@ -45,7 +47,7 @@
                 <!-- Refresh -->
                 <Button Command="{Binding RefreshCommand}">
                     <StackPanel Orientation="Horizontal" Spacing="6">
-                        <TextBlock Text="&#xE72C;" FontFamily="Segoe Fluent Icons" VerticalAlignment="Center"/>
+                        <icons:SymbolIcon Symbol="ArrowClockwise" FontSize="14" VerticalAlignment="Center"/>
                         <TextBlock Text="{DynamicResource EnvVar_Refresh}" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
@@ -76,8 +78,7 @@
                                 BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
                                 BorderThickness="0,0,0,1">
                             <StackPanel Orientation="Horizontal" Spacing="8">
-                                <TextBlock Text="&#xE77B;" FontSize="18" Foreground="#4CAF50"
-                                           FontFamily="Segoe Fluent Icons" VerticalAlignment="Center"/>
+                                <icons:SymbolIcon Symbol="People" FontSize="18" Foreground="#4CAF50" VerticalAlignment="Center"/>
                                 <TextBlock Text="{DynamicResource EnvVar_UserVariables}" FontSize="16" FontWeight="SemiBold"
                                            VerticalAlignment="Center"/>
                                 <Border Background="#304CAF50" CornerRadius="10" Padding="8,2"
@@ -142,14 +143,14 @@
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <Button Command="{Binding AddUserVariableCommand}">
                                     <StackPanel Orientation="Horizontal" Spacing="4">
-                                        <TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons" FontSize="12" VerticalAlignment="Center"/>
+                                        <icons:SymbolIcon Symbol="AddCircle" FontSize="12" VerticalAlignment="Center"/>
                                         <TextBlock Text="{DynamicResource EnvVar_Add}" FontSize="12" VerticalAlignment="Center"/>
                                     </StackPanel>
                                 </Button>
                                 <Button Command="{Binding EditUserVariableCommand}"
                                         IsEnabled="{Binding HasSelectedUserVariable}">
                                     <StackPanel Orientation="Horizontal" Spacing="4">
-                                        <TextBlock Text="&#xE70F;" FontFamily="Segoe Fluent Icons" FontSize="12" VerticalAlignment="Center"/>
+                                        <icons:SymbolIcon Symbol="Edit" FontSize="12" VerticalAlignment="Center"/>
                                         <TextBlock Text="{DynamicResource EnvVar_Edit}" FontSize="12" VerticalAlignment="Center"/>
                                     </StackPanel>
                                 </Button>
@@ -157,7 +158,7 @@
                                         Classes="caution"
                                         IsEnabled="{Binding HasSelectedUserVariable}">
                                     <StackPanel Orientation="Horizontal" Spacing="4">
-                                        <TextBlock Text="&#xE74D;" FontFamily="Segoe Fluent Icons" FontSize="12" VerticalAlignment="Center"/>
+                                        <icons:SymbolIcon Symbol="Delete" FontSize="12" VerticalAlignment="Center"/>
                                         <TextBlock Text="{DynamicResource EnvVar_Delete}" FontSize="12" VerticalAlignment="Center"/>
                                     </StackPanel>
                                 </Button>
@@ -183,8 +184,7 @@
                                 BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
                                 BorderThickness="0,0,0,1">
                             <StackPanel Orientation="Horizontal" Spacing="8">
-                                <TextBlock Text="&#xE72E;" FontSize="18" Foreground="#FF9800"
-                                           FontFamily="Segoe Fluent Icons" VerticalAlignment="Center"/>
+                                <icons:SymbolIcon Symbol="Shield" FontSize="18" Foreground="#FF9800" VerticalAlignment="Center"/>
                                 <TextBlock Text="{DynamicResource EnvVar_SystemVariables}" FontSize="16" FontWeight="SemiBold"
                                            VerticalAlignment="Center"/>
                                 <Border Background="#30FF9800" CornerRadius="10" Padding="8,2"
@@ -249,14 +249,14 @@
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <Button Command="{Binding AddSystemVariableCommand}">
                                     <StackPanel Orientation="Horizontal" Spacing="4">
-                                        <TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons" FontSize="12" VerticalAlignment="Center"/>
+                                        <icons:SymbolIcon Symbol="AddCircle" FontSize="12" VerticalAlignment="Center"/>
                                         <TextBlock Text="{DynamicResource EnvVar_Add}" FontSize="12" VerticalAlignment="Center"/>
                                     </StackPanel>
                                 </Button>
                                 <Button Command="{Binding EditSystemVariableCommand}"
                                         IsEnabled="{Binding HasSelectedSystemVariable}">
                                     <StackPanel Orientation="Horizontal" Spacing="4">
-                                        <TextBlock Text="&#xE70F;" FontFamily="Segoe Fluent Icons" FontSize="12" VerticalAlignment="Center"/>
+                                        <icons:SymbolIcon Symbol="Edit" FontSize="12" VerticalAlignment="Center"/>
                                         <TextBlock Text="{DynamicResource EnvVar_Edit}" FontSize="12" VerticalAlignment="Center"/>
                                     </StackPanel>
                                 </Button>
@@ -264,7 +264,7 @@
                                         Classes="caution"
                                         IsEnabled="{Binding HasSelectedSystemVariable}">
                                     <StackPanel Orientation="Horizontal" Spacing="4">
-                                        <TextBlock Text="&#xE74D;" FontFamily="Segoe Fluent Icons" FontSize="12" VerticalAlignment="Center"/>
+                                        <icons:SymbolIcon Symbol="Delete" FontSize="12" VerticalAlignment="Center"/>
                                         <TextBlock Text="{DynamicResource EnvVar_Delete}" FontSize="12" VerticalAlignment="Center"/>
                                     </StackPanel>
                                 </Button>

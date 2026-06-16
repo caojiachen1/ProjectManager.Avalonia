@@ -34,7 +34,7 @@ namespace ProjectManager.Avalonia.Services
                 {
                     _cachedSettings = new AppSettings
                     {
-                        DefaultProjectPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Projects"),
+                        DefaultProjectPath = GetDefaultProjectPath(),
                         DefaultStartupPage = "Dashboard"
                     };
                 }
@@ -43,7 +43,7 @@ namespace ProjectManager.Avalonia.Services
             {
                 _cachedSettings = new AppSettings
                 {
-                    DefaultProjectPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Projects"),
+                    DefaultProjectPath = GetDefaultProjectPath(),
                     DefaultStartupPage = "Dashboard"
                 };
             }
@@ -134,6 +134,23 @@ namespace ProjectManager.Avalonia.Services
             var settings = await GetSettingsAsync();
             settings.AutoStartProjects = autoStart;
             await SaveSettingsAsync(settings);
+        }
+
+        /// <summary>
+        /// Get a safe default project directory path.
+        /// Uses MyDocuments/Projects, falls back to ~/Projects if MyDocuments is empty (common on Linux).
+        /// </summary>
+        private static string GetDefaultProjectPath()
+        {
+            var myDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (!string.IsNullOrEmpty(myDocuments))
+                return Path.Combine(myDocuments, "Projects");
+
+            var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            if (!string.IsNullOrEmpty(userProfile))
+                return Path.Combine(userProfile, "Projects");
+
+            return Path.Combine("/", "Projects");
         }
     }
 }

@@ -23,7 +23,8 @@ public class AppSettings
     public int MaxRecentProjects { get; set; } = 10;
 
     // 应用程序设置
-    public string PreferredTerminal { get; set; } = "PowerShell";
+    // 根据平台自动选择默认终端：Windows 用 PowerShell，Linux/macOS 用 Bash
+    public string PreferredTerminal { get; set; } = GetDefaultTerminal();
     public bool ShowNotifications { get; set; } = true;
     public bool UseCmdChcp65001 { get; set; } = true;
     public bool ShowTerminalTimestamps { get; set; } = false;
@@ -31,7 +32,19 @@ public class AppSettings
     // 个性化设置
     public AppThemeMode Theme { get; set; } = AppThemeMode.Unknown;
     public string DefaultStartupPage { get; set; } = "Dashboard";
-    
+
     // 语言设置
     public string Language { get; set; } = "zh-CN";
+
+    /// <summary>
+    /// 根据当前操作系统返回默认终端名称
+    /// </summary>
+    private static string GetDefaultTerminal()
+    {
+        if (OperatingSystem.IsWindows())
+            return "PowerShell";
+        if (OperatingSystem.IsMacOS())
+            return "Zsh";
+        return "Bash";
+    }
 }
