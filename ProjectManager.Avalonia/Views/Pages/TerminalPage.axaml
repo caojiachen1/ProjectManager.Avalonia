@@ -200,7 +200,7 @@
                                   HorizontalScrollBarVisibility="Disabled"
                                   VerticalScrollBarVisibility="Auto">
                         <SelectableTextBlock Padding="8,8,16,24"
-                                             FontFamily="{StaticResource CascadiaCode},Consolas,Courier New,monospace"
+                                             FontFamily="{StaticResource CascadiaCode}"
                                              FontSize="18"
                                              TextWrapping="Wrap"
                                              Foreground="#CCCCCC"
@@ -289,7 +289,7 @@
                     <TextBlock Text="{DynamicResource Terminal_WorkingDir}" Foreground="#CCCCCC"
                                VerticalAlignment="Center"/>
                     <TextBlock Text="{Binding SelectedSession.ProjectPath, FallbackValue='--'}"
-                               Foreground="#FFFFFF" FontFamily="{StaticResource CascadiaCode},Consolas,Courier New,monospace"
+                               Foreground="#FFFFFF" FontFamily="{StaticResource CascadiaCode}"
                                FontSize="12" VerticalAlignment="Center"
                                TextTrimming="CharacterEllipsis" MaxWidth="400"/>
                 </StackPanel>

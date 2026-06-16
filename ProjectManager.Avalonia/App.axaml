@@ -87,10 +87,12 @@
         </ResourceDictionary.ThemeDictionaries>
 
         <!-- Embedded fonts for cross-platform support -->
-        <FontFamily x:Key="NotoSansSC">avares://ProjectManager.Avalonia/Assets/Fonts/NotoSansSC-Regular.otf#Noto Sans SC</FontFamily>
-        <FontFamily x:Key="NotoSansSC-Bold">avares://ProjectManager.Avalonia/Assets/Fonts/NotoSansSC-Bold.otf#Noto Sans SC</FontFamily>
-        <FontFamily x:Key="CascadiaCode">avares://ProjectManager.Avalonia/Assets/Fonts/CascadiaCode-Regular.ttf#Cascadia Code</FontFamily>
-        <FontFamily x:Key="CascadiaCode-Bold">avares://ProjectManager.Avalonia/Assets/Fonts/CascadiaCode-Bold.ttf#Cascadia Code</FontFamily>
+        <!-- Fallback chain: embedded font → system CJK fonts → generic sans-serif -->
+        <FontFamily x:Key="NotoSansSC">avares://ProjectManager.Avalonia/Assets/Fonts/NotoSansSC-Regular.otf#Noto Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei, Ubuntu, Cantarell, DejaVu Sans, sans-serif</FontFamily>
+        <FontFamily x:Key="NotoSansSC-Bold">avares://ProjectManager.Avalonia/Assets/Fonts/NotoSansSC-Bold.otf#Noto Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei, Ubuntu, Cantarell, DejaVu Sans, sans-serif</FontFamily>
+        <FontFamily x:Key="NotoSansSC-Medium">avares://ProjectManager.Avalonia/Assets/Fonts/NotoSansSC-Medium.otf#Noto Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei, Ubuntu, Cantarell, DejaVu Sans, sans-serif</FontFamily>
+        <FontFamily x:Key="CascadiaCode">avares://ProjectManager.Avalonia/Assets/Fonts/CascadiaCode-Regular.ttf#Cascadia Code, Cascadia Mono, Consolas, Courier New, monospace</FontFamily>
+        <FontFamily x:Key="CascadiaCode-Bold">avares://ProjectManager.Avalonia/Assets/Fonts/CascadiaCode-Bold.ttf#Cascadia Code, Cascadia Mono, Consolas, Courier New, monospace</FontFamily>
 
         <!-- FontAwesome font -->
         <FontFamily x:Key="FontAwesomeSolid">avares://ProjectManager.Avalonia/Assets/fa-solid-900.ttf#Font Awesome 6 Free Solid</FontFamily>

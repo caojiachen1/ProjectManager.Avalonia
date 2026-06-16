@@ -12,7 +12,7 @@
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/Icon.png"
         Title="{Binding AppTitle}"
-        FontFamily="{StaticResource NotoSansSC},Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif"
+        FontFamily="{StaticResource NotoSansSC}"
         Width="1280" Height="800"
         MinWidth="900" MinHeight="600"
         WindowState="Maximized"

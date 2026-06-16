@@ -14,9 +14,9 @@ using Avalonia.VisualTree;
 namespace ProjectManager.Avalonia.Behaviors;
 
 /// <summary>
-/// Avalonia attached behavior for ANSI terminal text rendering on SelectableTextBlock.
+/// Avalonia attached behavior for ANSI terminal text rendering on TextBlock.
 /// Parses ANSI escape sequences and creates styled Run inlines with colored text.
-/// Supports cross-line text selection via a single SelectableTextBlock.
+/// Uses TextBlock (rather than SelectableTextBlock) for reliable cross-platform Inlines rendering.
 /// Supports 16 basic colors (Campbell scheme matching Windows Terminal), 256-color, true-color (RGB),
 /// bold, italic, underline, strikethrough, dim, inverse, hidden.
 /// Handles CSI sequences: m (SGR), K (clear line), J (clear screen), H/f (cursor position).
@@ -30,55 +30,55 @@ public static class AnsiTextBehavior
     /// that also implements INotifyCollectionChanged for incremental updates.
     /// </summary>
     public static readonly AttachedProperty<IEnumerable<string>?> ItemsSourceProperty =
-        AvaloniaProperty.RegisterAttached<SelectableTextBlock, IEnumerable<string>?>("ItemsSource", typeof(AnsiTextBehavior));
+        AvaloniaProperty.RegisterAttached<TextBlock, IEnumerable<string>?>("ItemsSource", typeof(AnsiTextBehavior));
 
     /// <summary>
     /// Whether to parse ANSI escape codes in the text. Default is true.
     /// </summary>
     public static readonly AttachedProperty<bool> EnableAnsiParsingProperty =
-        AvaloniaProperty.RegisterAttached<SelectableTextBlock, bool>("EnableAnsiParsing", typeof(AnsiTextBehavior), true);
+        AvaloniaProperty.RegisterAttached<TextBlock, bool>("EnableAnsiParsing", typeof(AnsiTextBehavior), true);
 
     /// <summary>
     /// Whether to auto-scroll to the bottom when new content is added. Default is true.
     /// </summary>
     public static readonly AttachedProperty<bool> AutoScrollProperty =
-        AvaloniaProperty.RegisterAttached<SelectableTextBlock, bool>("AutoScroll", typeof(AnsiTextBehavior), true);
+        AvaloniaProperty.RegisterAttached<TextBlock, bool>("AutoScroll", typeof(AnsiTextBehavior), true);
 
     /// <summary>
     /// Maximum number of text lines to keep in the display. Default is 2000.
     /// </summary>
     public static readonly AttachedProperty<int> MaxItemsProperty =
-        AvaloniaProperty.RegisterAttached<SelectableTextBlock, int>("MaxItems", typeof(AnsiTextBehavior), 2000);
+        AvaloniaProperty.RegisterAttached<TextBlock, int>("MaxItems", typeof(AnsiTextBehavior), 2000);
 
     // ===================== Getters / Setters =====================
 
-    public static void SetItemsSource(SelectableTextBlock control, IEnumerable<string>? value) =>
+    public static void SetItemsSource(TextBlock control, IEnumerable<string>? value) =>
         control.SetValue(ItemsSourceProperty, value);
 
-    public static IEnumerable<string>? GetItemsSource(SelectableTextBlock control) =>
+    public static IEnumerable<string>? GetItemsSource(TextBlock control) =>
         control.GetValue(ItemsSourceProperty);
 
-    public static void SetEnableAnsiParsing(SelectableTextBlock control, bool value) =>
+    public static void SetEnableAnsiParsing(TextBlock control, bool value) =>
         control.SetValue(EnableAnsiParsingProperty, value);
 
-    public static bool GetEnableAnsiParsing(SelectableTextBlock control) =>
+    public static bool GetEnableAnsiParsing(TextBlock control) =>
         control.GetValue(EnableAnsiParsingProperty);
 
-    public static void SetAutoScroll(SelectableTextBlock control, bool value) =>
+    public static void SetAutoScroll(TextBlock control, bool value) =>
         control.SetValue(AutoScrollProperty, value);
 
-    public static bool GetAutoScroll(SelectableTextBlock control) =>
+    public static bool GetAutoScroll(TextBlock control) =>
         control.GetValue(AutoScrollProperty);
 
-    public static void SetMaxItems(SelectableTextBlock control, int value) =>
+    public static void SetMaxItems(TextBlock control, int value) =>
         control.SetValue(MaxItemsProperty, value);
 
-    public static int GetMaxItems(SelectableTextBlock control) =>
+    public static int GetMaxItems(TextBlock control) =>
         control.GetValue(MaxItemsProperty);
 
     // ===================== State Management =====================
 
-    private static readonly Dictionary<SelectableTextBlock, BehaviorState> States = new();
+    private static readonly Dictionary<TextBlock, BehaviorState> States = new();
 
     static AnsiTextBehavior()
     {
@@ -87,7 +87,7 @@ public static class AnsiTextBehavior
 
     private static void OnItemsSourceChanged(AvaloniaPropertyChangedEventArgs e)
     {
-        if (e.Sender is not SelectableTextBlock textBlock) return;
+        if (e.Sender is not TextBlock textBlock) return;
 
         // Unsubscribe from old collection
         if (States.TryGetValue(textBlock, out var oldState))
@@ -166,7 +166,7 @@ public static class AnsiTextBehavior
 
     /// <summary>
     /// Processes a single string (which may contain newlines, control chars, ESC sequences)
-    /// and appends styled Run inlines to the SelectableTextBlock.
+    /// and appends styled Run inlines to the TextBlock.
     /// </summary>
     private static void AppendLineToTextBlock(BehaviorState state, string line, bool parseAnsi)
     {
@@ -701,7 +701,7 @@ public static class AnsiTextBehavior
     /// <summary>
     /// Scrolls the parent ScrollViewer to the bottom.
     /// </summary>
-    private static void ScrollToEnd(SelectableTextBlock textBlock)
+    private static void ScrollToEnd(TextBlock textBlock)
     {
         // Defer to allow layout to update after inlines are added
         Dispatcher.UIThread.Post(() =>
@@ -733,7 +733,7 @@ public static class AnsiTextBehavior
     /// When user scrolls away from the bottom, auto-scroll is disabled.
     /// When user scrolls back to the bottom, auto-scroll is re-enabled.
     /// </summary>
-    private static void HookScrollViewerForUserScroll(SelectableTextBlock textBlock)
+    private static void HookScrollViewerForUserScroll(TextBlock textBlock)
     {
         var sv = FindParentScrollViewer(textBlock);
         if (sv == null) return;
@@ -769,7 +769,7 @@ public static class AnsiTextBehavior
     private sealed class BehaviorState
     {
         public INotifyCollectionChanged? SourceCollection { get; set; }
-        public SelectableTextBlock TextBlock { get; set; } = null!;
+        public TextBlock TextBlock { get; set; } = null!;
         public NotifyCollectionChangedEventHandler? CollectionChangedHandler { get; set; }
         public AnsiStyle CurrentStyle { get; set; } = new();
         public int LineCount { get; set; }

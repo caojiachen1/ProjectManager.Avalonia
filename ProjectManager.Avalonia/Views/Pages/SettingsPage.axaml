@@ -380,7 +380,7 @@
                         <TextBlock Text="{DynamicResource AppTitle}" FontSize="12" Opacity="0.7"/>
                     </StackPanel>
                     <TextBlock Grid.Column="1" Text="{Binding AppVersion}" VerticalAlignment="Center"
-                              FontFamily="{StaticResource CascadiaCode},Consolas,Courier New,monospace" Opacity="0.7"/>
+                              FontFamily="{StaticResource CascadiaCode}" Opacity="0.7"/>
                 </Grid>
             </Border>
         </StackPanel>

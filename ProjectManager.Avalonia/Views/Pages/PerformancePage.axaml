@@ -225,21 +225,21 @@
                                         <StackPanel Grid.Column="0">
                                             <TextBlock Text="{DynamicResource Performance_PID}" Opacity="0.5" FontSize="11" Margin="0,0,0,2"/>
                                             <TextBlock Text="{Binding ProcessId, TargetNullValue='--'}"
-                                                       FontWeight="SemiBold" FontFamily="{StaticResource CascadiaCode},Consolas,Courier New,monospace"/>
+                                                       FontWeight="SemiBold" FontFamily="{StaticResource CascadiaCode}"/>
                                         </StackPanel>
 
                                         <!-- Start Time -->
                                         <StackPanel Grid.Column="1">
                                             <TextBlock Text="{DynamicResource Performance_StartTime}" Opacity="0.5" FontSize="11" Margin="0,0,0,2"/>
                                             <TextBlock Text="{Binding ProcessStartTime, StringFormat='{}{0:MM-dd HH:mm}', TargetNullValue='--'}"
-                                                       FontWeight="SemiBold" FontFamily="{StaticResource CascadiaCode},Consolas,Courier New,monospace"/>
+                                                       FontWeight="SemiBold" FontFamily="{StaticResource CascadiaCode}"/>
                                         </StackPanel>
 
                                         <!-- Uptime -->
                                         <StackPanel Grid.Column="2">
                                             <TextBlock Text="{DynamicResource Performance_Uptime}" Opacity="0.5" FontSize="11" Margin="0,0,0,2"/>
                                             <TextBlock Text="{Binding Uptime, Converter={StaticResource TimeSpanToStringConverter}}"
-                                                       FontWeight="SemiBold" FontFamily="{StaticResource CascadiaCode},Consolas,Courier New,monospace"/>
+                                                       FontWeight="SemiBold" FontFamily="{StaticResource CascadiaCode}"/>
                                         </StackPanel>
                                     </Grid>
                                 </Border>

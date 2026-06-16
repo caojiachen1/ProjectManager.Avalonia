@@ -173,6 +173,12 @@ public class TerminalService
                 StandardErrorEncoding = Encoding.UTF8
             };
 
+            // Set TERM for proper ANSI output on Linux/macOS
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                processStartInfo.Environment["TERM"] = "xterm-256color";
+            }
+
             // Inject env vars at process level as well
             if (envVars != null && envVars.Any())
             {
@@ -225,6 +231,12 @@ public class TerminalService
             process.EnableRaisingEvents = true;
             process.Start();
 
+            // CRITICAL: Start reading output streams IMMEDIATELY after process.Start().
+            // This must happen BEFORE child process detection to avoid missing output
+            // from short-lived processes that exit before we begin reading.
+            _ = ReadStreamAsync(process.StandardOutput.BaseStream);
+            _ = ReadStreamAsync(process.StandardError.BaseStream);
+
             // Detect child processes (e.g., shell launching the real app)
             try
             {
@@ -246,9 +258,6 @@ public class TerminalService
                 }
             }
             catch { }
-
-            _ = ReadStreamAsync(process.StandardOutput.BaseStream);
-            _ = ReadStreamAsync(process.StandardError.BaseStream);
 
             session.UpdateStatus(TerminalStatus.Running, true);
             session.AddOutputRawWithTimestamp(
@@ -406,16 +415,16 @@ public class TerminalService
 
             // Linux/macOS 终端类型
             "bash" =>
-                (FindShellPath("bash"), $"-c \"{JoinBashCommands(commandSequence)}\""),
+                (FindShellPath("bash"), $"-c \"{WrapWithStdBuf(JoinBashCommands(commandSequence))}\""),
 
             "zsh" =>
-                (FindShellPath("zsh"), $"-c \"{JoinBashCommands(commandSequence)}\""),
+                (FindShellPath("zsh"), $"-c \"{WrapWithStdBuf(JoinBashCommands(commandSequence))}\""),
 
             "fish" =>
-                (FindShellPath("fish"), $"-c \"{string.Join("; ", commandSequence)}\""),
+                (FindShellPath("fish"), $"-c \"{WrapWithStdBuf(string.Join("; ", commandSequence))}\""),
 
             "sh" =>
-                (FindShellPath("sh"), $"-c \"{JoinBashCommands(commandSequence)}\""),
+                (FindShellPath("sh"), $"-c \"{WrapWithStdBuf(JoinBashCommands(commandSequence))}\""),
 
             _ => // Cross-platform default
                 GetDefaultTerminalCommand(commandSequence, isWindows)
@@ -459,7 +468,7 @@ public class TerminalService
         {
             // On Linux/macOS, use /bin/bash or /bin/sh
             var shell = File.Exists("/bin/bash") ? "/bin/bash" : "/bin/sh";
-            var joinedCommands = string.Join(" && ", commandSequence);
+            var joinedCommands = WrapWithStdBuf(string.Join(" && ", commandSequence));
             return (shell, $"-c \"{joinedCommands}\"");
         }
     }
@@ -550,6 +559,29 @@ public class TerminalService
         static string EscapeBash(string s) => s.Replace("\\", "\\\\").Replace("\"", "\\\"");
         static string EscapePwsh(string s) => s.Replace("'", "''");
         static string EscapeFish(string s) => s.Replace("\\", "\\\\").Replace("\"", "\\\"");
+    }
+
+    /// <summary>
+    /// Wraps a command with stdbuf on Linux/macOS to force line-buffered output.
+    /// When stdout is a pipe (not a TTY), many programs use block buffering (4KB chunks),
+    /// causing significant delays before output appears. stdbuf forces line buffering.
+    /// </summary>
+    private static string WrapWithStdBuf(string command)
+    {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            return command;
+
+        // Check if stdbuf is available (part of GNU coreutils, available on most Linux distros)
+        try
+        {
+            if (File.Exists("/usr/bin/stdbuf") || File.Exists("/bin/stdbuf"))
+            {
+                return $"stdbuf -oL -eL {command}";
+            }
+        }
+        catch { }
+
+        return command;
     }
 
     // ==================== Encoding Helpers ====================
