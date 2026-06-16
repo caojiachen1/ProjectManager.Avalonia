@@ -28,7 +28,7 @@ namespace ProjectManager.Avalonia.Services
                 if (File.Exists(_settingsFilePath))
                 {
                     var json = await File.ReadAllTextAsync(_settingsFilePath);
-                    _cachedSettings = JsonSerializer.Deserialize<AppSettings>(json) ?? new AppSettings();
+                    _cachedSettings = JsonSerializer.Deserialize(json, AppSettingsJsonContext.Default.AppSettings) ?? new AppSettings();
                 }
                 else
                 {
@@ -55,11 +55,7 @@ namespace ProjectManager.Avalonia.Services
         {
             try
             {
-                var json = JsonSerializer.Serialize(settings, new JsonSerializerOptions
-                {
-                    WriteIndented = true,
-                    Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-                });
+                var json = JsonSerializer.Serialize(settings, AppSettingsJsonContext.Default.AppSettings);
 
                 await File.WriteAllTextAsync(_settingsFilePath, json);
                 _cachedSettings = settings;

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Diagnostics;
 using ProjectManager.Avalonia.Models;
 
@@ -454,11 +453,7 @@ namespace ProjectManager.Avalonia.Services
                 var json = await File.ReadAllTextAsync(_projectsFilePath);
                 if (string.IsNullOrWhiteSpace(json)) return;
 
-                var options = new JsonSerializerOptions
-                {
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                };
-                var dtoList = JsonSerializer.Deserialize<List<PersistedProject>>(json, options);
+                var dtoList = JsonSerializer.Deserialize(json, ProjectJsonContext.Default.ListPersistedProject);
                 if (dtoList == null) return;
 
                 await RunOnUiThreadAsync(() =>
@@ -535,29 +530,18 @@ namespace ProjectManager.Avalonia.Services
             {
                 var dtoList = _projects.Select(ProjectPersistenceMapper.ToDto).ToList();
                 
-                var options = new JsonSerializerOptions
-                {
-                    WriteIndented = true,
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-                };
-                var json = JsonSerializer.Serialize(dtoList, options);
+                var json = JsonSerializer.Serialize(dtoList, ProjectJsonContext.Default.ListPersistedProject);
                 
                 // 使用临时文件写入，然后原子替换，避免文件损坏
                 var tempPath = _projectsFilePath + ".tmp";
                 await File.WriteAllTextAsync(tempPath, json);
                 
-                // 删除旧文件并重命名临时文件
-                if (File.Exists(_projectsFilePath))
-                {
-                    File.Delete(_projectsFilePath);
-                }
-                File.Move(tempPath, _projectsFilePath);
+                // 原子替换：写入临时文件后直接覆盖目标文件
+                File.Move(tempPath, _projectsFilePath, true);
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"保存项目失败: {ex.Message}");
-                // 显示保存错误
                 _ = Task.Run(async () => await _errorDisplayService.ShowErrorAsync($"保存项目失败: {ex.Message}", "项目保存错误"));
             }
             finally
