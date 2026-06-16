@@ -69,16 +69,16 @@ public partial class TerminalViewModel : ViewModelBase
 
     public async Task OnNavigatedToAsync()
     {
-        LoadTerminalSessions();
+        var pendingName = _pendingProjectName;
 
-        if (!string.IsNullOrEmpty(_pendingProjectName))
+        if (!string.IsNullOrEmpty(pendingName))
         {
             string? resolvedCommand = _pendingStartCommand;
             string? resolvedPath = _pendingProjectPath;
             try
             {
                 var projects = await _projectService.GetProjectsAsync();
-                var proj = projects.FirstOrDefault(p => p.Name == _pendingProjectName);
+                var proj = projects.FirstOrDefault(p => p.Name == pendingName);
                 if (string.IsNullOrWhiteSpace(resolvedCommand))
                     resolvedCommand = proj?.StartCommand;
                 if (string.IsNullOrWhiteSpace(resolvedPath))
@@ -86,7 +86,11 @@ public partial class TerminalViewModel : ViewModelBase
             }
             catch { }
 
-            var existingSession = TerminalSessions.FirstOrDefault(s => s.ProjectName == _pendingProjectName);
+            // Load sessions and select the matching one in a single step
+            LoadTerminalSessions(pendingName);
+
+            var existingSession = TerminalSessions.FirstOrDefault(
+                s => s.ProjectName.Equals(pendingName, StringComparison.OrdinalIgnoreCase));
             if (existingSession != null)
             {
                 if (!string.IsNullOrWhiteSpace(resolvedCommand))
@@ -97,7 +101,7 @@ public partial class TerminalViewModel : ViewModelBase
             }
             else if (!string.IsNullOrWhiteSpace(resolvedPath))
             {
-                var session = _terminalService.CreateSession(_pendingProjectName, resolvedPath!, resolvedCommand ?? string.Empty);
+                var session = _terminalService.CreateSession(pendingName, resolvedPath!, resolvedCommand ?? string.Empty);
                 TerminalSessions.Add(session);
                 SelectedSession = session;
             }
@@ -106,11 +110,15 @@ public partial class TerminalViewModel : ViewModelBase
             _pendingProjectPath = null;
             _pendingStartCommand = null;
         }
+        else
+        {
+            LoadTerminalSessions();
+        }
     }
 
     public Task OnNavigatedFromAsync() => Task.CompletedTask;
 
-    private void LoadTerminalSessions()
+    private void LoadTerminalSessions(string? selectProjectName = null)
     {
         IsLoading = true;
         try
@@ -122,7 +130,19 @@ public partial class TerminalViewModel : ViewModelBase
                 TerminalSessions.Add(session);
 
             if (TerminalSessions.Count > 0)
-                SelectedSession = TerminalSessions[0];
+            {
+                // If a specific project is requested, select it; otherwise default to first
+                if (!string.IsNullOrEmpty(selectProjectName))
+                {
+                    var match = TerminalSessions.FirstOrDefault(
+                        s => s.ProjectName.Equals(selectProjectName, StringComparison.OrdinalIgnoreCase));
+                    SelectedSession = match ?? TerminalSessions[0];
+                }
+                else
+                {
+                    SelectedSession = TerminalSessions[0];
+                }
+            }
         }
         finally
         {
@@ -357,7 +377,8 @@ public partial class TerminalViewModel : ViewModelBase
 
     public void SwitchToProjectTerminal(string projectName)
     {
-        var session = TerminalSessions.FirstOrDefault(s => s.ProjectName == projectName);
+        var session = TerminalSessions.FirstOrDefault(
+            s => s.ProjectName.Equals(projectName, StringComparison.OrdinalIgnoreCase));
         if (session != null)
             SelectedSession = session;
     }

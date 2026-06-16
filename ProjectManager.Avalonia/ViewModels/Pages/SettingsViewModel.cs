@@ -261,6 +261,7 @@ public partial class SettingsViewModel : ViewModelBase
             new(_languageService.GetString("Nav_Projects"),  "Projects"),
             new(_languageService.GetString("Nav_Terminal"),  "Terminal"),
             new(_languageService.GetString("Nav_Performance"), "Performance"),
+            new(_languageService.GetString("Nav_Environment"), "EnvironmentVariables"),
         };
         SelectedStartupPageOption = StartupPageOptions.FirstOrDefault(o => o.Value == currentValue)
                                   ?? StartupPageOptions[0];

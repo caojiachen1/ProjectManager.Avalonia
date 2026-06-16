@@ -37,6 +37,12 @@ public partial class MainWindowViewModel : ViewModelBase
     private List<FANavigationViewItem> _allMenuItems = new();
     private List<FANavigationViewItem> _allFooterMenuItems = new();
 
+    /// <summary>
+    /// Reentrancy guard: prevents HandleNavigationSelectionChanged from double-triggering
+    /// lifecycle methods when NavigateToItem sets SelectedItem programmatically.
+    /// </summary>
+    private bool _isNavigatingProgrammatically;
+
     // 使用 FAPathIconSource + SVG 几何数据渲染导航图标
     // 与原 WPF 项目完全一致的图标映射（路径数据来自 Fluent UI System Icons）：
     // Home24, Apps24, WindowConsole20, Pulse24, BracesVariable24, Settings24
@@ -210,6 +216,7 @@ public partial class MainWindowViewModel : ViewModelBase
             "Projects"  => typeof(ProjectsViewModel),
             "Terminal"  => typeof(TerminalViewModel),
             "Performance" => typeof(PerformanceViewModel),
+            "EnvironmentVariables" => typeof(SystemEnvironmentVariablesViewModel),
             _ => typeof(DashboardViewModel)
         };
 
@@ -241,6 +248,23 @@ public partial class MainWindowViewModel : ViewModelBase
         var vm = App.Services.GetService(pageType) as ViewModelBase;
         if (vm == null) return;
 
+        // Same-page navigation: still trigger lifecycle to process pending state
+        // (e.g., clicking a project's Terminal button while already on the Terminal page
+        //  should switch to that project's terminal tab instead of doing nothing)
+        if (ReferenceEquals(CurrentPage, vm))
+        {
+            var onToAsync = vm.GetType().GetMethod("OnNavigatedToAsync");
+            if (onToAsync != null)
+            {
+                onToAsync.Invoke(vm, null);
+            }
+            else
+            {
+                vm.GetType().GetMethod("OnNavigatedTo")?.Invoke(vm, null);
+            }
+            return;
+        }
+
         // Call OnNavigatedFrom on the previous page
         var oldPage = CurrentPage;
         if (oldPage != null)
@@ -249,15 +273,24 @@ public partial class MainWindowViewModel : ViewModelBase
             onFrom?.Invoke(oldPage, null);
         }
 
-        // Update selection and current page
-        SelectedItem = item;
-        CurrentPage = vm;
+        // Guard: prevent HandleNavigationSelectionChanged from double-triggering lifecycle
+        // when SelectedItem change synchronously fires the SelectionChanged event
+        _isNavigatingProgrammatically = true;
+        try
+        {
+            SelectedItem = item;
+            CurrentPage = vm;
+        }
+        finally
+        {
+            _isNavigatingProgrammatically = false;
+        }
 
         // Call OnNavigatedTo/OnNavigatedToAsync on the new page
-        var onToAsync = vm.GetType().GetMethod("OnNavigatedToAsync");
-        if (onToAsync != null)
+        var onToAsync2 = vm.GetType().GetMethod("OnNavigatedToAsync");
+        if (onToAsync2 != null)
         {
-            onToAsync.Invoke(vm, null);
+            onToAsync2.Invoke(vm, null);
         }
         else
         {
@@ -267,6 +300,10 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public void HandleNavigationSelectionChanged(FANavigationViewSelectionChangedEventArgs? args)
     {
+        // Skip if this SelectionChanged was triggered by programmatic navigation
+        // (NavigateToItem will handle lifecycle methods itself)
+        if (_isNavigatingProgrammatically) return;
+
         if (args?.SelectedItem is FANavigationViewItem item && item.Tag is Type pageType)
         {
             var vm = App.Services.GetService(pageType) as ViewModelBase;
