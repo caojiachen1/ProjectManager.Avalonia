@@ -253,6 +253,9 @@ public class EnvironmentVariableService
 
     /// <summary>
     /// Get all user-scope environment variables.
+    /// On Linux/macOS, uses Environment.GetEnvironmentVariables() (Process target) to get
+    /// the current session's environment, which includes inherited variables from the
+    /// desktop session, shell profiles, and PAM modules.
     /// </summary>
     public Dictionary<string, string> GetUserVariables()
     {
@@ -273,7 +276,10 @@ public class EnvironmentVariableService
             }
             else
             {
-                variables = GetUserVariablesUnix();
+                // On Linux/macOS, EnvironmentVariableTarget.User is a no-op.
+                // Use Process target to get all current environment variables,
+                // which reflects the actual session environment.
+                variables = GetProcessEnvironmentVariables();
             }
         }
         catch (Exception ex)
@@ -285,6 +291,7 @@ public class EnvironmentVariableService
 
     /// <summary>
     /// Get all system-scope environment variables.
+    /// On Linux/macOS, uses Environment.GetEnvironmentVariables() (Process target).
     /// </summary>
     public Dictionary<string, string> GetSystemVariables()
     {
@@ -305,7 +312,9 @@ public class EnvironmentVariableService
             }
             else
             {
-                variables = GetSystemVariablesUnix();
+                // On Linux/macOS, use process environment as the source of truth.
+                // This includes variables from /etc/environment, PAM, and desktop session.
+                variables = GetProcessEnvironmentVariables();
             }
         }
         catch (Exception ex)
@@ -363,6 +372,28 @@ public class EnvironmentVariableService
                 return true;
             });
         }
+    }
+
+    // ==================== Linux/macOS Variable Reading ====================
+
+    /// <summary>
+    /// Get all environment variables from the current process (.NET Process target API).
+    /// This is the most reliable way to read env vars on Linux/macOS since
+    /// EnvironmentVariableTarget.User/Machine are no-ops on these platforms.
+    /// </summary>
+    private static Dictionary<string, string> GetProcessEnvironmentVariables()
+    {
+        var variables = new Dictionary<string, string>();
+        var envVars = Environment.GetEnvironmentVariables();
+        foreach (System.Collections.DictionaryEntry entry in envVars)
+        {
+            string key = entry.Key.ToString() ?? string.Empty;
+            if (!string.IsNullOrEmpty(key))
+            {
+                variables[key] = entry.Value?.ToString() ?? "";
+            }
+        }
+        return variables;
     }
 
     // ==================== Linux/macOS User Variable Implementation ====================

@@ -8,7 +8,7 @@
         Width="700" Height="620"
         MinWidth="600" MinHeight="500"
         Background="#202020"
-        FontFamily="{StaticResource NotoSansSC}"
+        FontFamily="{StaticResource NotoSansSC},Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif"
         WindowStartupLocation="CenterOwner"
         ShowInTaskbar="False"
         CanResize="True">

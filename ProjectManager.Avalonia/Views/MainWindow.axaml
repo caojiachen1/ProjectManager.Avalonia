@@ -12,7 +12,7 @@
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/Icon.png"
         Title="{Binding AppTitle}"
-        FontFamily="avares://ProjectManager.Avalonia/Assets/Fonts/NotoSansSC-Regular.otf#Noto Sans SC"
+        FontFamily="{StaticResource NotoSansSC},Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif"
         Width="1280" Height="800"
         MinWidth="900" MinHeight="600"
         WindowState="Maximized"

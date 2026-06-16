@@ -38,7 +38,7 @@ public partial class PathEditorViewModel : ViewModelBase
     public bool CanMoveUp => SelectedPathItem != null && PathItems.IndexOf(SelectedPathItem) > 0;
     public bool CanMoveDown => SelectedPathItem != null && PathItems.IndexOf(SelectedPathItem) < PathItems.Count - 1;
 
-    public string ResultValue => string.Join(";", PathItems.Select(p => p.Path));
+    public string ResultValue => string.Join(Path.PathSeparator.ToString(), PathItems.Select(p => p.Path));
 
     public PathEditorViewModel(string path, bool isSystemVariable)
     {
@@ -72,7 +72,7 @@ public partial class PathEditorViewModel : ViewModelBase
         if (string.IsNullOrEmpty(path))
             return;
 
-        var paths = path.Split(';', StringSplitOptions.RemoveEmptyEntries);
+        var paths = path.Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries);
         foreach (var pathItem in paths)
         {
             PathItems.Add(new PathItem
@@ -107,7 +107,7 @@ public partial class PathEditorViewModel : ViewModelBase
         _isInternalUpdate = true;
         try
         {
-            EditText = string.Join(";", PathItems.Select(p => p.Path));
+            EditText = string.Join(Path.PathSeparator.ToString(), PathItems.Select(p => p.Path));
         }
         finally
         {
@@ -241,7 +241,7 @@ public partial class PathEditorViewModel : ViewModelBase
             return;
         }
 
-        var paths = value.Split(';', StringSplitOptions.RemoveEmptyEntries);
+        var paths = value.Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries);
         PathItems.Clear();
         foreach (var path in paths)
         {
@@ -292,7 +292,7 @@ public partial class PathEditorViewModel : ViewModelBase
 
     public string GetResultPath()
     {
-        return string.Join(";", PathItems.Select(p => p.Path));
+        return string.Join(Path.PathSeparator.ToString(), PathItems.Select(p => p.Path));
     }
 }
 
